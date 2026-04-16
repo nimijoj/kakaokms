@@ -6,8 +6,8 @@
 <title>kakaobank × D.AMO SG-KMS REST API 설계서</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:"Malgun Gothic",sans-serif;background:#EEF2F7;padding:20px;}
-.wrap{max-width:900px;margin:0 auto;}
+body{font-family:"Malgun Gothic",sans-serif;background:#EEF2F7;padding:20px;min-width:900px;}
+.wrap{max-width:1400px;width:100%;margin:0 auto;}
 .header{background:linear-gradient(135deg,#003D7A 0%,#0D2E5A 100%);border-radius:14px;padding:18px 24px;margin-bottom:14px;box-shadow:0 4px 15px rgba(0,61,122,0.3);-webkit-print-color-adjust:exact;}
 .header-title{color:#F9E000;font-weight:900;font-size:18px;}
 .header-sub{color:#8AAAC8;font-size:12px;margin-top:3px;}
@@ -49,7 +49,6 @@ select,input[type="date"]{border:1px solid #CFD8DC;border-radius:4px;font-size:1
 .action-area{display:flex;justify-content:flex-end;margin:16px 0 40px;}
 .submit-btn{background:#003D7A;color:#F9E000;border:none;padding:10px 24px;border-radius:6px;font-size:13px;font-weight:800;cursor:pointer;}
 .submit-btn:disabled{background:#CFD8DC;color:#90A4AE;cursor:not-allowed;opacity:0.6;}
-
 /* ── RFP Tab Styles ── */
 .rfp-intro{background:linear-gradient(135deg,#1A2533,#2D3F55);border-radius:12px;padding:16px 20px;margin-bottom:14px;color:#fff;}
 .rfp-intro-title{color:#F9E000;font-weight:800;font-size:14px;margin-bottom:6px;}
@@ -98,6 +97,7 @@ select,input[type="date"]{border:1px solid #CFD8DC;border-radius:4px;font-size:1
   .ops-row.new-item{background:#FFFDE7!important;-webkit-print-color-adjust:exact;}
 }
 </style>
+
 </head>
 <body>
 <div class="wrap">
@@ -117,37 +117,19 @@ select,input[type="date"]{border:1px solid #CFD8DC;border-radius:4px;font-size:1
 <div class="main-tabs">
   <button class="main-tab active" onclick="switchTab('t1',this)">📋 API 개발 일정 관리</button>
   <button class="main-tab" onclick="switchTab('t2',this)">🎯 RFP 요건 대응 전략</button>
+  <button class="main-tab" onclick="switchTab('t4',this)">🔐 키 오퍼레이션 REST API 설계</button>
   <button class="main-tab" onclick="switchTab('t3',this)">🏗️ SG-KMS 구조 기반 설계 설명</button>
 </div>
 
 <!-- ══ TAB 1 ══════════════════════════════════ -->
 <div id="t1" class="tab-pane active">
-  <div class="card">
-    <div class="section-header">
-      <div class="section-title">📅 우선순위별 기본 일정 설정</div>
-      <button class="reset-btn" onclick="resetGlobalDates()">초기화 ↺</button>
-    </div>
-    <div class="global-grid">
-      <div class="global-item"><span class="global-label">P1</span><input type="date" id="g-p1" onchange="saveGlobalDate('P1',this.value)"></div>
-      <div class="global-item"><span class="global-label">P2</span><input type="date" id="g-p2" onchange="saveGlobalDate('P2',this.value)"></div>
-      <div class="global-item"><span class="global-label">P3</span><input type="date" id="g-p3" onchange="saveGlobalDate('P3',this.value)"></div>
-      <div class="global-item"><span class="global-label">P4</span><input type="date" id="g-p4" onchange="saveGlobalDate('P4',this.value)"></div>
-      <div class="global-item"><span class="global-label">P5</span><input type="date" id="g-p5" onchange="saveGlobalDate('P5',this.value)"></div>
-    </div>
-  </div>
-  <div class="quick-nav">
-    <a href="#s1" class="nav-btn">🔐 키 오퍼레이션</a>
-    <a href="#s2" class="nav-btn">📁 키 그룹 관리</a>
-    <a href="#s3" class="nav-btn">👤 클라이언트·ACL</a>
-    <a href="#s4" class="nav-btn">📦 반출입·관리</a>
-  </div>
-  <div id="s1" class="card">
-    <div class="section-header"><div class="section-title">🔐 키 오퍼레이션 (KMIP 14개)</div><button class="reset-btn" onclick="resetSection('keyOps')">초기화 ↺</button></div>
-    <div class="ops-header"><span>#</span><span>Method</span><span>KMIP Op</span><span>기능 요약</span><span>우선순위</span><span>개발 일정</span></div>
+<div id="s1" class="card">
+    <div class="section-header"><div class="section-title">🔐 암호 키 오퍼레이션</div></div>
+    <div class="ops-header"><span>#</span><span>Method</span><span>Operation</span><span>기능 요약</span><span>우선순위</span><span>개발 일정</span></div>
     <div id="ops-rows"></div>
   </div>
   <div id="s2" class="card">
-    <div class="section-header"><div class="section-title">📁 키 그룹 관리</div><button class="reset-btn" onclick="resetSection(['groupCrud','groupKey','clientGroup'])">초기화 ↺</button></div>
+    <div class="section-header"><div class="section-title">📁 암호 키 그룹 관리</div></div>
     <div class="cat-header"><span class="cat-title">① 키 그룹 CRUD</span></div>
     <div class="ops-header"><span>#</span><span>Method</span><span>기능명</span><span>기능 요약</span><span>우선순위</span><span>개발 일정</span></div>
     <div id="group-crud"></div>
@@ -159,7 +141,7 @@ select,input[type="date"]{border:1px solid #CFD8DC;border-radius:4px;font-size:1
     <div id="client-group"></div>
   </div>
   <div id="s3" class="card">
-    <div class="section-header"><div class="section-title">👤 클라이언트 및 ACL</div><button class="reset-btn" onclick="resetSection(['clientManage','aclManage'])">초기화 ↺</button></div>
+    <div class="section-header"><div class="section-title">👤 클라이언트 및 ACL</div></div>
     <div class="cat-header"><span class="cat-title">① 클라이언트 관리</span></div>
     <div class="ops-header"><span>#</span><span>Method</span><span>기능명</span><span>기능 요약</span><span>우선순위</span><span>개발 일정</span></div>
     <div id="client-manage"></div>
@@ -168,27 +150,27 @@ select,input[type="date"]{border:1px solid #CFD8DC;border-radius:4px;font-size:1
     <div id="acl-manage"></div>
   </div>
   <div id="s4" class="card">
-    <div class="section-header"><div class="section-title">📦 암호키 반출입 &amp; 관리</div><button class="reset-btn" onclick="resetSection(['keyAdmin','keyComponent'])">초기화 ↺</button></div>
+    <div class="section-header"><div class="section-title">📦 암호 키 반출입 &amp; 관리</div></div>
+   
     <div class="added-note">
-      ⚠️ <strong>RFP 보강 항목</strong> — §2-나-5 복호화 솔루션 목적 전체 키 조회 충족을 위해 추가된 API를
-      <span style="background:#F9E000;color:#003D7A;padding:1px 5px;border-radius:3px;font-size:10px;font-weight:700">NEW</span> 로 표시합니다.
+      ⚠️ <strong>RFP 보강 항목</strong> — §2-나-5 복호화 솔루션 목적 전체 키 조회 충족을 위해 추가된 API.
       반입(Import)→ Register(o3) 대체, 반출(Export)→ Get(o6) Hex 대체 (RFP §2-나-5 Hex 선호).
       반출입 이력 조회→ 웹 UI 제공 (RFP §2-나-8 협의 항목).
     </div>
-    <div class="cat-header"><span class="cat-title">① 전체 키 관리 (관리자 전용)</span></div>
+
+    <div class="cat-header"><span class="cat-title">① 전체 암호 키 관리 (관리자 전용)</span></div>
     <div class="ops-header"><span>#</span><span>Method</span><span>기능명</span><span>기능 요약</span><span>우선순위</span><span>개발 일정</span></div>
     <div id="key-admin"></div>
-    <div class="cat-header"><span class="cat-title">② 컴포넌트 분할 반출입 (UMS 연동)</span></div>
+    <div class="cat-header"><span class="cat-title">② 컴포넌트 분할 반출입</span></div>
     <div class="ops-header"><span>#</span><span>Method</span><span>기능명</span><span>기능 요약</span><span>우선순위</span><span>개발 일정</span></div>
     <div id="key-component"></div>
   </div>
-  <div class="action-area">
-    <button id="final-btn" class="submit-btn" onclick="window.print()" disabled>우선순위 및 일정 확정 (PDF 출력) 🚀</button>
-  </div>
+
 </div>
 
 <!-- ══ TAB 2 ══════════════════════════════════ -->
 <div id="t2" class="tab-pane">
+<div class="wrap">
 
   <div class="rfp-intro">
     <div class="rfp-intro-title">🎯 RFP 요건 × 제공 수단 × 협상 전략 — 최종 대조표</div>
@@ -224,7 +206,7 @@ select,input[type="date"]{border:1px solid #CFD8DC;border-radius:4px;font-size:1
           <td><strong>선제 언급 필수.</strong> 단일·CIDR·범위 ACL은 완전 지원. 예외 설정은 실제 필요 케이스 역질문 → 로드맵 반영 협의.</td>
         </tr>
         <tr>
-          <td><div class="rfp-clause">암호키 관리</div><div class="rfp-text">Hex 키 값 조회 · 1:N 멀티그룹 · 기본 그룹 CRUD · 클라이언트 권한 조회 · 등록된 모든 키 조회 (복호화 솔루션 목적)</div></td>
+          <td><div class="rfp-clause">암호키 관리</div><div class="rfp-text">Hex 키 값 조회 · 클라이언트에 매핑된 그룹(Agent)의 키 CRUD · 1:N 멀티그룹 접근권한 부여 · 클라이언트 권한 조회 · 등록된 모든 키 조회 (복호화 솔루션 목적)</div></td>
           <td><span class="sb s-full">✅ 완전 충족</span></td>
           <td><div class="api-list"><span class="ap">o6 Get (Hex)</span><span class="ap">cg1~cg4</span><span class="ap">g1~g5, gk1~gk3</span><span class="ap hl">ka1 All Keys</span></div></td>
           <td>ka1(전체 키 조회)은 role:ADMIN 전용. 복호화 솔루션 시스템과의 연동 방식 및 인증 토큰 발급 절차 사전 확인 필요.</td>
@@ -416,7 +398,7 @@ select,input[type="date"]{border:1px solid #CFD8DC;border-radius:4px;font-size:1
         <tr><td>§2-나-5</td><td>Agentless REST · JSON · HTTPS · 토큰 인증</td><td><span class="sb s-full">✅ 완전 충족</span></td><td>설계 전체 기반 — Bearer JWT</td></tr>
         <tr><td>§2-나-5</td><td>IP ACL 단일·CIDR·범위 CRUD</td><td><span class="sb s-full">✅ 충족</span></td><td>a1~a4 REST API</td></tr>
         <tr><td>§2-나-5</td><td style="color:#B71C1C;font-weight:700">IP ACL 예외 설정 — ⚠️선제 설명 필요</td><td><span class="sb s-warn">⚠️ 미지원</span></td><td>선제 설명 → 케이스 확인 → 로드맵 협의</td></tr>
-        <tr><td>§2-나-5</td><td>1:N 멀티그룹 권한 부여·조회·회수</td><td><span class="sb s-full">✅ 완전 충족</span></td><td>cg1~cg4 REST API</td></tr>
+        <tr><td>§2-나-5</td><td>1:N 멀티그룹 접근권한 부여·조회·회수</td><td><span class="sb s-full">✅ 완전 충족</span></td><td>cg1~cg4 REST API</td></tr>
         <tr><td>§2-나-5</td><td>모든 클라이언트·그룹·암호키 CRUD</td><td><span class="sb s-full">✅ 완전 충족</span></td><td>c1~c4, g1~g5, gk1~gk3, ka3</td></tr>
         <tr><td>§2-나-5</td><td>등록된 모든 키 조회 (복호화 솔루션)</td><td><span class="sb s-full">✅ 완전 충족</span></td><td>ka1 All Keys — ADMIN 전용</td></tr>
         <tr><td>§2-나-7</td><td>Hex 포맷 반출입</td><td><span class="sb s-api">🔵 API 대체</span></td><td>o6 Get (반출) · o3 Register (반입)</td></tr>
@@ -431,10 +413,750 @@ select,input[type="date"]{border:1px solid #CFD8DC;border-radius:4px;font-size:1
     </table>
   </div>
 
+</div><!-- /wrap -->
 </div><!-- /t2 -->
 
-<!-- ══ TAB 3: SG-KMS 구조 기반 설계 설명 ══════════ -->
+<!-- ══ TAB 4: 키 오퍼레이션 REST API 설계 ══════════ -->
+<div id="t4" class="tab-pane">
+<div class="wrap">
+<style>
+/* Tab 4 전용 스타일 — t3 스타일과 통일 */
+.t4-intro{background:linear-gradient(135deg,#003D7A,#0D2E5A);border-radius:12px;padding:18px 24px;margin-bottom:14px;color:#fff;}
+.t4-intro-title{color:#F9E000;font-weight:900;font-size:16px;margin-bottom:6px;}
+.t4-intro-sub{color:#8AAAC8;font-size:11px;line-height:1.8;}
+.t4-intro-meta{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;}
+.t4-meta-badge{background:rgba(255,255,255,0.1);border-radius:8px;padding:5px 12px;font-size:10px;color:#B0C4DE;}
+.t4-meta-badge strong{color:#F9E000;}
+.t4-sec{background:#fff;border-radius:12px;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,0.06);margin-bottom:14px;}
+.t4-sec-title{font-weight:800;font-size:14px;color:#003D7A;padding-bottom:8px;border-bottom:3px solid #F9E000;margin-bottom:16px;}
+.t4-code{background:#1A2533;border-radius:8px;padding:12px 14px;font-family:"Fira Code","Courier New",monospace;font-size:10px;color:#B0C4DE;line-height:1.75;margin:8px 0;overflow-x:auto;white-space:pre;}
+.t4-code .k{color:#F9E000;font-weight:700;}
+.t4-code .v{color:#90EE90;}
+.t4-code .s{color:#FFD9A0;}
+.t4-code .c{color:#5A7A7A;font-style:italic;}
+.t4-code .h{color:#7EC8E3;}
+.t4-code .r{color:#FF8A80;}
+.t4-note{border-radius:8px;padding:10px 14px;font-size:11px;line-height:1.7;margin:8px 0;}
+.t4-note.blue{background:#EBF4FF;border:1px solid #90CAF9;color:#1565C0;}
+.t4-note.green{background:#E4F5EC;border:1px solid #A5D6A7;color:#1A6E3C;}
+.t4-note.yellow{background:#FFFDE7;border:1px solid #F9E000;color:#5D4037;}
+.t4-note.orange{background:#FFF0E0;border:1px solid #FFCC80;color:#C75B00;}
+.t4-note.red{background:#FFEBEE;border:1px solid #EF9A9A;color:#B71C1C;}
+.t4-tbl{width:100%;border-collapse:collapse;font-size:11px;margin:8px 0;}
+.t4-tbl th{background:#003D7A;color:#F9E000;padding:8px 10px;text-align:left;font-size:11px;}
+.t4-tbl td{padding:8px 10px;border-bottom:1px solid #ECEFF1;vertical-align:top;line-height:1.6;}
+.t4-tbl tr:last-child td{border-bottom:none;}
+.t4-tbl tr:nth-child(even) td{background:#F8FAFB;}
+.t4-api-card{border-radius:10px;overflow:hidden;margin-bottom:20px;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
+.t4-api-head{padding:10px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.t4-api-num{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;flex-shrink:0;}
+.t4-api-title{font-weight:800;font-size:13px;color:#fff;}
+.t4-api-kmip{background:rgba(255,255,255,0.2);color:#fff;font-size:9px;padding:2px 7px;border-radius:3px;font-weight:700;}
+.t4-api-body{padding:14px 16px;background:#fff;}
+.t4-grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.t4-grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+.t4-field-row{display:flex;gap:6px;padding:4px 0;border-bottom:1px solid #F0F4F8;font-size:10px;align-items:flex-start;}
+.t4-field-row:last-child{border-bottom:none;}
+.t4-field-name{font-family:monospace;font-weight:700;color:#003D7A;min-width:110px;flex-shrink:0;}
+.t4-field-req{font-size:8px;padding:1px 4px;border-radius:3px;flex-shrink:0;margin-top:1px;}
+.t4-req{background:#FFEBEE;color:#B71C1C;font-weight:700;}
+.t4-opt{background:#E8F5E9;color:#1A6E3C;}
+.t4-field-desc{color:#546E7A;line-height:1.5;}
+.t4-mbadge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;min-width:52px;text-align:center;}
+.t4-POST{background:#E4F5EC;color:#1A6E3C;border:1px solid #A5D6A7;}
+.t4-GET{background:#EBF4FF;color:#1565C0;border:1px solid #90CAF9;}
+.t4-PUT{background:#FFF0E0;color:#C75B00;border:1px solid #FFCC80;}
+.t4-DELETE{background:#FFEBEE;color:#B71C1C;border:1px solid #EF9A9A;}
+.mono{font-family:"Fira Code","Courier New",monospace;font-size:10px;background:#EEF2F7;padding:1px 5px;border-radius:3px;color:#1A2533;}
+.t4-state{display:inline-block;padding:1px 7px;border-radius:3px;font-size:9px;font-weight:700;}
+.t4-active{background:#E4F5EC;color:#1A6E3C;border:1px solid #A5D6A7;}
+.t4-preactive{background:#EBF4FF;color:#1565C0;border:1px solid #90CAF9;}
+.t4-deact{background:#FFEBEE;color:#B71C1C;border:1px solid #EF9A9A;}
+.t4-destroy{background:#ECEFF1;color:#546E7A;border:1px solid #CFD8DC;}
+</style>
+
+<!-- 인트로 배너 -->
+<div class="t4-intro">
+  <div class="t4-intro-title">🔐 키 오퍼레이션 REST API 설계 — 총 16개</div>
+  <div class="t4-intro-sub">
+    카카오뱅크 현행 API 샘플(Locate·Get 응답 필드) 기반 · SG-KMS v5.0.206 REST API 형상 최대 유지<br>
+    RFP §2-나-4 KMIP 14개 오퍼레이션 + §2-나-5 전체 키 관리(ADMIN 전용) 2개
+  </div>
+  <div class="t4-intro-meta">
+    <div class="t4-meta-badge">Base URL <strong>https://&lt;KMS-HOST&gt;:9444/api/v1</strong></div>
+    <div class="t4-meta-badge">인증 <strong>Authorization: Bearer {JWT}</strong></div>
+    <div class="t4-meta-badge">응답 구조 <strong>ResultStatus / Message / Data</strong></div>
+    <div class="t4-meta-badge">키 식별자 <strong>uuid (UUID v4)</strong></div>
+    <div class="t4-meta-badge">키 상태 필드 <strong>state (status 아님)</strong></div>
+    <div class="t4-meta-badge">Locate·Get <strong>POST 방식</strong></div>
+  </div>
+</div>
+
+<!-- ① 카카오뱅크 현행 API 샘플 기준 -->
+<div class="t4-sec">
+  <div class="t4-sec-title">① 카카오뱅크 현행 API 샘플 확인 — 설계 기준 필드</div>
+  <div class="t4-note yellow">📋 카카오뱅크가 직접 전달한 현행 사용 중인 API 샘플을 기준으로 모든 응답 필드명을 확정합니다. 특히 <strong>state</strong>(status 아님), <strong>alias</strong>(AlterName), <strong>uuid</strong>(키 식별자), <strong>origin_uuid</strong>(Re-key 계보)를 확인합니다.</div>
+  <div class="t4-grid2" style="margin-top:12px;">
+    <!-- Locate 샘플 -->
+    <div>
+      <div style="font-weight:800;font-size:12px;color:#1565C0;margin-bottom:8px;padding-bottom:5px;border-bottom:2px solid #90CAF9;">🔍 Locate 현행 응답 샘플 — POST /keys/locate</div>
+      <div class="t4-code"><span class="c"># 현행 Locate API 응답 (카카오뱅크 제공 샘플 기준)</span>
+{
+  <span class="s">"ResultStatus"</span>: <span class="v">1</span>,
+  <span class="s">"Message"</span>: <span class="s">"success"</span>,
+  <span class="s">"Data"</span>: [{
+    <span class="h">"uuid"</span>:        <span class="s">"abc18772-14bb-4bd0-a10b-63ed81d499d4"</span>,
+    <span class="s">"name"</span>:        <span class="s">"KakaoBank-Test00001"</span>,
+    <span class="h">"alias"</span>:       <span class="s">"KakaoBank-Test00001"</span>,  <span class="c"># AlterName</span>
+    <span class="s">"algorithm"</span>:   <span class="s">"AES"</span>,
+    <span class="s">"type"</span>:        <span class="s">"SymmetricKey"</span>,
+    <span class="s">"size"</span>:        <span class="s">"256"</span>,
+    <span class="s">"group"</span>:       <span class="s">"Test1"</span>,
+    <span class="h">"state"</span>:       <span class="s">"Deactivated"</span>,  <span class="c"># ← status 아님!</span>
+    <span class="s">"create_date"</span>: <span class="s">"2016-12-01T09:00:00"</span>,
+    <span class="s">"start_date"</span>:  <span class="s">"2016-12-01T09:00:00"</span>,
+    <span class="s">"end_date"</span>:    <span class="s">"2017-12-01T09:00:00"</span>,
+    <span class="h">"origin_uuid"</span>: <span class="s">"abc18772-14bb-4bd0-a10b-63ed81d499d4"</span>
+  }]
+}</div>
+    </div>
+    <!-- Get 샘플 -->
+    <div>
+      <div style="font-weight:800;font-size:12px;color:#1A6E3C;margin-bottom:8px;padding-bottom:5px;border-bottom:2px solid #A5D6A7;">📦 Get 현행 응답 샘플 — POST /keys/get</div>
+      <div class="t4-code"><span class="c"># 현행 Get API 응답 (카카오뱅크 제공 샘플 기준)</span>
+{
+  <span class="s">"ResultStatus"</span>: <span class="v">1</span>,
+  <span class="s">"Message"</span>: <span class="s">"success"</span>,
+  <span class="s">"Data"</span>: {
+    <span class="h">"uuid"</span>:        <span class="s">"4f4b8491-xxxx-xxxx-xxxx-xxxxxxxxxxxx"</span>,
+    <span class="s">"name"</span>:        <span class="s">"PUB-OP_Tester"</span>,
+    <span class="s">"algorithm"</span>:   <span class="s">"RSA"</span>,
+    <span class="s">"type"</span>:        <span class="s">"PublicKey"</span>,
+    <span class="s">"size"</span>:        <span class="s">"2048"</span>,
+    <span class="s">"group"</span>:       <span class="s">"Test1"</span>,
+    <span class="h">"state"</span>:       <span class="s">"Deactivated"</span>,
+    <span class="h">"value"</span>:       <span class="s">"3082010a02820101..."</span>,  <span class="c"># Hex</span>
+    <span class="s">"origin_uuid"</span>: <span class="s">"4f4b8491-..."</span>,
+    <span class="s">"parent_uuid"</span>: <span class="v">null</span>,
+    <span class="s">"sequence"</span>:    <span class="v">0</span>
+  }
+}</div>
+    </div>
+  </div>
+
+  <!-- 확정 필드 정의 -->
+  <div style="margin-top:14px;">
+    <div style="font-weight:800;font-size:12px;color:#003D7A;margin-bottom:8px;">📋 CryptoKey 공통 응답 필드 정의 (전체 API 공통 적용)</div>
+    <table class="t4-tbl">
+      <thead><tr><th>필드명</th><th>타입</th><th>포함 API</th><th>설명</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td><span class="mono">uuid</span></td><td>String</td><td>전체</td><td>키 고유 식별자 (UUID v4)</td><td style="color:#1565C0;font-weight:700;">핵심 — 모든 API 기준</td></tr>
+        <tr><td><span class="mono">name</span></td><td>String</td><td>전체</td><td>키 이름</td><td></td></tr>
+        <tr><td><span class="mono">alias</span></td><td>String</td><td>전체</td><td>AlterName (별칭) — RFP §2-나-5 AlterName Locate 지원</td><td style="color:#1565C0;">alias = AlterName</td></tr>
+        <tr><td><span class="mono">algorithm</span></td><td>String</td><td>전체</td><td>암호화 알고리즘 (AES, ARIA, RSA, ECDSA 등)</td><td></td></tr>
+        <tr><td><span class="mono">type</span></td><td>String</td><td>전체</td><td>키 유형: SymmetricKey / PublicKey / PrivateKey</td><td></td></tr>
+        <tr><td><span class="mono">size</span></td><td>String</td><td>전체</td><td>키 길이 (비트, 문자열): "128", "256", "2048"</td><td></td></tr>
+        <tr><td><span class="mono">group</span></td><td>String</td><td>전체</td><td>소속 Agent 이름 (키 그룹)</td><td></td></tr>
+        <tr><td><span class="mono">state</span></td><td>String</td><td>전체</td><td>키 상태: Pre-Active / Active / Deactivated / Destroyed</td><td style="color:#B71C1C;font-weight:700;">status 아님!</td></tr>
+        <tr><td><span class="mono">create_date</span></td><td>String</td><td>전체</td><td>키 생성일시</td><td></td></tr>
+        <tr><td><span class="mono">start_date</span></td><td>String</td><td>전체</td><td>키 유효 시작일</td><td>RFP 메타 정보 포함 요건</td></tr>
+        <tr><td><span class="mono">end_date</span></td><td>String</td><td>전체</td><td>키 만료일</td><td>RFP 메타 정보 포함 요건</td></tr>
+        <tr><td><span class="mono">origin_uuid</span></td><td>String</td><td>전체</td><td>Re-key 이전 원본 키 uuid (최초 생성 시 자기 자신)</td><td></td></tr>
+        <tr><td><span class="mono">parent_uuid</span></td><td>String</td><td>Get</td><td>비대칭키 쌍의 상위 키 uuid (대칭키는 null)</td><td>Get 응답만</td></tr>
+        <tr><td><span class="mono">sequence</span></td><td>Number</td><td>Get</td><td>Re-key 버전 번호 (0부터 증가)</td><td>Get 응답만</td></tr>
+        <tr><td><span class="mono">value</span></td><td>String</td><td>Get 전용</td><td>키 값 (Hex) — RFP §2-나-5 Hex 선호</td><td style="color:#B71C1C;font-weight:700;">Get API 전용</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ② 키 state 라이프사이클 -->
+<div class="t4-sec">
+  <div class="t4-sec-title">② 키 State 라이프사이클 — SG-KMS 현행 기준</div>
+  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+    <div style="background:#EBF4FF;border:2px solid #90CAF9;border-radius:8px;padding:8px 14px;text-align:center;">
+      <span class="t4-state t4-preactive">Pre-Active</span>
+      <div style="font-size:9px;color:#546E7A;margin-top:4px;">생성 직후<br>암복호화 불가</div>
+    </div>
+    <div style="font-size:20px;color:#003D7A;font-weight:700;">→</div>
+    <div style="font-size:9px;color:#1A6E3C;text-align:center;font-weight:700;">Activate API</div>
+    <div style="font-size:20px;color:#003D7A;font-weight:700;">→</div>
+    <div style="background:#E4F5EC;border:2px solid #A5D6A7;border-radius:8px;padding:8px 14px;text-align:center;">
+      <span class="t4-state t4-active">Active</span>
+      <div style="font-size:9px;color:#546E7A;margin-top:4px;">정상 운용<br>암복호화 가능</div>
+    </div>
+    <div style="font-size:20px;color:#003D7A;font-weight:700;">→</div>
+    <div style="font-size:9px;color:#B71C1C;text-align:center;font-weight:700;">Revoke API</div>
+    <div style="font-size:20px;color:#003D7A;font-weight:700;">→</div>
+    <div style="background:#FFEBEE;border:2px solid #EF9A9A;border-radius:8px;padding:8px 14px;text-align:center;">
+      <span class="t4-state t4-deact">Deactivated</span>
+      <div style="font-size:9px;color:#546E7A;margin-top:4px;">비활성화<br>복호화 전용(Get 가능)</div>
+    </div>
+    <div style="font-size:20px;color:#003D7A;font-weight:700;">→</div>
+    <div style="font-size:9px;color:#546E7A;text-align:center;font-weight:700;">Key Delete</div>
+    <div style="font-size:20px;color:#003D7A;font-weight:700;">→</div>
+    <div style="background:#ECEFF1;border:2px solid #CFD8DC;border-radius:8px;padding:8px 14px;text-align:center;">
+      <span class="t4-state t4-destroy">Destroyed</span>
+      <div style="font-size:9px;color:#546E7A;margin-top:4px;">삭제됨<br>복구 불가</div>
+    </div>
+  </div>
+  <div class="t4-note blue">💡 <strong>RFP §2-나-5:</strong> Deactivated 상태의 키도 복호화 솔루션 목적으로 Get(value 조회)가 가능합니다. SG-KMS 현행 ExportKey API도 state 무관하게 value 반환하므로 현행 구조 그대로 유지합니다.</div>
+</div>
+
+<!-- ③ 16개 API 상세 설계 -->
+<div class="t4-sec">
+  <div class="t4-sec-title">③ 16개 키 오퍼레이션 REST API 상세 설계</div>
+
+  <!-- o1: Create 대칭키 -->
+  <div class="t4-api-card">
+    <div class="t4-api-head" style="background:#1A6E3C;">
+      <div class="t4-api-num">1</div>
+      <span class="t4-mbadge t4-POST">POST</span>
+      <span style="font-family:monospace;color:#90EE90;font-size:11px;">/api/v1/keys/symmetric</span>
+      <div class="t4-api-title">대칭키 생성</div>
+      <div class="t4-api-kmip">KMIP: Create</div>
+      <div class="t4-api-kmip">RFP §2-나-4</div>
+    </div>
+    <div class="t4-api-body">
+      <div class="t4-note yellow" style="margin-bottom:10px;">📖 SG-KMS [키 관리]-[대칭키] 생성과 동일. ARIA·AES·SEED·TDES 등 지원. 생성 즉시 state=Pre-Active. Activate API 호출 후 사용 가능.</div>
+      <div class="t4-grid2">
+        <div>
+          <div style="font-weight:700;font-size:11px;color:#003D7A;margin-bottom:6px;">Request Body</div>
+          <div class="t4-field-row"><span class="t4-field-name">name</span><span class="t4-field-req t4-req">필수</span><span class="t4-field-desc">키 이름 (영대문자·숫자·특수문자 -_ / 1~64자)</span></div>
+          <div class="t4-field-row"><span class="t4-field-name">algorithm</span><span class="t4-field-req t4-req">필수</span><span class="t4-field-desc">AES / ARIA / SEED / TDES / BLOWFISH</span></div>
+          <div class="t4-field-row"><span class="t4-field-name">size</span><span class="t4-field-req t4-req">필수</span><span class="t4-field-desc">키 길이 (비트): "128" / "192" / "256"</span></div>
+          <div class="t4-field-row"><span class="t4-field-name">alias</span><span class="t4-field-req t4-opt">선택</span><span class="t4-field-desc">AlterName (미입력 시 name과 동일)</span></div>
+          <div class="t4-field-row"><span class="t4-field-name">group</span><span class="t4-field-req t4-opt">선택</span><span class="t4-field-desc">소속 Agent명 (미입력 시 토큰의 agentName)</span></div>
+        </div>
+        <div>
+          <div style="font-weight:700;font-size:11px;color:#003D7A;margin-bottom:6px;">요청/응답 예문</div>
+          <div class="t4-code"><span class="c"># Request</span>
+<span class="k">POST</span> /api/v1/keys/symmetric
+Authorization: Bearer <span class="s">{JWT}</span>
+{
+  <span class="s">"name"</span>: <span class="s">"PAYMENT_AES256_01"</span>,
+  <span class="s">"algorithm"</span>: <span class="s">"AES"</span>,
+  <span class="s">"size"</span>: <span class="s">"256"</span>,
+  <span class="s">"alias"</span>: <span class="s">"pay_main_key"</span>,
+  <span class="s">"group"</span>: <span class="s">"PAYMENT_AGENT"</span>
+}
+
+<span class="c"># Response</span>
+{ <span class="s">"ResultStatus"</span>: <span class="v">1</span>, <span class="s">"Message"</span>: <span class="s">"success"</span>,
+  <span class="s">"Data"</span>: { <span class="s">"uuid"</span>: <span class="s">"abc18772-..."</span>,
+    <span class="s">"name"</span>: <span class="s">"PAYMENT_AES256_01"</span>,
+    <span class="s">"state"</span>: <span class="s">"Pre-Active"</span>,  <span class="c"># 생성 직후</span>
+    <span class="s">"algorithm"</span>: <span class="s">"AES"</span>, <span class="s">"size"</span>: <span class="s">"256"</span>,
+    <span class="s">"group"</span>: <span class="s">"PAYMENT_AGENT"</span>,
+    <span class="s">"origin_uuid"</span>: <span class="s">"abc18772-..."</span> } }</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- o2: Create Key Pair 비대칭키 -->
+  <div class="t4-api-card">
+    <div class="t4-api-head" style="background:#1A6E3C;">
+      <div class="t4-api-num">2</div>
+      <span class="t4-mbadge t4-POST">POST</span>
+      <span style="font-family:monospace;color:#90EE90;font-size:11px;">/api/v1/keys/asymmetric</span>
+      <div class="t4-api-title">비대칭키 쌍 생성</div>
+      <div class="t4-api-kmip">KMIP: Create Key Pair</div>
+    </div>
+    <div class="t4-api-body">
+      <div class="t4-note yellow" style="margin-bottom:10px;">📖 SG-KMS [키 관리]-[비대칭키] 생성과 동일. RSA·ECDSA 쌍 생성. PublicKey·PrivateKey 각각 uuid 발급. parent_uuid로 쌍 연결.</div>
+      <div class="t4-grid2">
+        <div>
+          <div style="font-weight:700;font-size:11px;color:#003D7A;margin-bottom:6px;">Request Body</div>
+          <div class="t4-field-row"><span class="t4-field-name">name</span><span class="t4-field-req t4-req">필수</span><span class="t4-field-desc">키 쌍 이름 (PublicKey/PrivateKey 공통 prefix)</span></div>
+          <div class="t4-field-row"><span class="t4-field-name">algorithm</span><span class="t4-field-req t4-req">필수</span><span class="t4-field-desc">RSA / ECDSA</span></div>
+          <div class="t4-field-row"><span class="t4-field-name">size</span><span class="t4-field-req t4-req">필수</span><span class="t4-field-desc">RSA: "1024"/"2048"/"4096" / ECDSA: curve명</span></div>
+          <div class="t4-field-row"><span class="t4-field-name">group</span><span class="t4-field-req t4-opt">선택</span><span class="t4-field-desc">소속 Agent명</span></div>
+        </div>
+        <div>
+          <div style="font-weight:700;font-size:11px;color:#003D7A;margin-bottom:6px;">응답 예문</div>
+          <div class="t4-code"><span class="c"># Response — 키 쌍 2개 uuid 반환</span>
+{ <span class="s">"ResultStatus"</span>: <span class="v">1</span>, <span class="s">"Message"</span>: <span class="s">"success"</span>,
+  <span class="s">"Data"</span>: {
+    <span class="s">"public_key"</span>: {
+      <span class="s">"uuid"</span>: <span class="s">"pub-uuid-..."</span>,
+      <span class="s">"type"</span>: <span class="s">"PublicKey"</span>,
+      <span class="s">"state"</span>: <span class="s">"Pre-Active"</span>
+    },
+    <span class="s">"private_key"</span>: {
+      <span class="s">"uuid"</span>: <span class="s">"priv-uuid-..."</span>,
+      <span class="s">"type"</span>: <span class="s">"PrivateKey"</span>,
+      <span class="s">"state"</span>: <span class="s">"Pre-Active"</span>,
+      <span class="s">"parent_uuid"</span>: <span class="s">"pub-uuid-..."</span>
+    }
+  }
+}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- o3: Register -->
+  <div class="t4-api-card">
+    <div class="t4-api-head" style="background:#1A6E3C;">
+      <div class="t4-api-num">3</div>
+      <span class="t4-mbadge t4-POST">POST</span>
+      <span style="font-family:monospace;color:#90EE90;font-size:11px;">/api/v1/keys/register</span>
+      <div class="t4-api-title">외부 키 반입 등록</div>
+      <div class="t4-api-kmip">KMIP: Register</div>
+      <div class="t4-api-kmip">반입 대체</div>
+    </div>
+    <div class="t4-api-body">
+      <div class="t4-note yellow" style="margin-bottom:10px;">📖 SG-KMS [정책 가져오기]와 동일. Hex 포맷 외부 키를 KMS에 등록. RFP §2-나-5 Hex 선호 명시. 기존 KMS에서 마이그레이션 시 사용.</div>
+      <div class="t4-grid2">
+        <div>
+          <div style="font-weight:700;font-size:11px;color:#003D7A;margin-bottom:6px;">Request Body</div>
+          <div class="t4-field-row"><span class="t4-field-name">name</span><span class="t4-field-req t4-req">필수</span><span class="t4-field-desc">등록할 키 이름</span></div>
+          <div class="t4-field-row"><span class="t4-field-name">algorithm</span><span class="t4-field-req t4-req">필수</span><span class="t4-field-desc">AES / ARIA / RSA 등</span></div>
+          <div class="t4-field-row"><span class="t4-field-name">size</span><span class="t4-field-req t4-req">필수</span><span class="t4-field-desc">키 길이 (비트)</span></div>
+          <div class="t4-field-row"><span class="t4-field-name">value</span><span class="t4-field-req t4-req">필수</span><span class="t4-field-desc">키 값 (Hex 문자열)</span></div>
+          <div class="t4-field-row"><span class="t4-field-name">type</span><span class="t4-field-req t4-opt">선택</span><span class="t4-field-desc">SymmetricKey / PublicKey / PrivateKey</span></div>
+          <div class="t4-field-row"><span class="t4-field-name">group</span><span class="t4-field-req t4-opt">선택</span><span class="t4-field-desc">소속 Agent명</span></div>
+        </div>
+        <div>
+          <div style="font-weight:700;font-size:11px;color:#003D7A;margin-bottom:6px;">요청/응답 예문</div>
+          <div class="t4-code"><span class="k">POST</span> /api/v1/keys/register
+{
+  <span class="s">"name"</span>: <span class="s">"LEGACY_AES256_IMPORT"</span>,
+  <span class="s">"algorithm"</span>: <span class="s">"AES"</span>,
+  <span class="s">"size"</span>: <span class="s">"256"</span>,
+  <span class="s">"value"</span>: <span class="s">"0123456789ABCDEF0123456789ABCDEF..."</span>,
+  <span class="s">"type"</span>: <span class="s">"SymmetricKey"</span>
+}
+<span class="c"># Response</span>
+{ <span class="s">"ResultStatus"</span>: <span class="v">1</span>, <span class="s">"Message"</span>: <span class="s">"success"</span>,
+  <span class="s">"Data"</span>: { <span class="s">"uuid"</span>: <span class="s">"new-uuid-..."</span>,
+    <span class="s">"state"</span>: <span class="s">"Pre-Active"</span> } }</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- o4: Re-key -->
+  <div class="t4-api-card">
+    <div class="t4-api-head" style="background:#C75B00;">
+      <div class="t4-api-num">4</div>
+      <span class="t4-mbadge t4-POST">POST</span>
+      <span style="font-family:monospace;color:#FFD9A0;font-size:11px;">/api/v1/keys/{uuid}/rekey</span>
+      <div class="t4-api-title">키 갱신</div>
+      <div class="t4-api-kmip">KMIP: Re-key</div>
+    </div>
+    <div class="t4-api-body">
+      <div class="t4-note yellow" style="margin-bottom:10px;">📖 기존 키를 새 키로 갱신. origin_uuid로 이전 키 계보 추적. sequence 증가. 이전 키는 Deactivated 전환. 새 키는 Pre-Active로 생성.</div>
+      <div class="t4-grid2">
+        <div>
+          <div style="font-weight:700;font-size:11px;color:#003D7A;margin-bottom:6px;">Path Variable + Request Body</div>
+          <div class="t4-field-row"><span class="t4-field-name">uuid (Path)</span><span class="t4-field-req t4-req">필수</span><span class="t4-field-desc">갱신할 기존 키의 uuid</span></div>
+          <div class="t4-field-row"><span class="t4-field-name">new_name</span><span class="t4-field-req t4-opt">선택</span><span class="t4-field-desc">새 키 이름 (미입력 시 기존 name 유지)</span></div>
+        </div>
+        <div>
+          <div style="font-weight:700;font-size:11px;color:#003D7A;margin-bottom:6px;">응답 예문</div>
+          <div class="t4-code"><span class="k">POST</span> /api/v1/keys/abc18772-.../rekey
+{ <span class="s">"new_name"</span>: <span class="s">"PAYMENT_AES256_02"</span> }
+
+<span class="c"># Response — 새 키 uuid 반환</span>
+{ <span class="s">"ResultStatus"</span>: <span class="v">1</span>, <span class="s">"Message"</span>: <span class="s">"success"</span>,
+  <span class="s">"Data"</span>: {
+    <span class="s">"uuid"</span>: <span class="s">"new-uuid-xyz99900"</span>,
+    <span class="s">"state"</span>: <span class="s">"Pre-Active"</span>,
+    <span class="s">"origin_uuid"</span>: <span class="s">"abc18772-..."</span>,  <span class="c"># 원본</span>
+    <span class="s">"sequence"</span>: <span class="v">1</span>  <span class="c"># 버전 증가</span>
+  }
+}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- o5: Locate -->
+  <div class="t4-api-card">
+    <div class="t4-api-head" style="background:#1565C0;">
+      <div class="t4-api-num">5</div>
+      <span class="t4-mbadge t4-POST">POST</span>
+      <span style="font-family:monospace;color:#B0C4DE;font-size:11px;">/api/v1/keys/locate</span>
+      <div class="t4-api-title">키 목록 조회</div>
+      <div class="t4-api-kmip">KMIP: Locate</div>
+      <div class="t4-api-kmip">AlterName 지원</div>
+    </div>
+    <div class="t4-api-body">
+      <div class="t4-note yellow" style="margin-bottom:10px;">📖 <strong>카카오뱅크 현행 API 기준 POST 방식</strong>. name 또는 alias(AlterName)로 조회. RFP §2-나-5 "클라이언트 AlterName으로 위치(Locate) 기능 제공" 충족. 클라이언트는 자신에게 매핑된 Agent의 키만 조회 가능.</div>
+      <div class="t4-grid2">
+        <div>
+          <div style="font-weight:700;font-size:11px;color:#003D7A;margin-bottom:6px;">Request Body (둘 중 하나 이상)</div>
+          <div class="t4-field-row"><span class="t4-field-name">name</span><span class="t4-field-req t4-opt">선택</span><span class="t4-field-desc">키 이름으로 조회</span></div>
+          <div class="t4-field-row"><span class="t4-field-name">alias</span><span class="t4-field-req t4-opt">선택</span><span class="t4-field-desc">AlterName으로 조회 — RFP 명시 요건</span></div>
+          <div class="t4-field-row"><span class="t4-field-name">state</span><span class="t4-field-req t4-opt">선택</span><span class="t4-field-desc">상태 필터: Active / Deactivated 등</span></div>
+          <div class="t4-field-row"><span class="t4-field-name">group</span><span class="t4-field-req t4-opt">선택</span><span class="t4-field-desc">Agent 필터</span></div>
+          <div style="margin-top:6px;" class="t4-note blue">💡 모든 파라미터 생략 시 접근 가능한 전체 키 목록 반환</div>
+        </div>
+        <div>
+          <div style="font-weight:700;font-size:11px;color:#003D7A;margin-bottom:6px;">요청/응답 예문 (현행 샘플 기준)</div>
+          <div class="t4-code"><span class="c"># AlterName으로 조회 (RFP 명시 요건)</span>
+<span class="k">POST</span> /api/v1/keys/locate
+{ <span class="s">"alias"</span>: <span class="s">"KakaoBank-Test00001"</span> }
+
+<span class="c"># Response (현행 Locate 샘플 구조 동일)</span>
+{ <span class="s">"ResultStatus"</span>: <span class="v">1</span>, <span class="s">"Message"</span>: <span class="s">"success"</span>,
+  <span class="s">"Data"</span>: [{
+    <span class="s">"uuid"</span>: <span class="s">"abc18772-14bb-4bd0-a10b-63ed81d499d4"</span>,
+    <span class="s">"name"</span>: <span class="s">"KakaoBank-Test00001"</span>,
+    <span class="s">"alias"</span>: <span class="s">"KakaoBank-Test00001"</span>,
+    <span class="s">"algorithm"</span>: <span class="s">"AES"</span>, <span class="s">"type"</span>: <span class="s">"SymmetricKey"</span>,
+    <span class="s">"size"</span>: <span class="s">"256"</span>, <span class="s">"group"</span>: <span class="s">"PAYMENT_AGENT"</span>,
+    <span class="s">"state"</span>: <span class="s">"Active"</span>,
+    <span class="s">"start_date"</span>: <span class="s">"2026-01-01T00:00:00"</span>,
+    <span class="s">"end_date"</span>: <span class="s">"2027-01-01T00:00:00"</span>,
+    <span class="s">"origin_uuid"</span>: <span class="s">"abc18772-..."</span>
+  }]
+}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- o6: Get -->
+  <div class="t4-api-card">
+    <div class="t4-api-head" style="background:#1565C0;">
+      <div class="t4-api-num">6</div>
+      <span class="t4-mbadge t4-POST">POST</span>
+      <span style="font-family:monospace;color:#B0C4DE;font-size:11px;">/api/v1/keys/get</span>
+      <div class="t4-api-title">키 값 조회 (Hex)</div>
+      <div class="t4-api-kmip">KMIP: Get</div>
+      <div class="t4-api-kmip">ExportKey 대체</div>
+    </div>
+    <div class="t4-api-body">
+      <div class="t4-note yellow" style="margin-bottom:10px;">📖 <strong>카카오뱅크 현행 API 기준 POST 방식</strong>. uuid로 실제 키 값(Hex) 반환. SG-KMS 현행 GET /api/exportKey/by/name/{policyName}을 uuid 기반 POST로 대체. Deactivated 키도 복호화 목적으로 조회 가능.</div>
+      <div class="t4-grid2">
+        <div>
+          <div style="font-weight:700;font-size:11px;color:#003D7A;margin-bottom:6px;">Request Body</div>
+          <div class="t4-field-row"><span class="t4-field-name">uuid</span><span class="t4-field-req t4-req">필수</span><span class="t4-field-desc">키 uuid (Locate로 먼저 조회)</span></div>
+          <div style="margin-top:8px;" class="t4-note red">⚠️ <strong>value 필드</strong>는 이 API의 응답에서만 포함됩니다. Locate 등 다른 API는 value를 반환하지 않습니다.</div>
+        </div>
+        <div>
+          <div style="font-weight:700;font-size:11px;color:#003D7A;margin-bottom:6px;">응답 예문 (현행 Get 샘플 구조 동일)</div>
+          <div class="t4-code"><span class="k">POST</span> /api/v1/keys/get
+{ <span class="s">"uuid"</span>: <span class="s">"4f4b8491-xxxx-xxxx-xxxx-xxxxxxxxxxxx"</span> }
+
+<span class="c"># Response (현행 Get 샘플 기준)</span>
+{ <span class="s">"ResultStatus"</span>: <span class="v">1</span>, <span class="s">"Message"</span>: <span class="s">"success"</span>,
+  <span class="s">"Data"</span>: {
+    <span class="s">"uuid"</span>: <span class="s">"4f4b8491-..."</span>,
+    <span class="s">"name"</span>: <span class="s">"PUB-OP_Tester"</span>,
+    <span class="s">"algorithm"</span>: <span class="s">"RSA"</span>, <span class="s">"type"</span>: <span class="s">"PublicKey"</span>,
+    <span class="s">"size"</span>: <span class="s">"2048"</span>, <span class="s">"group"</span>: <span class="s">"PAYMENT_AGENT"</span>,
+    <span class="s">"state"</span>: <span class="s">"Deactivated"</span>,
+    <span class="h">"value"</span>: <span class="s">"3082010a02820101..."</span>,  <span class="c"># Hex 키 값</span>
+    <span class="s">"origin_uuid"</span>: <span class="s">"4f4b8491-..."</span>,
+    <span class="s">"parent_uuid"</span>: <span class="v">null</span>,
+    <span class="s">"sequence"</span>: <span class="v">0</span>
+  }
+}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- o7: Get Attributes -->
+  <div class="t4-api-card">
+    <div class="t4-api-head" style="background:#1565C0;">
+      <div class="t4-api-num">7</div>
+      <span class="t4-mbadge t4-POST">POST</span>
+      <span style="font-family:monospace;color:#B0C4DE;font-size:11px;">/api/v1/keys/locate</span>
+      <div class="t4-api-title">키 속성 조회</div>
+      <div class="t4-api-kmip">KMIP: Get Attributes</div>
+    </div>
+    <div class="t4-api-body">
+      <div class="t4-note blue" style="margin-bottom:10px;">💡 SG-KMS 현행 구조에서 Get Attributes는 Locate 응답의 메타 정보로 충족됩니다. Locate 응답에 RFP §2-나-5 "모든 응답에 암호키 정보·생성/만료일·상태 등 메타 정보 포함" 요건이 이미 반영되어 있습니다.</div>
+      <div class="t4-code"><span class="c"># uuid로 특정 키의 속성만 조회할 때도 Locate POST 사용</span>
+<span class="k">POST</span> /api/v1/keys/locate
+{ <span class="s">"uuid"</span>: <span class="s">"abc18772-..."</span> }
+<span class="c"># Response: Locate와 동일 구조 (value 제외)</span>
+<span class="c"># → uuid/name/alias/algorithm/type/size/group/state/create_date/start_date/end_date/origin_uuid 포함</span></div>
+    </div>
+  </div>
+
+  <!-- o8~o10: Attribute 관리 -->
+  <div class="t4-api-card">
+    <div class="t4-api-head" style="background:#4527A0;">
+      <div class="t4-api-num">8~10</div>
+      <div class="t4-api-title">키 속성 추가 / 수정 / 삭제</div>
+      <div class="t4-api-kmip">KMIP: Add / Modify / Delete Attribute</div>
+    </div>
+    <div class="t4-api-body">
+      <div class="t4-note yellow" style="margin-bottom:10px;">📖 RFP §2-나-5 "모든 암호키 메타(Attribute) 관리(CRUD) 기능 제공 (암호키 상태/만료일 포함)". 사용자 정의 속성(Tag, 설명 등) 및 만료일·상태 변경에 활용.</div>
+      <div class="t4-grid3">
+        <div>
+          <div style="font-weight:700;font-size:11px;color:#4527A0;margin-bottom:6px;"><span class="t4-mbadge t4-POST">POST</span> 속성 추가</div>
+          <div class="t4-code" style="font-size:9px;"><span class="k">POST</span> /api/v1/keys/{uuid}/attributes
+{
+  <span class="s">"key"</span>: <span class="s">"Tag"</span>,
+  <span class="s">"value"</span>: <span class="s">"payment-critical"</span>
+}
+<span class="c"># Response</span>
+{ <span class="s">"ResultStatus"</span>: <span class="v">1</span>,
+  <span class="s">"Message"</span>: <span class="s">"success"</span> }</div>
+        </div>
+        <div>
+          <div style="font-weight:700;font-size:11px;color:#4527A0;margin-bottom:6px;"><span class="t4-mbadge t4-PUT">PUT</span> 속성 수정</div>
+          <div class="t4-code" style="font-size:9px;"><span class="k">PUT</span> /api/v1/keys/{uuid}/attributes
+{
+  <span class="s">"key"</span>: <span class="s">"end_date"</span>,
+  <span class="s">"value"</span>: <span class="s">"2028-01-01T00:00:00"</span>
+}
+<span class="c"># Response</span>
+{ <span class="s">"ResultStatus"</span>: <span class="v">1</span>,
+  <span class="s">"Message"</span>: <span class="s">"success"</span> }</div>
+        </div>
+        <div>
+          <div style="font-weight:700;font-size:11px;color:#4527A0;margin-bottom:6px;"><span class="t4-mbadge t4-DELETE">DELETE</span> 속성 삭제</div>
+          <div class="t4-code" style="font-size:9px;"><span class="k">DELETE</span> /api/v1/keys/{uuid}
+       /attributes/Tag
+
+<span class="c"># Response</span>
+{ <span class="s">"ResultStatus"</span>: <span class="v">1</span>,
+  <span class="s">"Message"</span>: <span class="s">"success"</span> }</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- o11~o12: Activate / Revoke -->
+  <div class="t4-api-card">
+    <div class="t4-api-head" style="background:#546E7A;">
+      <div class="t4-api-num">11~12</div>
+      <div class="t4-api-title">키 활성화 / 키 비활성화</div>
+      <div class="t4-api-kmip">KMIP: Activate / Revoke</div>
+    </div>
+    <div class="t4-api-body">
+      <div class="t4-grid2">
+        <div>
+          <div style="font-weight:700;font-size:11px;color:#1A6E3C;margin-bottom:6px;"><span class="t4-mbadge t4-POST">POST</span> /api/v1/keys/{uuid}/activate</div>
+          <div class="t4-code"><span class="c"># Pre-Active → Active</span>
+<span class="k">POST</span> /api/v1/keys/abc18772-.../activate
+
+{ <span class="s">"ResultStatus"</span>: <span class="v">1</span>, <span class="s">"Message"</span>: <span class="s">"success"</span>,
+  <span class="s">"Data"</span>: { <span class="s">"uuid"</span>: <span class="s">"abc18772-..."</span>,
+    <span class="s">"state"</span>: <span class="s">"Active"</span> } }</div>
+        </div>
+        <div>
+          <div style="font-weight:700;font-size:11px;color:#B71C1C;margin-bottom:6px;"><span class="t4-mbadge t4-POST">POST</span> /api/v1/keys/{uuid}/revoke</div>
+          <div class="t4-code"><span class="c"># Active → Deactivated</span>
+<span class="k">POST</span> /api/v1/keys/abc18772-.../revoke
+{ <span class="s">"reason"</span>: <span class="s">"KEY_COMPROMISE"</span> }  <span class="c"># 선택</span>
+
+{ <span class="s">"ResultStatus"</span>: <span class="v">1</span>, <span class="s">"Message"</span>: <span class="s">"success"</span>,
+  <span class="s">"Data"</span>: { <span class="s">"uuid"</span>: <span class="s">"abc18772-..."</span>,
+    <span class="s">"state"</span>: <span class="s">"Deactivated"</span> } }</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- o13: Hash -->
+  <div class="t4-api-card">
+    <div class="t4-api-head" style="background:#C75B00;">
+      <div class="t4-api-num">13</div>
+      <span class="t4-mbadge t4-POST">POST</span>
+      <span style="font-family:monospace;color:#FFD9A0;font-size:11px;">/api/v1/keys/hash</span>
+      <div class="t4-api-title">해시 연산</div>
+      <div class="t4-api-kmip">KMIP: Hash</div>
+    </div>
+    <div class="t4-api-body">
+      <div class="t4-note blue" style="margin-bottom:10px;">💡 SG-KMS Crypto API(api/crypto/enc/symmkey §3.2.5)와 동일 계층. SHA-256/384/512 등 해시 연산. 키 없이 호출 가능 (algorithm 지정).</div>
+      <div class="t4-grid2">
+        <div>
+          <div style="font-weight:700;font-size:11px;color:#003D7A;margin-bottom:6px;">Request Body</div>
+          <div class="t4-field-row"><span class="t4-field-name">data</span><span class="t4-field-req t4-req">필수</span><span class="t4-field-desc">해시할 데이터 (Base64 또는 Hex)</span></div>
+          <div class="t4-field-row"><span class="t4-field-name">algorithm</span><span class="t4-field-req t4-req">필수</span><span class="t4-field-desc">SHA256 / SHA384 / SHA512</span></div>
+        </div>
+        <div>
+          <div style="font-weight:700;font-size:11px;color:#003D7A;margin-bottom:6px;">응답 예문</div>
+          <div class="t4-code"><span class="k">POST</span> /api/v1/keys/hash
+{ <span class="s">"data"</span>: <span class="s">"aGVsbG8gd29ybGQ="</span>,
+  <span class="s">"algorithm"</span>: <span class="s">"SHA256"</span> }
+
+{ <span class="s">"ResultStatus"</span>: <span class="v">1</span>, <span class="s">"Message"</span>: <span class="s">"success"</span>,
+  <span class="s">"Data"</span>: {
+    <span class="s">"hash"</span>: <span class="s">"b94d27b9934d3e08..."</span>,
+    <span class="s">"algorithm"</span>: <span class="s">"SHA256"</span> } }</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- o14: Using Re-key -->
+  <div class="t4-api-card">
+    <div class="t4-api-head" style="background:#C75B00;">
+      <div class="t4-api-num">14</div>
+      <span class="t4-mbadge t4-POST">POST</span>
+      <span style="font-family:monospace;color:#FFD9A0;font-size:11px;">/api/v1/keys/using-rekey</span>
+      <div class="t4-api-title">자동 Re-key 후 키 반환</div>
+      <div class="t4-api-kmip">KMIP: Using Re-key</div>
+    </div>
+    <div class="t4-api-body">
+      <div class="t4-note yellow" style="margin-bottom:10px;">📖 SG-KMS §3.4.2 샘플코드의 <code>agent.getKey(token, policyName)</code>와 동일한 역할. name으로 키 조회 → 만료 확인 → 만료 시 자동 Re-key → 유효한 키 값(Hex) 반환. 키 만료 처리를 애플리케이션에서 투명하게 처리.</div>
+      <div class="t4-grid2">
+        <div>
+          <div style="font-weight:700;font-size:11px;color:#003D7A;margin-bottom:6px;">Request Body</div>
+          <div class="t4-field-row"><span class="t4-field-name">name</span><span class="t4-field-req t4-req">필수</span><span class="t4-field-desc">키 이름 (정책명과 동일 역할)</span></div>
+          <div class="t4-field-row"><span class="t4-field-name">alias</span><span class="t4-field-req t4-opt">선택</span><span class="t4-field-desc">AlterName으로도 조회 가능</span></div>
+        </div>
+        <div>
+          <div style="font-weight:700;font-size:11px;color:#003D7A;margin-bottom:6px;">응답 예문</div>
+          <div class="t4-code"><span class="k">POST</span> /api/v1/keys/using-rekey
+{ <span class="s">"name"</span>: <span class="s">"PAYMENT_AES256_01"</span> }
+
+<span class="c"># 만료 미달: 현재 키 그대로 반환</span>
+{ <span class="s">"ResultStatus"</span>: <span class="v">1</span>, <span class="s">"Message"</span>: <span class="s">"success"</span>,
+  <span class="s">"Data"</span>: {
+    <span class="s">"uuid"</span>: <span class="s">"abc18772-..."</span>,
+    <span class="s">"value"</span>: <span class="s">"0123456789ABCDEF..."</span>,
+    <span class="s">"is_rekeyed"</span>: <span class="v">false</span>
+  }
+}
+<span class="c"># 만료 초과: Re-key 후 새 키 반환</span>
+{ <span class="s">"Data"</span>: {
+    <span class="s">"uuid"</span>: <span class="s">"new-uuid-..."</span>,
+    <span class="s">"value"</span>: <span class="s">"FEDCBA9876543210..."</span>,
+    <span class="s">"is_rekeyed"</span>: <span class="v">true</span>,
+    <span class="s">"origin_uuid"</span>: <span class="s">"abc18772-..."</span>
+  }
+}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ka1: All Keys -->
+  <div class="t4-api-card">
+    <div class="t4-api-head" style="background:#B71C1C;">
+      <div class="t4-api-num">15</div>
+      <span class="t4-mbadge t4-GET">GET</span>
+      <span style="font-family:monospace;color:#FFCDD2;font-size:11px;">/api/v1/mgmt/keys</span>
+      <div class="t4-api-title">전체 키 목록 조회</div>
+      <div class="t4-api-kmip">ADMIN 전용</div>
+      <div class="t4-api-kmip">RFP §2-나-5 복호화 솔루션</div>
+    </div>
+    <div class="t4-api-body">
+      <div class="t4-note red" style="margin-bottom:10px;">🔒 <strong>PORTAL_ADMIN 전용</strong> — JWT의 role=ADMIN 확인 후에만 접근 허용. RFP §2-나-5 "등록된 모든 키 값의 조회 기능을 제공하여야 함 (별도 복호화 솔루션 목적)" 충족. value는 포함되지 않으며 각 키별로 Get API 호출 필요.</div>
+      <div class="t4-grid2">
+        <div>
+          <div style="font-weight:700;font-size:11px;color:#003D7A;margin-bottom:6px;">Query Parameters (선택)</div>
+          <div class="t4-field-row"><span class="t4-field-name">state</span><span class="t4-field-req t4-opt">선택</span><span class="t4-field-desc">상태 필터: Active / Deactivated 등</span></div>
+          <div class="t4-field-row"><span class="t4-field-name">group</span><span class="t4-field-req t4-opt">선택</span><span class="t4-field-desc">Agent 필터</span></div>
+          <div class="t4-field-row"><span class="t4-field-name">algorithm</span><span class="t4-field-req t4-opt">선택</span><span class="t4-field-desc">알고리즘 필터: AES / RSA 등</span></div>
+          <div class="t4-field-row"><span class="t4-field-name">page</span><span class="t4-field-req t4-opt">선택</span><span class="t4-field-desc">페이지 번호 (기본 1)</span></div>
+          <div class="t4-field-row"><span class="t4-field-name">size</span><span class="t4-field-req t4-opt">선택</span><span class="t4-field-desc">페이지 크기 (기본 100)</span></div>
+        </div>
+        <div>
+          <div style="font-weight:700;font-size:11px;color:#003D7A;margin-bottom:6px;">응답 예문</div>
+          <div class="t4-code"><span class="k">GET</span> /api/v1/mgmt/keys?state=Active&group=PAYMENT_AGENT
+Authorization: Bearer <span class="s">{ADMIN_JWT}</span>
+
+{ <span class="s">"ResultStatus"</span>: <span class="v">1</span>, <span class="s">"Message"</span>: <span class="s">"success"</span>,
+  <span class="s">"Data"</span>: {
+    <span class="s">"total"</span>: <span class="v">1523</span>, <span class="s">"page"</span>: <span class="v">1</span>, <span class="s">"size"</span>: <span class="v">100</span>,
+    <span class="s">"keys"</span>: [
+      { <span class="s">"uuid"</span>: <span class="s">"abc18772-..."</span>,
+        <span class="s">"name"</span>: <span class="s">"PAYMENT_AES256_01"</span>,
+        <span class="s">"alias"</span>: <span class="s">"pay_main"</span>,
+        <span class="s">"algorithm"</span>: <span class="s">"AES"</span>, <span class="s">"size"</span>: <span class="s">"256"</span>,
+        <span class="s">"group"</span>: <span class="s">"PAYMENT_AGENT"</span>,
+        <span class="s">"state"</span>: <span class="s">"Active"</span>,
+        <span class="s">"start_date"</span>: <span class="s">"2026-01-01"</span>,
+        <span class="s">"end_date"</span>: <span class="s">"2027-01-01"</span>
+        <span class="c"># value 없음 — Get API로 별도 조회</span>
+      },
+      <span class="c"># ... 더 많은 키</span>
+    ]
+  }
+}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ka3: Key Delete -->
+  <div class="t4-api-card">
+    <div class="t4-api-head" style="background:#B71C1C;">
+      <div class="t4-api-num">16</div>
+      <span class="t4-mbadge t4-DELETE">DELETE</span>
+      <span style="font-family:monospace;color:#FFCDD2;font-size:11px;">/api/v1/mgmt/keys/{uuid}</span>
+      <div class="t4-api-title">암호키 삭제</div>
+      <div class="t4-api-kmip">ADMIN 전용</div>
+    </div>
+    <div class="t4-api-body">
+      <div class="t4-note red" style="margin-bottom:10px;">🔒 <strong>PORTAL_ADMIN 전용</strong>. Deactivated 상태에서만 삭제 가능. Active 키는 먼저 Revoke 후 삭제. 삭제 후 복구 불가 — 운영 정책상 이중 확인 절차 권장.</div>
+      <div class="t4-grid2">
+        <div>
+          <div style="font-weight:700;font-size:11px;color:#003D7A;margin-bottom:6px;">Path Variable</div>
+          <div class="t4-field-row"><span class="t4-field-name">uuid (Path)</span><span class="t4-field-req t4-req">필수</span><span class="t4-field-desc">삭제할 키의 uuid. Deactivated 상태여야 함.</span></div>
+          <div style="margin-top:8px;" class="t4-note orange">⚠️ Active 상태 키 삭제 시도 → ResultStatus: 0, errorCode: 409 반환</div>
+        </div>
+        <div>
+          <div style="font-weight:700;font-size:11px;color:#003D7A;margin-bottom:6px;">응답 예문</div>
+          <div class="t4-code"><span class="c"># Deactivated 키 삭제 (성공)</span>
+<span class="k">DELETE</span> /api/v1/mgmt/keys/abc18772-...
+Authorization: Bearer <span class="s">{ADMIN_JWT}</span>
+
+{ <span class="s">"ResultStatus"</span>: <span class="v">1</span>, <span class="s">"Message"</span>: <span class="s">"success"</span>,
+  <span class="s">"Data"</span>: { <span class="s">"uuid"</span>: <span class="s">"abc18772-..."</span>,
+    <span class="s">"state"</span>: <span class="s">"Destroyed"</span> } }
+
+<span class="c"># Active 키 삭제 시도 (실패)</span>
+{ <span class="s">"ResultStatus"</span>: <span class="v">0</span>,
+  <span class="s">"Message"</span>: <span class="s">"Key must be Deactivated before deletion"</span>,
+  <span class="s">"errorCode"</span>: <span class="v">409</span> }</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /③ -->
+
+<!-- ④ 공통 오류 응답 -->
+<div class="t4-sec">
+  <div class="t4-sec-title">④ 공통 오류 응답 — ResultStatus: 0</div>
+  <div class="t4-note yellow">📋 SG-KMS 현행 API 오류 응답 구조(errorCode/errorId/message §3.2.3)를 유지하되 ResultStatus를 추가로 반환하여 카카오뱅크 현행 구조와 일치시킵니다.</div>
+  <div class="t4-grid2" style="margin-top:10px;">
+    <div class="t4-code"><span class="c"># 인증 실패 (401)</span>
+{ <span class="s">"ResultStatus"</span>: <span class="v">0</span>,
+  <span class="s">"Message"</span>: <span class="s">"Unauthorized"</span>,
+  <span class="s">"errorCode"</span>: <span class="v">401</span>,
+  <span class="s">"errorId"</span>: <span class="s">"AUTH_FAILED"</span>,
+  <span class="s">"Data"</span>: <span class="v">null</span> }
+
+<span class="c"># 접근 권한 없음 (403)</span>
+{ <span class="s">"ResultStatus"</span>: <span class="v">0</span>,
+  <span class="s">"Message"</span>: <span class="s">"Key not accessible for this client"</span>,
+  <span class="s">"errorCode"</span>: <span class="v">403</span>,
+  <span class="s">"errorId"</span>: <span class="s">"ACCESS_DENIED"</span>,
+  <span class="s">"Data"</span>: <span class="v">null</span> }</div>
+    <div class="t4-code"><span class="c"># 키 없음 (404)</span>
+{ <span class="s">"ResultStatus"</span>: <span class="v">0</span>,
+  <span class="s">"Message"</span>: <span class="s">"Key not found"</span>,
+  <span class="s">"errorCode"</span>: <span class="v">404</span>,
+  <span class="s">"errorId"</span>: <span class="s">"KEY_NOT_FOUND"</span>,
+  <span class="s">"Data"</span>: <span class="v">null</span> }
+
+<span class="c"># 상태 충돌 (409) — Active 키 삭제 시도 등</span>
+{ <span class="s">"ResultStatus"</span>: <span class="v">0</span>,
+  <span class="s">"Message"</span>: <span class="s">"Invalid state transition"</span>,
+  <span class="s">"errorCode"</span>: <span class="v">409</span>,
+  <span class="s">"errorId"</span>: <span class="s">"INVALID_STATE"</span>,
+  <span class="s">"Data"</span>: <span class="v">null</span> }</div>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+</div><!-- /t4 -->
 <div id="t3" class="tab-pane">
+<div class="wrap">
 <style>
 /* Tab 3 전용 스타일 */
 .t3-intro{background:linear-gradient(135deg,#003D7A,#0D2E5A);border-radius:12px;padding:18px 24px;margin-bottom:14px;color:#fff;}
@@ -665,13 +1387,13 @@ Response: { <span class="s">"name"</span>: <span class="s">"TEST_POLICY"</span>,
         <td><strong>대칭키 그룹(SymKeyGroup)</strong><br><span class="mono">여러 대칭키 묶음</span></td>
         <td>[키 관리]-[대칭키 그룹]</td>
         <td><span class="mono">KeyGroup</span> 내 복수 키</td>
-        <td>SG-KMS의 대칭키 그룹(복수 키 묶음)을 REST API의 키 그룹 내 키 배열로 표현합니다. groupType:SHARED가 대칭키 그룹 성격에 해당합니다.</td>
+        <td>SG-KMS의 대칭키 그룹은 BA-SCP 전용이므로 사용하지 않습니다. Agent를 키 그룹으로 활용하며, Agent에 적용된 정책(Policy) 단위로 키에 접근합니다.</td>
       </tr>
       <tr>
         <td><strong>정책-Agent 적용</strong><br><span class="mono">N:M 매핑</span></td>
         <td>[보안 정책]-[정책-Agent 적용]</td>
         <td><span class="mono">Client-Group</span> 권한 매핑</td>
-        <td>정책에 Agent를 적용하는 N:M 구조 → 클라이언트에게 그룹 접근 권한 부여(1:N)로 단순화합니다. DEFAULT 그룹은 클라이언트의 전용 정책과 동일한 역할입니다.</td>
+        <td>SG-KMS 정책-Agent 적용 구조를 그대로 활용합니다. 클라이언트(KMS API 계정)는 agentName으로 지정된 Agent에 적용된 정책(키)에만 접근 가능하며, 1:N으로 복수 Agent 접근 권한 부여가 가능합니다.</td>
       </tr>
       <tr>
         <td><strong>암호화 키(Key)</strong><br><span class="mono">AES/ARIA/RSA 등</span></td>
@@ -733,7 +1455,6 @@ Authorization: Basic <span class="s">{base64(계정ID:비밀번호)}</span>
   <span class="s">"clientName"</span>: <span class="s">"PAYMENT_SVC"</span>,  <span class="c"># 클라이언트 식별명</span>
   <span class="s">"clientId"</span>: <span class="s">"uuid-..."</span>,       <span class="c"># 내부 클라이언트 ID</span>
   <span class="s">"role"</span>: <span class="s">"CLIENT"</span>,           <span class="c"># CLIENT | ADMIN</span>
-  <span class="s">"defaultGroup"</span>: <span class="s">"PAYMENT_SVC_GRP"</span>,
   <span class="s">"iss"</span>: <span class="s">"kakaobank-kms"</span>,
   <span class="s">"exp"</span>: 1700000000
 }
@@ -756,14 +1477,14 @@ Authorization: Basic <span class="s">{base64(계정ID:비밀번호)}</span>
         <div class="t3-api-step-num" style="background:#003D7A;">1</div>
         <div class="t3-api-step-body">
           <div class="t3-api-step-title">관리자: 클라이언트 등록 — <span class="mono">POST /api/v1/mgmt/clients</span></div>
-          <div class="t3-api-step-desc">PORTAL_ADMIN이 클라이언트명, IP ACL, role을 등록합니다. SG-KMS에서는 KMS API 계정 + Agent를 각각 생성하는 과정에 해당합니다. 등록 시 DEFAULT 그룹(<code>PAYMENT_SVC_GRP</code>)이 자동 생성됩니다.</div>
+          <div class="t3-api-step-desc">PORTAL_ADMIN이 KMS API 계정(클라이언트명, IP ACL, role)을 등록합니다. SG-KMS 현행 구조 그대로 KMS API 계정과 Agent는 각각 독립적으로 생성합니다. 클라이언트 등록 후 별도로 Agent(그룹)를 생성하고 정책을 적용한 뒤 권한을 부여합니다.</div>
         </div>
       </div>
       <div class="t3-api-step">
         <div class="t3-api-step-num" style="background:#1565C0;">2</div>
         <div class="t3-api-step-body">
           <div class="t3-api-step-title">서비스: 토큰 발급 — <span class="mono">POST /api/v1/auth/token</span></div>
-          <div class="t3-api-step-desc">클라이언트명(PAYMENT_SVC)으로 JWT 발급 요청. SG-KMS 내부에서는 <code>agentName=PAYMENT_SVC</code>로 Basic Auth 처리. 발급된 JWT에 clientName, role, defaultGroup이 포함됩니다.</div>
+          <div class="t3-api-step-desc">클라이언트명(PAYMENT_SVC)과 접근할 agentName으로 JWT 발급 요청. SG-KMS 내부에서는 KMS API 계정(ID/PW) + agentName으로 Basic Auth 처리. 해당 Agent에 적용된 정책(키)에만 접근 가능한 토큰이 발급됩니다.</div>
         </div>
       </div>
       <div class="t3-api-step">
@@ -828,7 +1549,7 @@ Authorization: Basic <span class="s">{base64(계정ID:비밀번호)}</span>
       <div style="background:rgba(30,92,158,0.4);border:1px solid #5B9BD5;border-radius:9px;padding:10px;text-align:center;">
         <div style="color:#7EC8E3;font-size:10px;font-weight:700;margin-bottom:4px;">REST API 자원</div>
         <div style="color:#fff;font-weight:900;font-size:13px;">KeyGroup (키 그룹)</div>
-        <div style="color:#8AAAC8;font-size:9px;margin-top:3px;">Agent 1개 = KeyGroup 1개<br>groupType: DEFAULT / SHARED<br>키 목록 관리</div>
+        <div style="color:#8AAAC8;font-size:9px;margin-top:3px;">Agent 1개 = 키 그룹 1개<br>KMS API 계정과 별도 생성<br>정책-Agent 적용으로 키 접근 통제</div>
       </div>
       <div style="text-align:center;color:#90EE90;font-size:20px;">→</div>
       <div style="background:rgba(30,92,158,0.4);border:1px solid #5B9BD5;border-radius:9px;padding:10px;text-align:center;">
@@ -886,7 +1607,7 @@ String key = agent.getKey(token, <span class="s">"PAY_KEY_POLICY_01"</span>);   
           IP ACL: 10.10.1.0/24<br>
           role: CLIENT
         </div>
-        <div style="margin-top:5px;font-size:8px;background:#003D7A;color:#F9E000;padding:2px 6px;border-radius:3px;display:inline-block;">기본 그룹: PAYMENT_AGENT</div>
+        <div style="margin-top:5px;font-size:8px;color:#546E7A;">매핑 그룹: PAYMENT_AGENT (별도 설정)</div>
       </div>
       <div style="background:#EBF4FF;border:2px solid #1565C0;border-radius:8px;padding:10px;margin-bottom:6px;font-size:10px;">
         <div style="font-weight:800;color:#003D7A;margin-bottom:5px;">ACCOUNT_SVC</div>
@@ -896,7 +1617,7 @@ String key = agent.getKey(token, <span class="s">"PAY_KEY_POLICY_01"</span>);   
           IP ACL: 10.10.2.0/24<br>
           role: CLIENT
         </div>
-        <div style="margin-top:5px;font-size:8px;background:#003D7A;color:#F9E000;padding:2px 6px;border-radius:3px;display:inline-block;">기본 그룹: ACCOUNT_AGENT</div>
+        <div style="margin-top:5px;font-size:8px;color:#546E7A;">매핑 그룹: ACCOUNT_AGENT (별도 설정)</div>
       </div>
       <div style="background:#FCE4EC;border:2px solid #E57373;border-radius:8px;padding:10px;font-size:10px;">
         <div style="font-weight:800;color:#B71C1C;margin-bottom:5px;">PORTAL_ADMIN</div>
@@ -918,23 +1639,23 @@ String key = agent.getKey(token, <span class="s">"PAY_KEY_POLICY_01"</span>);   
       <div style="background:#E4F5EC;border:2px solid #1A6E3C;border-radius:8px;padding:10px;margin-bottom:6px;font-size:10px;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
           <span style="font-weight:800;color:#1A6E3C;">PAYMENT_AGENT</span>
-          <span style="background:#E4F5EC;color:#1A6E3C;font-size:8px;padding:1px 5px;border-radius:3px;border:1px solid #A5D6A7;font-weight:700;">DEFAULT</span>
+          <span style="background:#EBF4FF;color:#1565C0;font-size:8px;padding:1px 5px;border-radius:3px;border:1px solid #90CAF9;font-weight:700;">전용 Agent</span>
         </div>
         <div style="font-size:9px;color:#546E7A;line-height:1.7;">
-          소유자: PAYMENT_SVC<br>
+          접근 계정: kms_pay_id<br>
           IP ACL: 10.10.1.0/24<br>
           접근 계정: kms_pay_id<br>
           적용된 정책 수: 3개
         </div>
-        <div style="margin-top:5px;font-size:8px;color:#1A6E3C;border-top:1px solid #A5D6A7;padding-top:4px;">★ 기본 그룹 — 삭제 불가</div>
+        <div style="margin-top:5px;font-size:8px;color:#546E7A;border-top:1px solid #A5D6A7;padding-top:4px;">접근 계정: kms_pay_id만 허용</div>
       </div>
       <div style="background:#E4F5EC;border:2px solid #1A6E3C;border-radius:8px;padding:10px;margin-bottom:6px;font-size:10px;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
           <span style="font-weight:800;color:#1A6E3C;">ACCOUNT_AGENT</span>
-          <span style="background:#E4F5EC;color:#1A6E3C;font-size:8px;padding:1px 5px;border-radius:3px;border:1px solid #A5D6A7;font-weight:700;">DEFAULT</span>
+          <span style="background:#EBF4FF;color:#1565C0;font-size:8px;padding:1px 5px;border-radius:3px;border:1px solid #90CAF9;font-weight:700;">전용 Agent</span>
         </div>
         <div style="font-size:9px;color:#546E7A;line-height:1.7;">
-          소유자: ACCOUNT_SVC<br>
+          접근 계정: kms_acct_id<br>
           IP ACL: 10.10.2.0/24<br>
           접근 계정: kms_acct_id<br>
           적용된 정책 수: 3개
@@ -942,15 +1663,15 @@ String key = agent.getKey(token, <span class="s">"PAY_KEY_POLICY_01"</span>);   
       </div>
       <div style="background:#EDE7F6;border:2px solid #4527A0;border-radius:8px;padding:10px;font-size:10px;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
-          <span style="font-weight:800;color:#4527A0;">SHARED_AGENT</span>
-          <span style="background:#EDE7F6;color:#4527A0;font-size:8px;padding:1px 5px;border-radius:3px;border:1px solid #CE93D8;font-weight:700;">SHARED</span>
+          <span style="font-weight:800;color:#4527A0;">COMMON_AGENT</span>
+          <span style="background:#EDE7F6;color:#4527A0;font-size:8px;padding:1px 5px;border-radius:3px;border:1px solid #CE93D8;font-weight:700;">공유 Agent</span>
         </div>
         <div style="font-size:9px;color:#546E7A;line-height:1.7;">
           소유자: null (관리자 생성)<br>
           접근 계정: 복수 계정 허용<br>
           적용된 정책 수: 2개
         </div>
-        <div style="margin-top:5px;font-size:8px;color:#4527A0;border-top:1px solid #CE93D8;padding-top:4px;">권한 부여된 클라이언트만 접근</div>
+        <div style="margin-top:5px;font-size:8px;color:#4527A0;border-top:1px solid #CE93D8;padding-top:4px;">접근 허용 계정 복수 등록 가능</div>
       </div>
     </div>
 
@@ -998,16 +1719,16 @@ String key = agent.getKey(token, <span class="s">"PAY_KEY_POLICY_01"</span>);   
         </div>
       </div>
 
-      <!-- SHARED_AGENT 정책들 -->
+      <!-- COMMON_AGENT 정책들 -->
       <div style="background:#EDE7F6;border:1px solid #CE93D8;border-radius:8px;padding:9px;font-size:10px;">
-        <div style="font-size:9px;color:#4527A0;font-weight:700;margin-bottom:5px;border-bottom:1px solid #CE93D8;padding-bottom:3px;">SHARED_AGENT 적용 정책 (키 2개) — PAYMENT_SVC·ACCOUNT_SVC 공통 접근</div>
+        <div style="font-size:9px;color:#4527A0;font-weight:700;margin-bottom:5px;border-bottom:1px solid #CE93D8;padding-bottom:3px;">COMMON_AGENT 적용 정책 (키 2개) — kms_pay_id·kms_acct_id 공통 접근</div>
         <div style="display:flex;flex-direction:column;gap:3px;">
           <div style="font-family:monospace;font-size:9px;background:#F5F0FF;border-radius:4px;padding:3px 6px;border-left:3px solid #1A6E3C;">
-            <span style="color:#1A6E3C;font-weight:700;">SHARED_KEY_POL_01</span> → AES256_SHARED_1<br>
+            <span style="color:#1A6E3C;font-weight:700;">COMMON_KEY_POL_01</span> → AES256_COMMON_1<br>
             <span style="color:#90A4AE;">uuid: ghi74338-... | state: Active</span>
           </div>
           <div style="font-family:monospace;font-size:9px;background:#F5F0FF;border-radius:4px;padding:3px 6px;border-left:3px solid #1A6E3C;">
-            <span style="color:#1A6E3C;font-weight:700;">SHARED_KEY_POL_02</span> → AES128_SHARED_1<br>
+            <span style="color:#1A6E3C;font-weight:700;">COMMON_KEY_POL_02</span> → AES128_COMMON_1<br>
             <span style="color:#90A4AE;">uuid: hij85449-... | state: Active</span>
           </div>
         </div>
@@ -1016,25 +1737,165 @@ String key = agent.getKey(token, <span class="s">"PAY_KEY_POLICY_01"</span>);   
   </div>
   </div>
 
-  <!-- groupType 설계 -->
+  <!-- Agent 운영 구조 설명 -->
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;">
-    <div style="background:#E4F5EC;border:2px solid #A5D6A7;border-radius:10px;overflow:hidden;">
-      <div style="background:#1A6E3C;padding:8px 14px;font-weight:800;font-size:11px;color:#fff;">groupType: DEFAULT — 클라이언트 전용 Agent 구조</div>
+    <div style="background:#EBF4FF;border:2px solid #90CAF9;border-radius:10px;overflow:hidden;">
+      <div style="background:#1565C0;padding:8px 14px;font-weight:800;font-size:11px;color:#fff;">전용 Agent — 특정 클라이언트 전용 키 그룹</div>
       <div style="padding:12px 14px;font-size:10px;line-height:1.8;color:#1A2533;">
-        <div>● <strong>SG-KMS 구조:</strong> 해당 KMS API 계정 전용 Agent. 등록 계정(접근 허용 계정)이 해당 클라이언트만으로 제한</div>
-        <div>● <strong>생성:</strong> 클라이언트 등록 시 자동 생성 → Agent명 = <code>{클라이언트명}_AGENT</code></div>
-        <div>● <strong>접근:</strong> 소유 클라이언트만 접근 · CRUD 전권</div>
-        <div>● <strong>삭제:</strong> 클라이언트 삭제 시에만 Agent도 함께 제거</div>
+        <div>● <strong>SG-KMS 구조:</strong> 접근 허용 계정에 해당 KMS API 계정 1개만 등록된 Agent</div>
+        <div>● <strong>생성:</strong> 관리자가 직접 생성 · 해당 클라이언트 계정만 접근 허용 등록</div>
+        <div>● <strong>접근:</strong> 지정된 클라이언트만 접근 가능 · 정책(키) CRUD</div>
+        <div>● <strong>삭제:</strong> 관리자가 직접 처리 (운영 정책으로 보호)</div>
+        <div>● <strong>네이밍 규칙:</strong> <code>{서비스명}_AGENT</code> 권장</div>
       </div>
     </div>
     <div style="background:#EDE7F6;border:2px solid #CE93D8;border-radius:10px;overflow:hidden;">
-      <div style="background:#4527A0;padding:8px 14px;font-weight:800;font-size:11px;color:#fff;">groupType: SHARED — 복수 클라이언트 공유 Agent 구조</div>
+      <div style="background:#4527A0;padding:8px 14px;font-weight:800;font-size:11px;color:#fff;">공유 Agent — 복수 클라이언트 공통 키 그룹</div>
       <div style="padding:12px 14px;font-size:10px;line-height:1.8;color:#1A2533;">
-        <div>● <strong>SG-KMS 구조:</strong> 접근 허용 계정에 복수 KMS API 계정이 등록된 Agent. 여러 서비스가 공통 키 접근 가능</div>
-        <div>● <strong>생성:</strong> 관리자 직접 생성 → Agent명 = <code>SHARED_{목적}</code></div>
-        <div>● <strong>접근:</strong> 권한 부여된 모든 클라이언트 접근 (1:N)</div>
-        <div>● <strong>삭제:</strong> 관리자 전용 · 매핑 해제 후 가능</div>
+        <div>● <strong>SG-KMS 구조:</strong> 접근 허용 계정에 복수 KMS API 계정이 등록된 Agent</div>
+        <div>● <strong>생성:</strong> 관리자가 직접 생성 · 여러 클라이언트 계정을 접근 허용 등록</div>
+        <div>● <strong>접근:</strong> 등록된 모든 클라이언트 접근 가능 (RFP 1:N 멀티그룹 충족)</div>
+        <div>● <strong>삭제:</strong> 관리자 전용 · 접근 허용 계정 정리 후 가능</div>
+        <div>● <strong>네이밍 규칙:</strong> <code>COMMON_{목적}</code> 권장</div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- ④-2 전용 Agent / 공유 Agent 상세 설명 -->
+<div class="t3-section">
+  <div class="t3-section-title">④-2 전용 Agent · 공유 Agent 상세 설명 — SG-KMS 접근 허용 계정 구조 기반</div>
+
+  <div class="t3-note blue">
+    💡 전용 Agent와 공유 Agent는 <strong>SG-KMS의 동일한 Agent 기능</strong>을 사용합니다.
+    구조적으로 다른 것이 아니라, [Agent 관리] 화면에서 <strong>접근 허용 계정을 몇 개 등록하느냐</strong>의 차이입니다.
+  </div>
+
+  <!-- 전용 Agent 상세 -->
+  <div style="margin-bottom:16px;">
+    <div style="font-weight:800;font-size:13px;color:#1565C0;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid #90CAF9;">
+      🔵 전용 Agent — "이 Agent의 접근 허용 계정에 특정 KMS API 계정 하나만 등록된 Agent"
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+      <div>
+        <div style="font-size:11px;color:#1A2533;line-height:1.8;margin-bottom:10px;">
+          <code style="background:#EEF2F7;padding:1px 5px;border-radius:3px;font-size:10px;">kms_pay_id</code> 계정만 <code style="background:#EEF2F7;padding:1px 5px;border-radius:3px;font-size:10px;">PAYMENT_AGENT</code>로 토큰을 발급받을 수 있고,
+          따라서 해당 Agent에 적용된 정책(키)에만 접근 가능합니다. 다른 KMS API 계정은 이 Agent로 토큰 발급이 불가합니다.
+        </div>
+        <div class="t3-code">
+<span class="c"># KMS API 계정: kms_pay_id</span>
+<span class="c">#   ↓ agentName=PAYMENT_AGENT 로 토큰 발급</span>
+<span class="c"># Agent: PAYMENT_AGENT</span>
+<span class="c">#   접근 허용 계정: kms_pay_id (1개만)</span>
+<span class="c">#   적용된 정책:</span>
+<span class="c">#     PAY_KEY_POL_01 → AES256_PAY_1</span>
+<span class="c">#     PAY_KEY_POL_02 → AES256_PAY_2</span>
+
+<span class="c"># 토큰 발급 (성공)</span>
+<span class="k">POST</span> /api/auth/login/basic
+Authorization: Basic <span class="s">{base64(kms_pay_id:pw)}</span>
+{ <span class="s">"agentName"</span>: <span class="s">"PAYMENT_AGENT"</span> }
+→ JWT 발급 ✓
+
+<span class="c"># 다른 계정으로 시도 (실패)</span>
+Authorization: Basic <span class="s">{base64(kms_acct_id:pw)}</span>
+{ <span class="s">"agentName"</span>: <span class="s">"PAYMENT_AGENT"</span> }
+→ 인증 오류 ✗ (접근 허용 계정 아님)
+        </div>
+      </div>
+      <div>
+        <div style="background:#EBF4FF;border:1px solid #90CAF9;border-radius:10px;overflow:hidden;">
+          <div style="background:#1565C0;padding:8px 14px;font-size:11px;font-weight:800;color:#fff;">SG-KMS [Agent 관리] 설정</div>
+          <div style="padding:12px 14px;font-size:10px;line-height:1.9;">
+            <div style="display:flex;gap:8px;margin-bottom:4px;"><span style="color:#90A4AE;min-width:80px;">Agent 명</span><span style="font-weight:700;color:#1A2533;font-family:monospace;">PAYMENT_AGENT</span></div>
+            <div style="display:flex;gap:8px;margin-bottom:4px;"><span style="color:#90A4AE;min-width:80px;">접근 허용 IP</span><span style="color:#1A2533;font-family:monospace;">10.10.1.0/24</span></div>
+            <div style="display:flex;gap:8px;margin-bottom:10px;"><span style="color:#90A4AE;min-width:80px;">접근 허용 계정</span><span style="font-weight:700;color:#1565C0;font-family:monospace;">kms_pay_id</span><span style="background:#EBF4FF;color:#1565C0;font-size:8px;padding:1px 5px;border-radius:3px;border:1px solid #90CAF9;margin-left:4px;">1개</span></div>
+            <div style="border-top:1px solid #BBDEFB;padding-top:8px;font-size:9px;color:#546E7A;">적용된 정책</div>
+            <div style="font-family:monospace;font-size:9px;color:#1A2533;margin-top:4px;line-height:1.7;">
+              PAY_KEY_POL_01 → AES256_PAY_1<br>
+              PAY_KEY_POL_02 → AES256_PAY_2<br>
+              PAY_KEY_POL_03 → ARIA256_PAY_1
+            </div>
+          </div>
+        </div>
+        <div class="t3-note green" style="margin-top:8px;font-size:10px;">
+          ✅ <strong>RFP §2-나-5:</strong> "기본 그룹의 암호키에 대해 CRUD 기능 제공" 충족.<br>
+          클라이언트는 자신에게 매핑된 Agent(키 그룹)의 키만 접근 가능합니다.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 공유 Agent 상세 -->
+  <div>
+    <div style="font-weight:800;font-size:13px;color:#4527A0;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid #CE93D8;">
+      🟣 공유 Agent — "이 Agent의 접근 허용 계정에 복수의 KMS API 계정이 등록된 Agent"
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+      <div>
+        <div style="font-size:11px;color:#1A2533;line-height:1.8;margin-bottom:10px;">
+          <code style="background:#EEF2F7;padding:1px 5px;border-radius:3px;font-size:10px;">kms_pay_id</code>도,
+          <code style="background:#EEF2F7;padding:1px 5px;border-radius:3px;font-size:10px;">kms_acct_id</code>도
+          <code style="background:#EEF2F7;padding:1px 5px;border-radius:3px;font-size:10px;">COMMON_AGENT</code>로 토큰을 발급받을 수 있고,
+          두 클라이언트 모두 해당 Agent에 적용된 공통 키에 접근 가능합니다.
+        </div>
+        <div class="t3-code">
+<span class="c"># KMS API 계정: kms_pay_id ──┐</span>
+<span class="c"># KMS API 계정: kms_acct_id ─┤ 모두 COMMON_AGENT 접근 가능</span>
+<span class="c"># Agent: COMMON_AGENT</span>
+<span class="c">#   접근 허용 계정: kms_pay_id, kms_acct_id (2개)</span>
+<span class="c">#   적용된 정책:</span>
+<span class="c">#     COMMON_KEY_POL_01 → AES256_COMMON_1</span>
+<span class="c">#     COMMON_KEY_POL_02 → AES128_COMMON_1</span>
+
+<span class="c"># kms_pay_id 토큰 발급 (성공)</span>
+Authorization: Basic <span class="s">{base64(kms_pay_id:pw)}</span>
+{ <span class="s">"agentName"</span>: <span class="s">"COMMON_AGENT"</span> }
+→ JWT 발급 ✓ → COMMON 키 접근 가능
+
+<span class="c"># kms_acct_id 토큰 발급 (성공)</span>
+Authorization: Basic <span class="s">{base64(kms_acct_id:pw)}</span>
+{ <span class="s">"agentName"</span>: <span class="s">"COMMON_AGENT"</span> }
+→ JWT 발급 ✓ → COMMON 키 접근 가능
+        </div>
+      </div>
+      <div>
+        <div style="background:#EDE7F6;border:1px solid #CE93D8;border-radius:10px;overflow:hidden;">
+          <div style="background:#4527A0;padding:8px 14px;font-size:11px;font-weight:800;color:#fff;">SG-KMS [Agent 관리] 설정</div>
+          <div style="padding:12px 14px;font-size:10px;line-height:1.9;">
+            <div style="display:flex;gap:8px;margin-bottom:4px;"><span style="color:#90A4AE;min-width:80px;">Agent 명</span><span style="font-weight:700;color:#1A2533;font-family:monospace;">COMMON_AGENT</span></div>
+            <div style="display:flex;gap:8px;margin-bottom:4px;"><span style="color:#90A4AE;min-width:80px;">접근 허용 IP</span><span style="color:#1A2533;font-family:monospace;">10.10.0.0/16</span></div>
+            <div style="display:flex;gap:8px;margin-bottom:4px;"><span style="color:#90A4AE;min-width:80px;">접근 허용 계정</span><span style="font-weight:700;color:#4527A0;font-family:monospace;">kms_pay_id</span></div>
+            <div style="display:flex;gap:8px;margin-bottom:10px;"><span style="min-width:80px;"></span><span style="font-weight:700;color:#4527A0;font-family:monospace;">kms_acct_id</span><span style="background:#EDE7F6;color:#4527A0;font-size:8px;padding:1px 5px;border-radius:3px;border:1px solid #CE93D8;margin-left:4px;">2개</span></div>
+            <div style="border-top:1px solid #D1C4E9;padding-top:8px;font-size:9px;color:#546E7A;">적용된 정책</div>
+            <div style="font-family:monospace;font-size:9px;color:#1A2533;margin-top:4px;line-height:1.7;">
+              COMMON_KEY_POL_01 → AES256_COMMON_1<br>
+              COMMON_KEY_POL_02 → AES128_COMMON_1
+            </div>
+          </div>
+        </div>
+        <div class="t3-note" style="background:#EDE7F6;border:1px solid #CE93D8;color:#4527A0;margin-top:8px;font-size:10px;padding:8px 12px;border-radius:7px;line-height:1.7;">
+          ✅ <strong>RFP §2-나-5:</strong> "클라이언트 ACL 설정을 통해 타 키그룹 접근권한 부여 가능 (1:N 멀티그룹)" 충족.<br>
+          클라이언트는 자신의 전용 Agent 외에 공유 Agent에도 접근 권한을 가질 수 있습니다.
+        </div>
+      </div>
+    </div>
+
+    <!-- 비교 테이블 -->
+    <div style="margin-top:16px;">
+      <div style="font-weight:800;font-size:12px;color:#003D7A;margin-bottom:8px;">📊 전용 Agent vs 공유 Agent 비교</div>
+      <table class="t3-table">
+        <thead><tr><th>구분</th><th>전용 Agent</th><th>공유 Agent</th></tr></thead>
+        <tbody>
+          <tr><td><strong>접근 허용 계정 수</strong></td><td>1개 (해당 클라이언트만)</td><td>복수 (여러 클라이언트)</td></tr>
+          <tr><td><strong>키 접근 주체</strong></td><td>특정 클라이언트만</td><td>등록된 모든 클라이언트</td></tr>
+          <tr><td><strong>SG-KMS 설정 위치</strong></td><td>[Agent 관리] → 접근 허용 계정 1개 등록</td><td>[Agent 관리] → 접근 허용 계정 복수 등록</td></tr>
+          <tr><td><strong>생성 주체</strong></td><td>관리자 직접 생성</td><td>관리자 직접 생성</td></tr>
+          <tr><td><strong>구조적 차이</strong></td><td colspan="2" style="text-align:center;color:#546E7A;">없음 — 동일한 SG-KMS Agent 기능. 접근 허용 계정 등록 수의 차이만 있음</td></tr>
+          <tr><td><strong>네이밍 규칙 (권장)</strong></td><td><code>{서비스명}_AGENT</code><br>예) PAYMENT_AGENT</td><td><code>COMMON_{목적}</code><br>예) COMMON_AGENT</td></tr>
+          <tr><td><strong>RFP 충족 항목</strong></td><td>§2-나-5 기본 그룹 키 CRUD</td><td>§2-나-5 1:N 멀티그룹 접근권한 부여</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
@@ -1077,7 +1938,7 @@ String key = agent.getKey(token, <span class="s">"PAY_KEY_POLICY_01"</span>);   
       <div style="font-size:10px;line-height:1.8;color:#1A2533;margin-bottom:10px;">
         <div><strong>Step 1.</strong> POST /keys/symmetric 으로 대칭키 생성 (uuid 반환)</div>
         <div><strong>Step 2.</strong> POST /mgmt/groups/{groupId}/keys 로 그룹에 키 배정</div>
-        <div style="margin-top:6px;color:#90A4AE;">→ 내부적으로 SG-KMS에서 정책 자동 생성 후 해당 Agent에 적용하는 동작과 동일</div>
+        <div style="margin-top:6px;color:#90A4AE;">→ 키 생성 후 별도로 정책 생성 및 Agent 적용 필요 (SG-KMS 현행 구조 유지)</div>
       </div>
       <div style="background:#1A2533;border-radius:6px;padding:9px;font-family:monospace;font-size:9px;color:#B0C4DE;line-height:1.6;">
         POST /api/v1/keys/symmetric<br>
@@ -1098,13 +1959,13 @@ String key = agent.getKey(token, <span class="s">"PAY_KEY_POLICY_01"</span>);   
         <div class="t3-api-step-num" style="background:#C75B00;">1</div>
         <div class="t3-api-step-body">
           <div class="t3-api-step-title">키 생성 — <span class="mono">POST /api/v1/keys/symmetric</span></div>
-          <div class="t3-api-step-desc">SG-KMS [키 관리]-[대칭키] 생성과 동일. 내부적으로 SG-KMS 대칭키 생성 + 해당 그룹(Agent)용 정책 자동 생성. <code>group</code> 파라미터로 생성 즉시 그룹 배정 가능.</div>
+          <div class="t3-api-step-desc">SG-KMS [키 관리]-[대칭키] 생성과 동일. 키 생성 후 별도로 정책 생성 → PAYMENT_AGENT에 적용 순서로 진행합니다. (SG-KMS 현행 구조 유지)</div>
           <div class="t3-code" style="margin-top:6px;">
 <span class="k">POST</span> /api/v1/keys/symmetric
 Authorization: Bearer {ADMIN_JWT}
 { <span class="s">"name"</span>: <span class="s">"AES256_PAY_3"</span>, <span class="s">"algorithm"</span>: <span class="s">"AES"</span>, <span class="s">"size"</span>: <span class="s">"256"</span>,
   <span class="s">"group"</span>: <span class="s">"PAYMENT_AGENT"</span>, <span class="s">"zone"</span>: <span class="s">"prod"</span> }
-<span class="c"># 내부: SG-KMS 대칭키 생성 → PAY_KEY_POL_04 정책 자동 생성 → PAYMENT_AGENT에 적용</span>
+<span class="c"># SG-KMS: 키 생성 후 → 별도 정책 생성 → PAYMENT_AGENT에 정책 적용 순서로 진행</span>
 Response: { <span class="s">"ResultStatus"</span>: 1, <span class="s">"Data"</span>: { <span class="s">"uuid"</span>: <span class="s">"xyz99900-..."</span>, <span class="s">"state"</span>: <span class="s">"Pre-Active"</span> } }
           </div>
         </div>
@@ -1126,13 +1987,13 @@ Response: { <span class="s">"ResultStatus"</span>: 1, <span class="s">"Message"<
       <div class="t3-api-step">
         <div class="t3-api-step-num" style="background:#4527A0;">3</div>
         <div class="t3-api-step-body">
-          <div class="t3-api-step-title">공유 그룹 접근 권한 부여 — <span class="mono">POST /api/v1/mgmt/clients/{id}/groups/{groupId}</span></div>
-          <div class="t3-api-step-desc">SG-KMS에서 SHARED_AGENT의 접근 허용 계정에 다른 KMS API 계정을 추가하는 것과 동일. 권한 부여 후 해당 클라이언트는 SHARED_AGENT에 적용된 모든 정책(키)에 접근 가능.</div>
+          <div class="t3-api-step-title">공유 Agent 접근 권한 부여 — <span class="mono">POST /api/v1/mgmt/clients/{id}/groups/{groupId}</span></div>
+          <div class="t3-api-step-desc">SG-KMS에서 COMMON_AGENT의 접근 허용 계정에 다른 KMS API 계정을 추가하는 것과 동일. 권한 부여 후 해당 클라이언트는 COMMON_AGENT에 적용된 모든 정책(키)에 접근 가능.</div>
           <div class="t3-code" style="margin-top:6px;">
-<span class="k">POST</span> /api/v1/mgmt/clients/ACCOUNT_SVC/groups/SHARED_AGENT
+<span class="k">POST</span> /api/v1/mgmt/clients/ACCOUNT_SVC/groups/COMMON_AGENT
 Authorization: Bearer {ADMIN_JWT}
-<span class="c"># 내부: SHARED_AGENT의 접근 허용 계정에 kms_acct_id 추가</span>
-<span class="c"># → ACCOUNT_SVC가 agentName=SHARED_AGENT로 토큰 발급 후 공유 키 접근 가능</span>
+<span class="c"># SG-KMS: COMMON_AGENT의 접근 허용 계정에 kms_acct_id 추가</span>
+<span class="c"># → ACCOUNT_SVC가 agentName=COMMON_AGENT로 토큰 발급 후 공유 키 접근 가능</span>
 Response: { <span class="s">"ResultStatus"</span>: 1, <span class="s">"Message"</span>: <span class="s">"success"</span> }
           </div>
         </div>
@@ -1154,7 +2015,7 @@ Response: { <span class="s">"ResultStatus"</span>: 1, <span class="s">"Message"<
 <span class="c"># 1. 클라이언트 이름 인증 → 토큰 발급</span>
 <span class="k">POST</span> /api/v1/auth/token
 { <span class="s">"clientName"</span>: <span class="s">"PAYMENT_SVC"</span> }
-→ JWT: role=CLIENT, defaultGroup=PAYMENT_SVC_GRP
+→ JWT: role=CLIENT, agentName=PAYMENT_AGENT
 
 <span class="c"># 2. 키 이름으로 uuid 조회 (Locate)</span>
 <span class="k">POST</span> /api/v1/keys/locate
@@ -1196,23 +2057,23 @@ Authorization: Bearer {JWT}
 
     <!-- 시나리오 C: 공유 그룹 -->
     <div>
-      <div style="font-weight:800;font-size:12px;color:#003D7A;margin-bottom:8px;">C. 공유 그룹 시나리오 — 여러 서비스 공통 키 접근</div>
+      <div style="font-weight:800;font-size:12px;color:#003D7A;margin-bottom:8px;">C. 공유 Agent 시나리오 — 여러 서비스 공통 키 접근</div>
       <div class="t3-code">
-<span class="c"># 관리자: SHARED_COMMON 그룹 생성</span>
+<span class="c"># 관리자: COMMON_AGENT 생성 (공유 Agent)</span>
 <span class="k">POST</span> /api/v1/mgmt/groups
 Authorization: Bearer {ADMIN_JWT}
-{ <span class="s">"name"</span>: <span class="s">"SHARED_COMMON"</span>, <span class="s">"groupType"</span>: <span class="s">"SHARED"</span> }
+{ <span class="s">"name"</span>: <span class="s">"COMMON_AGENT"</span> }
 
-<span class="c"># 관리자: ACCOUNT_SVC에 SHARED_COMMON 접근 권한 부여</span>
-<span class="k">POST</span> /api/v1/mgmt/clients/ACCOUNT_SVC/groups/SHARED_COMMON
+<span class="c"># 관리자: ACCOUNT_SVC에 COMMON_AGENT 접근 권한 부여 (접근 허용 계정에 kms_acct_id 추가)</span>
+<span class="k">POST</span> /api/v1/mgmt/clients/ACCOUNT_SVC/groups/COMMON_AGENT
 Authorization: Bearer {ADMIN_JWT}
 <span class="c"># SG-KMS: 정책-Agent 적용 (§1.5.3) 과 동일</span>
 
 <span class="c"># ACCOUNT_SVC가 공유 키 조회</span>
 <span class="k">POST</span> /api/v1/keys/locate
 Authorization: Bearer {ACCOUNT_JWT}
-{ <span class="s">"name"</span>: <span class="s">"AES256_SHARED_1"</span> }
-→ SHARED_COMMON 그룹 키 정상 접근 ✓
+{ <span class="s">"name"</span>: <span class="s">"AES256_COMMON_1"</span> }
+→ COMMON_AGENT 키 정상 접근 ✓
       </div>
     </div>
 
@@ -1326,7 +2187,7 @@ Authorization: Bearer {ADMIN_JWT}
         <td><strong>키 그룹 구조</strong></td>
         <td>대칭키 그룹 (대칭키 전용 §1.4.3)</td>
         <td>KeyGroup (대칭+비대칭 통합)</td>
-        <td>SG-KMS 대칭키 그룹 개념 확장. DEFAULT/SHARED 타입으로 정책 역할 구분</td>
+        <td>SG-KMS 현행 Agent 구조 그대로 활용. 전용/공유 Agent를 네이밍 규칙으로 구분</td>
       </tr>
       <tr>
         <td><strong>IP ACL</strong></td>
@@ -1350,101 +2211,152 @@ Authorization: Bearer {ADMIN_JWT}
   </table>
 </div>
 
-</div><!-- /t3 -->
 </div><!-- /wrap -->
+</div><!-- /t3 -->
 
 <script>
-function switchTab(id,btn){
-  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.main-tab').forEach(b=>b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
+
+/**
+ * 탭 전환 함수
+ * @param {string} tabId - 표시할 탭의 ID (t1, t2, t3, t4)
+ * @param {HTMLElement} btn - 클릭된 버튼 요소
+ */
+function switchTab(tabId, btn) {
+    // 1. 모든 탭 컨텐츠 숨기기
+    const panes = document.querySelectorAll('.tab-pane');
+    panes.forEach(pane => pane.classList.remove('active'));
+
+    // 2. 모든 탭 버튼 비활성화
+    const tabs = document.querySelectorAll('.main-tab');
+    tabs.forEach(tab => tab.classList.remove('active'));
+
+    // 3. 선택한 탭 컨텐츠 표시
+    const activePane = document.getElementById(tabId);
+    if (activePane) {
+        activePane.classList.add('active');
+    }
+
+    // 4. 클릭한 버튼 활성화
+    if (btn) {
+        btn.classList.add('active');
+    }
 }
+
+// 기존 데이터 렌더링 함수 로직 유지 (파일 내 정의된 부분)
+window.onload = () => {
+    // API 개발 일정 등 데이터 로드 로직 실행
+    if (typeof renderAllData === 'function') {
+        renderAllData(); 
+    }
+    
+    // 초기화 시 첫 번째 탭 강제 활성화 (필요 시)
+    const firstTab = document.querySelector('.main-tab');
+    if (firstTab) firstTab.click();
+};
+
+
 const DATA={
   keyOps:[
-    {id:"o1",m:"POST",k:"Create",d:"대칭키 생성 — ARIA·AES·SEED 등"},
-    {id:"o2",m:"POST",k:"Create Key Pair",d:"비대칭키 쌍 생성 — RSA·ECDSA"},
-    {id:"o3",m:"POST",k:"Register",d:"외부 키 반입 등록 (Hex) — 마이그레이션 지원 · 반입 대체"},
-    {id:"o4",m:"POST",k:"Re-key",d:"키 갱신 — origin_uuid 보존"},
-    {id:"o5",m:"POST",k:"Locate",d:"키 목록 조회 (name·alias) — POST 방식"},
-    {id:"o6",m:"POST",k:"Get",d:"uuid로 키 값 조회 (Hex) — POST 방식 · 반출 대체"},
-    {id:"o7",m:"POST",k:"Get Attributes",d:"키 속성 조회 — Locate 응답 메타 활용"},
-    {id:"o8",m:"POST",k:"Add Attribute",d:"키 속성 추가 (커스텀 Tag 등)"},
-    {id:"o9",m:"PUT",k:"Modify Attribute",d:"키 속성 수정 (만료일·state 등)"},
+    {id:"o1",m:"POST",k:"Create",d:"대칭키 생성"},
+    {id:"o2",m:"POST",k:"Create Key Pair",d:"비대칭키 쌍 생성"},
+    {id:"o3",m:"POST",k:"Register",d:"키 반입 등록 (Hex)"},
+    {id:"o4",m:"POST",k:"Re-key",d:"키 갱신"},
+    {id:"o5",m:"POST",k:"Locate",d:"키 목록 조회"},
+    {id:"o6",m:"POST",k:"Get",d:"키 값 조회 (Hex)"},
+    {id:"o7",m:"POST",k:"Get Attributes",d:"키 속성 조회"},
+    {id:"o8",m:"POST",k:"Add Attribute",d:"키 속성 추가"},
+    {id:"o9",m:"PUT",k:"Modify Attribute",d:"키 속성 수정"},
     {id:"o10",m:"DELETE",k:"Delete Attribute",d:"키 속성 삭제"},
-    {id:"o11",m:"POST",k:"Activate",d:"키 활성화 — Pre-Active → Active"},
-    {id:"o12",m:"POST",k:"Revoke",d:"키 비활성화 — Active → Deactivated"},
-    {id:"o13",m:"POST",k:"Hash",d:"해시 연산 — SHA-256 등"},
-    {id:"o14",m:"POST",k:"Using Re-key",d:"만료 확인 후 자동 Re-key → 새 uuid 반환"}
+    {id:"o11",m:"POST",k:"Activate",d:"키 활성화"},
+    {id:"o12",m:"POST",k:"Revoke",d:"키 비활성화"},
+    {id:"o13",m:"POST",k:"Hash",d:"해시 연산"},
+    {id:"o14",m:"POST",k:"Using Re-key",d:"만료 확인 후 자동 Re-key"}
   ],
   groupCrud:[
-    {id:"g1",m:"POST",k:"Create",d:"키 그룹 생성 — DEFAULT(자동)/SHARED(수동) 타입"},
-    {id:"g2",m:"GET",k:"List",d:"그룹 전체 목록 조회 (?type=DEFAULT|SHARED 필터)"},
-    {id:"g3",m:"GET",k:"Detail",d:"특정 그룹 상세 조회 — 소속 키·접근 클라이언트 포함"},
-    {id:"g4",m:"PUT",k:"Update",d:"그룹 정보 수정 (이름·설명)"},
-    {id:"g5",m:"DELETE",k:"Delete",d:"그룹 삭제 — 매핑 전부 해제 후 가능"}
+    {id:"g1",m:"POST",k:"Create",d:"키 그룹 생성"},
+    {id:"g2",m:"GET",k:"List",d:"키 그룹 조회"},
+    {id:"g3",m:"GET",k:"Detail",d:"특정 키 그룹 상세 조회"},
+    {id:"g4",m:"PUT",k:"Update",d:"키 그룹 정보 수정"},
+    {id:"g5",m:"DELETE",k:"Delete",d:"키 그룹 삭제"}
   ],
   groupKey:[
-    {id:"gk1",m:"POST",k:"Add Key",d:"그룹에 키 추가 — keyId 배열 복수 배정 가능"},
-    {id:"gk2",m:"GET",k:"List Keys",d:"그룹 내 키 목록 조회 (state·만료일 포함)"},
-    {id:"gk3",m:"DELETE",k:"Remove Key",d:"그룹에서 키 제거 — 키 자체는 삭제되지 않음"}
+    {id:"gk1",m:"POST",k:"Add Key",d:"키 그룹에 암호 키 추가"},
+    {id:"gk2",m:"GET",k:"List Keys",d:"키 그룹 내 암호 키 목록 조회"},
+    {id:"gk3",m:"DELETE",k:"Remove Key",d:"키 그룹에서 암호 키 제거"}
   ],
   clientGroup:[
-    {id:"cg1",m:"POST",k:"Grant",d:"클라이언트 그룹 접근 권한 부여 — 1:N 멀티그룹"},
-    {id:"cg2",m:"GET",k:"Check",d:"클라이언트 접근 가능 그룹 조회 (기본+추가 전체)"},
-    {id:"cg3",m:"DELETE",k:"Revoke",d:"클라이언트 그룹 접근 권한 회수 — 기본 그룹 불가"},
-    {id:"cg4",m:"GET",k:"Accessible Keys",d:"클라이언트 접근 가능 키 전체 조회 — RFP §2-나-5",isNew:true}
+    {id:"cg1",m:"POST",k:"Grant",d:"클라이언트 키 그룹 접근 권한 부여"},
+    {id:"cg2",m:"GET",k:"Check",d:"클라이언트 접근 가능 키 그룹 조회"},
+    {id:"cg3",m:"DELETE",k:"Revoke",d:"클라이언트 키 그룹 접근 권한 회수"},
+    {id:"cg4",m:"GET",k:"Accessible Keys",d:"클라이언트 접근 가능 키 전체 조회"}
   ],
   clientManage:[
-    {id:"c1",m:"POST",k:"Register",d:"클라이언트 등록 — 기본 그룹 자동 생성·토큰 발급"},
-    {id:"c2",m:"GET",k:"List",d:"클라이언트 목록 조회 (role·기본그룹 ID 포함)"},
-    {id:"c3",m:"PUT",k:"Update",d:"클라이언트 정보 수정 (이름·설명)"},
-    {id:"c4",m:"DELETE",k:"Delete",d:"클라이언트 삭제 — 기본그룹·매핑·IP ACL 일괄 정리"}
+    {id:"c1",m:"POST",k:"Register",d:"클라이언트 등록"},
+    {id:"c2",m:"GET",k:"List",d:"클라이언트 목록 조회"},
+    {id:"c3",m:"PUT",k:"Update",d:"클라이언트 정보 수정"},
+    {id:"c4",m:"DELETE",k:"Delete",d:"클라이언트 삭제"}
   ],
   aclManage:[
-    {id:"a1",m:"POST",k:"ACL Add",d:"IP ACL 등록 — 단일/CIDR/범위 지원 ⚠️예외설정 미지원"},
-    {id:"a2",m:"GET",k:"ACL List",d:"IP ACL 목록 조회 (IPv4 전용)"},
-    {id:"a3",m:"PUT",k:"ACL Mod",d:"IP ACL 수정"},
-    {id:"a4",m:"DELETE",k:"ACL Del",d:"IP ACL 삭제"}
+    {id:"a1",m:"POST",k:"ACL Add",d:"클라이언트에 IP ACL 등록 — 단일/범위 지원"},
+    {id:"a2",m:"GET",k:"ACL List",d:"클라이언트에 IP ACL 목록 조회"},
+    {id:"a3",m:"PUT",k:"ACL Mod",d:"클라이언트에 IP ACL 수정"},
+    {id:"a4",m:"DELETE",k:"ACL Del",d:"클라이언트에 IP ACL 삭제"}
   ],
   keyAdmin:[
-    {id:"ka1",m:"GET",k:"All Keys",d:"전체 키 목록 조회 — PORTAL_ADMIN 전용, 복호화 솔루션 목적",isNew:true},
-    {id:"ka3",m:"DELETE",k:"Key Delete",d:"암호키 삭제 — Deactivated 상태에서만 가능",isNew:true}
+    {id:"ka1",m:"GET",k:"All Keys",d:"전체 암호 키 목록 조회"},
+    {id:"ka3",m:"DELETE",k:"Key Delete",d:"암호 키 삭제"}
   ],
   keyComponent:[
-    {id:"ec1",m:"POST",k:"Comp Export",d:"컴포넌트 분할 반출 — splitCount(N≥2)·threshold·UMS 전송"},
-    {id:"ec2",m:"POST",k:"Comp Recover",d:"컴포넌트 조합 복구 — splitCount(N≥2)·threshold·keyLabel·groupId"}
+    {id:"ec1",m:"POST",k:"Comp Export",d:"컴포넌트 분할 반출"},
+    {id:"ec2",m:"POST",k:"Comp Recover",d:"컴포넌트 조합 복구"}
   ]
 };
-const SK='kms_v14',GK='kms_global_v14';
-const ALL_IDS=Object.values(DATA).flat().map(i=>i.id);
-function checkComplete(){const s=JSON.parse(localStorage.getItem(SK)||'{}');document.getElementById('final-btn').disabled=!ALL_IDS.every(id=>s[id]?.p&&s[id]?.t);}
-function save(id,f,v){const s=JSON.parse(localStorage.getItem(SK)||'{}');if(!s[id])s[id]={};s[id][f]=v;localStorage.setItem(SK,JSON.stringify(s));checkComplete();}
-function resetSection(keys){
-  if(!confirm("해당 섹션의 모든 설정을 초기화하시겠습니까?"))return;
-  const ka=Array.isArray(keys)?keys:[keys];
-  const s=JSON.parse(localStorage.getItem(SK)||'{}');
-  ka.forEach(k=>{(DATA[k]||[]).forEach(item=>{delete s[item.id];const el=document.querySelector(`select[onchange*="'${item.id}'"]`);const dt=document.getElementById(`date-${item.id}`);if(el)el.value="";if(dt)dt.value="";});});
-  localStorage.setItem(SK,JSON.stringify(s));checkComplete();
+
+// keyOps → P1 / 2026-09-30, 나머지 → P2 / 2026-12-30
+const keyOpsIds = new Set([...DATA.keyOps.map(i=>i.id), ...DATA.keyAdmin.map(i=>i.id)]);
+function getPriority(id){ return keyOpsIds.has(id) ? 'P1' : 'P2'; }
+function getDate(id){ return keyOpsIds.has(id) ? '2026-09-30' : '2026-12-30'; }
+function getDateLabel(id){ return keyOpsIds.has(id) ? '2026년 9월 30일' : '2026년 12월 30일'; }
+
+function getPBadge(id){
+  const p = getPriority(id);
+  const bg = p==='P1' ? '#003D7A' : '#1A6E3C';
+  return `<div style="background:${bg};color:#F9E000;font-size:10px;font-weight:800;padding:3px 10px;border-radius:5px;text-align:center;">${p}</div>`;
 }
-function resetGlobalDates(){if(!confirm("초기화하시겠습니까?"))return;localStorage.removeItem(GK);["P1","P2","P3","P4","P5"].forEach(p=>{document.getElementById(`g-${p.toLowerCase()}`).value="";});}
-function handlePriority(id,p){save(id,'p',p);if(p){const d=JSON.parse(localStorage.getItem(GK)||'{}')[p]||'';if(d){const el=document.getElementById(`date-${id}`);if(el){el.value=d;save(id,'t',d);}}}}
-function saveGlobalDate(p,v){const s=JSON.parse(localStorage.getItem(GK)||'{}');s[p]=v;localStorage.setItem(GK,JSON.stringify(s));}
-function getInputs(id){const s=JSON.parse(localStorage.getItem(SK)||'{}');const p=s[id]?.p||'',t=s[id]?.t||'';return `<div><select onchange="handlePriority('${id}',this.value)"><option value="">선택</option>${["P1","P2","P3","P4","P5"].map(v=>`<option value="${v}" ${p===v?'selected':''}>${v}</option>`).join('')}</select></div><div><input type="date" id="date-${id}" value="${t}" onchange="save('${id}','t',this.value)"></div>`;}
-window.onload=()=>{
-  const g=JSON.parse(localStorage.getItem(GK)||'{}');
-  ["P1","P2","P3","P4","P5"].forEach(p=>{if(g[p])document.getElementById(`g-${p.toLowerCase()}`).value=g[p];});
-  const render=(list,tid)=>list.forEach((k,i)=>{
-    const row=document.createElement('div');row.className='ops-row'+(k.isNew?' new-item':'');
-    const nt=k.isNew?'<span class="new-badge">NEW</span>':'';
-    row.innerHTML=`<div style="text-align:center;font-size:10px;color:#999">${i+1}</div><div style="text-align:center"><span class="m-badge m-${k.m}">${k.m}</span></div><div style="font-weight:700;color:#003D7A;font-size:11px">${k.k}${nt}</div><div style="font-size:11px">${k.d}</div>${getInputs(k.id)}`;
+function getDateField(id){
+  return `<div style="font-size:10px;color:#1A2533;text-align:center;">${getDateLabel(id)}</div>`;
+}
+
+window.onload = () => {
+  const render = (list, tid) => list.forEach((k, i) => {
+    const row = document.createElement('div');
+    row.className = 'ops-row';
+    row.innerHTML = `
+      <div style="text-align:center;font-size:10px;color:#999">${i+1}</div>
+      <div style="text-align:center"><span class="m-badge m-${k.m}">${k.m}</span></div>
+      <div style="font-weight:700;color:#003D7A;font-size:11px">${k.k}</div>
+      <div style="font-size:11px">${k.d}</div>
+      ${getPBadge(k.id)}
+      ${getDateField(k.id)}`;
     document.getElementById(tid).appendChild(row);
   });
-  render(DATA.keyOps,'ops-rows');render(DATA.groupCrud,'group-crud');render(DATA.groupKey,'group-key');
-  render(DATA.clientGroup,'client-group');render(DATA.clientManage,'client-manage');render(DATA.aclManage,'acl-manage');
-  render(DATA.keyAdmin,'key-admin');render(DATA.keyComponent,'key-component');
-  checkComplete();
+
+  render(DATA.keyOps,'ops-rows');
+  render(DATA.groupCrud,'group-crud');
+  render(DATA.groupKey,'group-key');
+  render(DATA.clientGroup,'client-group');
+  render(DATA.clientManage,'client-manage');
+  render(DATA.aclManage,'acl-manage');
+  render(DATA.keyAdmin,'key-admin');
+  render(DATA.keyComponent,'key-component');
+
+  // Enable print button immediately (no interaction needed)
+  const btn = document.getElementById('final-btn');
+  if(btn){ btn.disabled = false; }
 };
+
+
+
 </script>
 </body>
 </html>

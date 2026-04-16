@@ -88,13 +88,22 @@ select,input[type="date"]{border:1px solid #CFD8DC;border-radius:4px;font-size:1
 .sc-script{background:#F1F5F9;border-left:3px solid;padding:7px 10px;border-radius:0 6px 6px 0;font-size:10px;color:#1E293B;line-height:1.6;margin-top:4px;font-style:italic;}
 
 @media print {
-  @page{size:A4 portrait;margin:10mm 5mm;}
-  body{background:#EEF2F7!important;-webkit-print-color-adjust:exact;}
-  .quick-nav,.action-area,.reset-btn,.added-note,.main-tabs{display:none!important;}
-  .tab-pane{display:block!important;padding-top:0;}
-  .card{page-break-inside:avoid;}
-  select,input[type="date"]{appearance:none;-webkit-appearance:none;border:1px solid #EEE!important;background:transparent!important;}
-  .ops-row.new-item{background:#FFFDE7!important;-webkit-print-color-adjust:exact;}
+  .main-tabs {
+    display: none !important;
+  }
+
+
+  .no-print {
+    display: none !important;
+  }
+
+  .tab-pane {
+    display: none !important;
+  }
+
+  .tab-pane.print-target {
+    display: block !important;
+  }
 }
 </style>
 
@@ -123,7 +132,13 @@ select,input[type="date"]{border:1px solid #CFD8DC;border-radius:4px;font-size:1
 </div>
 
 <!-- ══ TAB 1 ══════════════════════════════════ -->
+
 <div id="t1" class="tab-pane active">
+
+<div style="display:flex; justify-content:flex-end; margin-bottom:10px;" class="no-print">
+  <button onclick="printTab('t1')" class="submit-btn">📄 PDF 출력</button>
+</div>
+
 <div id="s1" class="card">
     <div class="section-header"><div class="section-title">🔐 암호 키 오퍼레이션</div></div>
     <div class="ops-header"><span>#</span><span>Method</span><span>Operation</span><span>기능 요약</span><span>우선순위</span><span>개발 일정</span></div>
@@ -152,7 +167,6 @@ select,input[type="date"]{border:1px solid #CFD8DC;border-radius:4px;font-size:1
   </div>
   <div id="s4" class="card">
     <div class="section-header"><div class="section-title">📦 암호 키 반출입 &amp; 관리</div></div>
-  
 
     <div class="cat-header"><span class="cat-title">① 전체 암호 키 관리 (관리자 전용)</span></div>
     <div class="ops-header"><span>#</span><span>Method</span><span>기능명</span><span>기능 요약</span><span>우선순위</span><span>개발 일정</span></div>
@@ -162,10 +176,17 @@ select,input[type="date"]{border:1px solid #CFD8DC;border-radius:4px;font-size:1
     <div id="key-component"></div>
   </div>
 
+
+
 </div>
 
 <!-- ══ TAB 2 ══════════════════════════════════ -->
 <div id="t2" class="tab-pane">
+
+<div style="display:flex; justify-content:flex-end; margin-bottom:10px;" class="no-print">
+  <button onclick="printTab('t2')" class="submit-btn">📄 PDF 출력</button>
+</div>
+
 <div class="wrap">
 
   <div class="rfp-intro">
@@ -414,6 +435,12 @@ select,input[type="date"]{border:1px solid #CFD8DC;border-radius:4px;font-size:1
 
 <!-- ══ TAB 4: 키 오퍼레이션 REST API 설계 ══════════ -->
 <div id="t4" class="tab-pane">
+
+<div style="display:flex; justify-content:flex-end; margin-bottom:10px;" class="no-print">
+  <button onclick="printTab('t4')" class="submit-btn">📄 PDF 출력</button>
+</div>
+
+
 <div class="wrap">
 <style>
 /* Tab 4 전용 스타일 — t3 스타일과 통일 */
@@ -1151,7 +1178,15 @@ Authorization: Bearer <span class="s">{ADMIN_JWT}</span>
 
 </div><!-- /wrap -->
 </div><!-- /t4 -->
+
+<!-- ══ TAB 3 ══════════════════════════════════ -->
 <div id="t3" class="tab-pane">
+
+
+<div style="display:flex; justify-content:flex-end; margin-bottom:10px;" class="no-print">
+  <button onclick="printTab('t2')" class="submit-btn">📄 PDF 출력</button>
+</div>
+
 <div class="wrap">
 <style>
 /* Tab 3 전용 스타일 */
@@ -2212,6 +2247,11 @@ Authorization: Bearer {ADMIN_JWT}
 
 <!-- ══ TAB 5: SG-KMS 현행 REST API 사용방법 ══════════ -->
 <div id="t5" class="tab-pane">
+
+<div style="display:flex; justify-content:flex-end; margin-bottom:10px;" class="no-print">
+  <button onclick="printTab('t5')" class="submit-btn">📄 PDF 출력</button>
+</div>
+
 <style>
 .t5-intro{background:linear-gradient(135deg,#003D7A,#0D2E5A);border-radius:12px;padding:18px 24px;margin-bottom:14px;color:#fff;}
 .t5-intro-title{color:#F9E000;font-weight:900;font-size:16px;margin-bottom:6px;}
@@ -2705,6 +2745,25 @@ curl --insecure -X POST \
 
 
 </div><!-- /t5 -->
+<script>
+function printTab(tabId) {
+  const tabs = document.querySelectorAll('.tab-pane');
+
+  // 전부 숨김
+  tabs.forEach(tab => {
+    tab.classList.remove('print-target');
+  });
+
+  // 선택 탭만 표시 대상으로 지정
+  const target = document.getElementById(tabId);
+  target.classList.add('print-target');
+
+  window.print();
+
+  // 출력 후 초기화
+  target.classList.remove('print-target');
+}
+</script>
 
 <script>
 

@@ -104,7 +104,7 @@ select,input[type="date"]{border:1px solid #CFD8DC;border-radius:4px;font-size:1
 
 <div class="header">
   <div class="header-title">kakaobank × D.AMO SG-KMS REST API 설계서</div>
-  <div class="header-sub">RFP 전체 요건 반영 · 기술 협상용</div>
+  <div class="header-sub">RFP 전체 요건 반영 </div>
   <div class="header-badges">
     <div class="h-badge"><div class="h-badge-val" style="color:#F9E000">14</div><div class="h-badge-lbl">키 오퍼레이션</div></div>
     <div class="h-badge"><div class="h-badge-val" style="color:#7EC8E3">11</div><div class="h-badge-lbl">키 그룹 관리</div></div>
@@ -116,9 +116,9 @@ select,input[type="date"]{border:1px solid #CFD8DC;border-radius:4px;font-size:1
 
 <div class="main-tabs">
   <button class="main-tab active" onclick="switchTab('t1',this)">📋 API 개발 일정 관리</button>
-  <button class="main-tab" onclick="switchTab('t2',this)">🎯 RFP 요건 대응 전략</button>
+  <button class="main-tab" onclick="switchTab('t2',this)">🎯 RFP 요건</button>
   <button class="main-tab" onclick="switchTab('t4',this)">🔐 키 오퍼레이션 REST API 설계</button>
-  <button class="main-tab" onclick="switchTab('t3',this)">🏗️ SG-KMS 구조 기반 설계 설명</button>
+  <button class="main-tab" onclick="switchTab('t3',this)">🏗️ SG-KMS 구조 기반 설계</button>
   <button class="main-tab" onclick="switchTab('t5',this)">📡 SG-KMS 현행 REST API 사용방법</button>
 </div>
 
@@ -2809,15 +2809,27 @@ const DATA={
   ]
 };
 
-// keyOps → P1 / 2026-09-30, 나머지 → P2 / 2026-12-30
-const keyOpsIds = new Set([...DATA.keyOps.map(i=>i.id), ...DATA.keyAdmin.map(i=>i.id)]);
-function getPriority(id){ return keyOpsIds.has(id) ? 'P1' : 'P2'; }
-function getDate(id){ return keyOpsIds.has(id) ? '2026-09-30' : '2026-12-30'; }
-function getDateLabel(id){ return keyOpsIds.has(id) ? '2026년 9월 30일' : '2026년 12월 30일'; }
+// 우선순위·일정 규칙
+// o1~o6: P1 / 2026년 6월 중
+// o7~o14: P2 / 2026년 9월 중
+// 그 외 전체: P3 / 2026년 12월 중
+const p1Ids = new Set(['o1','o2','o3','o4','o5','o6','ka1','ka3']);
+const p2Ids = new Set(['o7','o8','o9','o10','o11','o12','o13','o14']);
+
+function getPriority(id){
+  if(p1Ids.has(id)) return 'P1';
+  if(p2Ids.has(id)) return 'P2';
+  return 'P3';
+}
+function getDateLabel(id){
+  if(p1Ids.has(id)) return '2026년 6월 중';
+  if(p2Ids.has(id)) return '2026년 9월 중';
+  return '2026년 12월 중';
+}
 
 function getPBadge(id){
   const p = getPriority(id);
-  const bg = p==='P1' ? '#003D7A' : '#1A6E3C';
+  const bg = p==='P1' ? '#003D7A' : p==='P2' ? '#1A6E3C' : '#546E7A';
   return `<div style="background:${bg};color:#F9E000;font-size:10px;font-weight:800;padding:3px 10px;border-radius:5px;text-align:center;">${p}</div>`;
 }
 function getDateField(id){

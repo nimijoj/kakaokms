@@ -119,6 +119,7 @@ select,input[type="date"]{border:1px solid #CFD8DC;border-radius:4px;font-size:1
   <button class="main-tab" onclick="switchTab('t2',this)">🎯 RFP 요건 대응 전략</button>
   <button class="main-tab" onclick="switchTab('t4',this)">🔐 키 오퍼레이션 REST API 설계</button>
   <button class="main-tab" onclick="switchTab('t3',this)">🏗️ SG-KMS 구조 기반 설계 설명</button>
+  <button class="main-tab" onclick="switchTab('t5',this)">📡 SG-KMS 현행 REST API 사용방법</button>
 </div>
 
 <!-- ══ TAB 1 ══════════════════════════════════ -->
@@ -2213,6 +2214,502 @@ Authorization: Bearer {ADMIN_JWT}
 
 </div><!-- /wrap -->
 </div><!-- /t3 -->
+
+<!-- ══ TAB 5: SG-KMS 현행 REST API 사용방법 ══════════ -->
+<div id="t5" class="tab-pane">
+<style>
+.t5-intro{background:linear-gradient(135deg,#003D7A,#0D2E5A);border-radius:12px;padding:18px 24px;margin-bottom:14px;color:#fff;}
+.t5-intro-title{color:#F9E000;font-weight:900;font-size:16px;margin-bottom:6px;}
+.t5-intro-sub{color:#8AAAC8;font-size:11px;line-height:1.9;}
+.t5-meta{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;}
+.t5-mb{background:rgba(255,255,255,0.1);border-radius:8px;padding:5px 12px;font-size:10px;color:#B0C4DE;}
+.t5-mb strong{color:#F9E000;}
+.t5-sec{background:#fff;border-radius:12px;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,0.06);margin-bottom:14px;}
+.t5-sec-title{font-weight:800;font-size:14px;color:#003D7A;padding-bottom:8px;border-bottom:3px solid #F9E000;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.t5-code{background:#1A2533;border-radius:8px;padding:13px 16px;font-family:"Fira Code","Courier New",monospace;font-size:10px;color:#B0C4DE;line-height:1.8;margin:8px 0;overflow-x:auto;white-space:pre;}
+.t5-code .k{color:#F9E000;font-weight:700;}
+.t5-code .v{color:#90EE90;}
+.t5-code .s{color:#FFD9A0;}
+.t5-code .c{color:#4A6A6A;font-style:italic;}
+.t5-code .h{color:#7EC8E3;}
+.t5-code .r{color:#FF8A80;}
+.t5-code .p{color:#CE93D8;}
+.t5-note{border-radius:8px;padding:10px 14px;font-size:11px;line-height:1.7;margin:8px 0;}
+.t5-note.blue{background:#EBF4FF;border:1px solid #90CAF9;color:#1565C0;}
+.t5-note.green{background:#E4F5EC;border:1px solid #A5D6A7;color:#1A6E3C;}
+.t5-note.yellow{background:#FFFDE7;border:1px solid #F9E000;color:#5D4037;}
+.t5-note.orange{background:#FFF0E0;border:1px solid #FFCC80;color:#C75B00;}
+.t5-note.red{background:#FFEBEE;border:1px solid #EF9A9A;color:#B71C1C;}
+.t5-note.dark{background:#1A2533;border:none;color:#B0C4DE;}
+.t5-grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.t5-grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.t5-api-card{border-radius:10px;overflow:hidden;margin-bottom:18px;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
+.t5-api-head{padding:11px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.t5-api-num{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;flex-shrink:0;}
+.t5-api-body{padding:14px 16px;background:#fff;}
+.t5-api-title{font-weight:800;font-size:13px;color:#fff;}
+.t5-api-path{font-family:monospace;font-size:11px;opacity:0.85;}
+.t5-badge{display:inline-block;background:rgba(255,255,255,0.2);color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:3px;}
+.t5-mbadge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;min-width:50px;text-align:center;}
+.t5-POST{background:#E4F5EC;color:#1A6E3C;border:1px solid #A5D6A7;}
+.t5-GET{background:#EBF4FF;color:#1565C0;border:1px solid #90CAF9;}
+.t5-flow{display:flex;align-items:center;gap:0;flex-wrap:wrap;margin:12px 0;}
+.t5-fbox{border-radius:9px;padding:10px 14px;font-size:11px;font-weight:700;text-align:center;min-width:100px;}
+.t5-farrow{color:#90A4AE;font-size:22px;margin:0 6px;}
+.t5-fsub{font-size:9px;font-weight:400;display:block;margin-top:3px;opacity:0.85;}
+.t5-field-row{display:flex;gap:6px;padding:5px 0;border-bottom:1px solid #F0F4F8;font-size:10px;align-items:flex-start;}
+.t5-field-row:last-child{border-bottom:none;}
+.t5-fname{font-family:monospace;font-weight:700;color:#003D7A;min-width:120px;flex-shrink:0;}
+.t5-ftype{font-size:8px;color:#90A4AE;min-width:50px;flex-shrink:0;margin-top:1px;}
+.t5-freq{font-size:8px;padding:1px 4px;border-radius:3px;flex-shrink:0;margin-top:1px;}
+.t5-req{background:#FFEBEE;color:#B71C1C;font-weight:700;}
+.t5-opt{background:#E8F5E9;color:#1A6E3C;}
+.t5-fdesc{color:#546E7A;line-height:1.5;}
+.mono{font-family:"Fira Code","Courier New",monospace;font-size:10px;background:#EEF2F7;padding:1px 5px;border-radius:3px;color:#1A2533;}
+.t5-tbl{width:100%;border-collapse:collapse;font-size:11px;margin:8px 0;}
+.t5-tbl th{background:#003D7A;color:#F9E000;padding:8px 10px;text-align:left;font-size:11px;}
+.t5-tbl th:first-child{border-radius:7px 0 0 0;}.t5-tbl th:last-child{border-radius:0 7px 0 0;}
+.t5-tbl td{padding:8px 10px;border-bottom:1px solid #ECEFF1;vertical-align:top;line-height:1.6;}
+.t5-tbl tr:last-child td{border-bottom:none;}
+.t5-tbl tr:nth-child(even) td{background:#F8FAFB;}
+.t5-step-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;flex-shrink:0;}
+.t5-step{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;}
+.t5-step-body{flex:1;}
+.t5-step-title{font-weight:800;font-size:12px;margin-bottom:5px;}
+.t5-err-row{display:flex;gap:10px;padding:7px 0;border-bottom:1px solid #ECEFF1;font-size:10px;align-items:flex-start;}
+.t5-err-row:last-child{border-bottom:none;}
+</style>
+
+<!-- 인트로 -->
+<div class="t5-intro">
+  <div class="t5-intro-title">📡 D'Amo SG-KMS v5.0.206 현행 REST API 사용방법</div>
+  <div class="t5-intro-sub">
+    현재 SG-KMS가 제공하는 REST API는 <strong style="color:#F9E000;">3가지 서비스</strong>로 구성됩니다.
+    모든 API는 포트 <strong style="color:#F9E000;">9444</strong>에서 HTTPS로 서비스되며,
+    반드시 <strong style="color:#F9E000;">인증(Auth) → 서비스 API</strong> 순서로 호출해야 합니다.<br>
+    매뉴얼 §3.2 KMS API Specification / §3.3 SgkmsAgent API / §3.4 Sample Codes 기반.
+  </div>
+  <div class="t5-meta">
+    <div class="t5-mb">서버 포트 <strong>HTTPS 9444</strong></div>
+    <div class="t5-mb">인증 방식 <strong>Basic Auth → JWT Bearer Token</strong></div>
+    <div class="t5-mb">사전 등록 <strong>[KMS API 관리]-[KMS API 계정]</strong></div>
+    <div class="t5-mb">Java 라이브러리 <strong>SgkmsAgent JAR (JDK 1.8+)</strong></div>
+    <div class="t5-mb">의존 패키지 <strong>OkHttp 4.9.3+</strong></div>
+  </div>
+</div>
+
+<!-- ① 서비스 전체 구성 -->
+<div class="t5-sec">
+  <div class="t5-sec-title">① 현행 SG-KMS REST API — 서비스 전체 구성 (매뉴얼 §3.2.2)</div>
+  <div class="t5-note yellow">📖 현재 SG-KMS REST API는 <strong>Auth · ExportKey · Crypto API</strong> 3종만 제공합니다. 키 생성·삭제·속성 관리 등 KMIP 오퍼레이션은 현행 REST API에 없으며, 관리도구(Web UI) 또는 BA-P11(PKCS#11)로만 수행 가능합니다.</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:14px;">
+
+    <div style="border-radius:10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
+      <div style="background:#003D7A;padding:10px 14px;">
+        <div style="color:#F9E000;font-weight:800;font-size:13px;">① Auth</div>
+        <div style="color:#8AAAC8;font-size:9px;margin-top:2px;">인증 — JWT 토큰 발급</div>
+      </div>
+      <div style="padding:12px 14px;background:#EBF4FF;border:1px solid #90CAF9;border-top:none;">
+        <div style="font-size:10px;color:#1A2533;line-height:1.8;">
+          <div>● 사전 등록된 KMS API 계정으로 인증</div>
+          <div>● agentName 지정 → JWT 발급</div>
+          <div>● 발급된 JWT로 나머지 API 호출</div>
+        </div>
+        <div style="margin-top:8px;font-family:monospace;font-size:9px;background:#fff;border-radius:5px;padding:6px 8px;color:#1565C0;border:1px solid #BBDEFB;">
+          POST /api/auth/login/basic
+        </div>
+        <div style="margin-top:6px;font-size:9px;color:#546E7A;">⚠️ 사전 조건: [KMS API 관리]-[KMS API 계정] 등록</div>
+      </div>
+    </div>
+
+    <div style="border-radius:10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
+      <div style="background:#1A6E3C;padding:10px 14px;">
+        <div style="color:#fff;font-weight:800;font-size:13px;">② ExportKey</div>
+        <div style="color:rgba(255,255,255,0.7);font-size:9px;margin-top:2px;">외부 키 연동 — 키 값(Hex) 조회</div>
+      </div>
+      <div style="padding:12px 14px;background:#E4F5EC;border:1px solid #A5D6A7;border-top:none;">
+        <div style="font-size:10px;color:#1A2533;line-height:1.8;">
+          <div>● 정책명(policyName)으로 키 값 조회</div>
+          <div>● 응답: 키 값 Hex 문자열 반환</div>
+          <div>● 외부 애플리케이션 연동 핵심 API</div>
+        </div>
+        <div style="margin-top:8px;font-family:monospace;font-size:9px;background:#fff;border-radius:5px;padding:6px 8px;color:#1A6E3C;border:1px solid #A5D6A7;">
+          GET /api/exportKey/by/name/{policyName}
+        </div>
+        <div style="margin-top:6px;font-size:9px;color:#546E7A;">⚠️ 사전 조건: [보안 정책]-[정책 관리] 등록</div>
+      </div>
+    </div>
+
+    <div style="border-radius:10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
+      <div style="background:#C75B00;padding:10px 14px;">
+        <div style="color:#fff;font-weight:800;font-size:13px;">③ Crypto API</div>
+        <div style="color:rgba(255,255,255,0.7);font-size:9px;margin-top:2px;">암복호화 — 데이터 직접 처리</div>
+      </div>
+      <div style="padding:12px 14px;background:#FFF0E0;border:1px solid #FFCC80;border-top:none;">
+        <div style="font-size:10px;color:#1A2533;line-height:1.8;">
+          <div>● 정책명 + 데이터 → 암호화 결과 반환</div>
+          <div>● 배열로 복수 데이터 일괄 처리 가능</div>
+          <div>● 암복호화 결과는 Base64 또는 Hex</div>
+        </div>
+        <div style="margin-top:8px;font-family:monospace;font-size:9px;background:#fff;border-radius:5px;padding:6px 8px;color:#C75B00;border:1px solid #FFCC80;">
+          POST /api/crypto/enc/symmkey<br>POST /api/crypto/dec/symmkey
+        </div>
+        <div style="margin-top:6px;font-size:9px;color:#546E7A;">⚠️ 사전 조건: [보안 정책]-[정책 관리] 등록</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ② 사전 설정 -->
+<div class="t5-sec">
+  <div class="t5-sec-title">② API 호출 전 필수 사전 설정 — 관리도구 Web UI (매뉴얼 §3.2.2.1)</div>
+  <div class="t5-note yellow">📖 REST API 호출 전 반드시 SG-KMS 관리도구에서 아래 3가지를 설정해야 합니다. 설정 없이 API 호출 시 인증 오류 또는 정책 조회 실패가 발생합니다.</div>
+  <div style="display:flex;flex-direction:column;gap:10px;margin-top:12px;">
+
+    <div class="t5-step">
+      <div class="t5-step-num" style="background:#003D7A;">1</div>
+      <div class="t5-step-body">
+        <div class="t5-step-title" style="color:#003D7A;">[KMS API 관리] → [KMS API 계정] 등록 — Auth API 사전 조건</div>
+        <div style="font-size:10px;color:#546E7A;line-height:1.7;">
+          관리도구 메뉴 경로: <span class="mono">[KMS API 관리] - [KMS API 계정]</span><br>
+          등록 항목: 아이디(1~64자 영문/숫자/-_) · 비밀번호(9~15자) · 접속 허용 IP(단일/CIDR/범위) · 유효기간<br>
+          이 계정의 ID·PW를 Base64 인코딩하여 Basic Auth 헤더로 사용합니다.
+        </div>
+        <div class="t5-code"><span class="c"># credentials = Base64("계정ID:비밀번호")</span>
+<span class="c"># 예) base64("kms_api_user:P@ssw0rd123") = "a21zX2FwaV91c2VyOlBAc3N3MHJkMTIz"</span>
+Authorization: Basic <span class="s">a21zX2FwaV91c2VyOlBAc3N3MHJkMTIz</span></div>
+      </div>
+    </div>
+
+    <div class="t5-step">
+      <div class="t5-step-num" style="background:#1A6E3C;">2</div>
+      <div class="t5-step-body">
+        <div class="t5-step-title" style="color:#1A6E3C;">[보안 정책] → [Agent 관리] — agentName 등록</div>
+        <div style="font-size:10px;color:#546E7A;line-height:1.7;">
+          관리도구 메뉴 경로: <span class="mono">[보안 정책] - [Agent 관리]</span><br>
+          Agent를 생성하고 접근 허용 계정에 위 KMS API 계정 ID를 등록합니다.<br>
+          이 Agent 명(agentName)이 Auth API의 Body 파라미터로 사용됩니다.
+        </div>
+      </div>
+    </div>
+
+    <div class="t5-step">
+      <div class="t5-step-num" style="background:#C75B00;">3</div>
+      <div class="t5-step-body">
+        <div class="t5-step-title" style="color:#C75B00;">[보안 정책] → [정책 관리] — policyName 등록 + Agent 적용</div>
+        <div style="font-size:10px;color:#546E7A;line-height:1.7;">
+          관리도구 메뉴 경로: <span class="mono">[보안 정책] - [정책 관리]</span><br>
+          키를 참조하는 정책을 생성하고 위 Agent에 적용합니다. ExportKey·Crypto API의 policyName 파라미터가 이 정책명입니다.<br>
+          정책-Agent 적용 후에만 해당 agentName 토큰으로 정책의 키에 접근할 수 있습니다.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ③ Auth API 상세 -->
+<div class="t5-sec">
+  <div class="t5-sec-title">③ Auth API — POST /api/auth/login/basic (매뉴얼 §3.2.3.1)</div>
+
+  <div class="t5-api-card">
+    <div class="t5-api-head" style="background:#003D7A;">
+      <div class="t5-api-num">①</div>
+      <span class="t5-mbadge t5-POST">POST</span>
+      <span class="t5-api-path" style="color:#90CAF9;">/api/auth/login/basic</span>
+      <div class="t5-api-title">JWT Bearer 토큰 발급</div>
+      <span class="t5-badge">서버: https://{SG-KMS IP}:9444</span>
+    </div>
+    <div class="t5-api-body">
+      <div class="t5-note yellow" style="margin-bottom:12px;">📖 KMS API 계정의 아이디:비밀번호를 Base64 인코딩한 credentials를 Basic 인증 헤더에 담고, Body에 접근할 agentName을 지정하면 JWT 토큰이 반환됩니다. 이 토큰을 ExportKey·Crypto API의 Bearer 헤더에 사용합니다.</div>
+
+      <div class="t5-grid2">
+        <div>
+          <div style="font-weight:700;font-size:11px;color:#003D7A;margin-bottom:8px;">Request</div>
+          <table class="t5-tbl" style="margin-bottom:10px;">
+            <thead><tr><th colspan="2">Request Header</th><th>설명</th></tr></thead>
+            <tbody>
+              <tr><td><span class="mono">Authorization</span></td><td><span style="font-size:9px;color:#B71C1C;font-weight:700;">필수</span></td><td>Basic 인증. <span class="mono">Authorization: Basic {credentials}</span><br><span style="font-size:9px;color:#546E7A;">credentials = Base64(아이디:비밀번호)</span></td></tr>
+              <tr><td><span class="mono">Content-Type</span></td><td><span style="font-size:9px;color:#B71C1C;font-weight:700;">필수</span></td><td><span class="mono">application/json</span></td></tr>
+            </tbody>
+          </table>
+          <table class="t5-tbl">
+            <thead><tr><th colspan="2">Request Body</th><th>설명</th></tr></thead>
+            <tbody>
+              <tr><td><span class="mono">agentName</span></td><td><span style="font-size:9px;color:#B71C1C;font-weight:700;">필수</span></td><td>허용 가능한 정책을 식별하기 위한 Agent 이름<br><span style="font-size:9px;color:#546E7A;">이 agentName에 적용된 정책(키)에만 접근 가능한 토큰 발급</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <div style="font-weight:700;font-size:11px;color:#003D7A;margin-bottom:8px;">Request / Response 예문</div>
+          <div class="t5-code"><span class="c"># curl 요청 예문 (매뉴얼 §3.2.3.1 기준)</span>
+curl --insecure -X POST \
+  -H <span class="s">"Content-Type: application/json"</span> \
+  -H <span class="s">"Authorization: Basic a2dwYXJrOlFoZGtzLi8xMg=="</span> \
+  -d '<span class="v">{"agentName": "PAYMENT_AGENT"}</span>' \
+  https://<span class="h">{SG-KMS IP}</span>:9444/api/auth/login/basic
+
+<span class="c"># 성공 응답 (매뉴얼 §3.2.3.1 응답 예문 원문 — value 단일 필드)</span>
+{
+  <span class="s">"value"</span>: <span class="s">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."</span>
+  <span class="c">          ↑ 이 값을 이후 API의 Bearer 토큰으로 사용</span>
+}
+<span class="c"># ※ 매뉴얼 원문 응답 예문은 value 필드 단 하나만 반환</span>
+<span class="c">#   agentName·errorCode는 응답 필드 정의에는 있으나</span>
+<span class="c">#   성공 시 실제 포함 여부는 구현에 따라 다를 수 있음</span></div>
+        </div>
+      </div>
+
+      <!-- JWT 페이로드 -->
+      <div style="margin-top:12px;">
+        <div style="font-weight:700;font-size:11px;color:#003D7A;margin-bottom:6px;">발급된 JWT 페이로드 구조</div>
+        <div class="t5-code"><span class="c"># JWT를 Base64 디코딩하면 아래 페이로드 확인 가능</span>
+{
+  <span class="h">"name"</span>:      <span class="s">"kms_api_user"</span>,    <span class="c"># KMS API 계정 ID</span>
+  <span class="h">"agentid"</span>:   <span class="s">"a6af0f0b-14bb-4bd0-a10b-63ed81d499d4"</span>,  <span class="c"># Agent UUID</span>
+  <span class="h">"agentname"</span>: <span class="s">"PAYMENT_AGENT"</span>,   <span class="c"># 요청한 agentName — 접근 가능 정책 범위 결정</span>
+  <span class="h">"role"</span>:      <span class="s">"api"</span>,             <span class="c"># 역할</span>
+  <span class="s">"iss"</span>:       <span class="s">"penta"</span>,
+  <span class="s">"iat"</span>:       <span class="v">1701667818</span>,       <span class="c"># 발급 시각 (Unix timestamp)</span>
+  <span class="s">"exp"</span>:       <span class="v">1701671418</span>        <span class="c"># 만료 시각 (1시간 유효)</span>
+}</div>
+        <div class="t5-note blue">💡 <strong>핵심:</strong> JWT의 <strong>agentname</strong> 필드가 접근 가능한 정책(키)의 범위를 결정합니다. PAYMENT_AGENT에 적용된 정책만 ExportKey·Crypto API로 호출할 수 있습니다.</div>
+      </div>
+
+      <!-- 오류 응답 -->
+      <div style="margin-top:12px;">
+        <div style="font-weight:700;font-size:11px;color:#B71C1C;margin-bottom:6px;">오류 응답 예문</div>
+        <div class="t5-code"><span class="c"># 잘못된 계정 또는 등록되지 않은 agentName</span>
+{
+  <span class="s">"value"</span>: <span class="r">""</span>,
+  <span class="r">"errorCode"</span>: <span class="r">-1</span>,  <span class="c"># 0이 아닌 값 = 오류</span>
+  <span class="r">"errorId"</span>: <span class="r">"..."</span>,
+  <span class="r">"errorEvent"</span>: <span class="r">"..."</span>,  <span class="c"># 오류 시에만 포함</span>
+  <span class="r">"message"</span>: <span class="r">"..."</span>       <span class="c"># 오류 시에만 포함</span>
+}
+<span class="c"># ※ errorId·errorEvent·message의 실제 값은</span>
+<span class="c">#   SG-KMS 내부 오류 코드에 따라 결정됨 (매뉴얼 미공개)</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ④ ExportKey API 상세 -->
+<div class="t5-sec">
+  <div class="t5-sec-title">④ ExportKey API — GET /api/exportKey/by/name/{policyName} (매뉴얼 §3.2.4.1)</div>
+
+  <div class="t5-api-card">
+    <div class="t5-api-head" style="background:#1A6E3C;">
+      <div class="t5-api-num">②</div>
+      <span class="t5-mbadge t5-GET">GET</span>
+      <span class="t5-api-path" style="color:#90EE90;">/api/exportKey/by/name/{policyName}</span>
+      <div class="t5-api-title">정책명으로 키 값(Hex) 조회</div>
+    </div>
+    <div class="t5-api-body">
+      <div class="t5-note yellow" style="margin-bottom:12px;">📖 Auth API에서 발급받은 JWT 토큰을 Bearer 헤더에 담고, URL 경로에 정책명을 지정하면 해당 정책의 키 값을 Hex 문자열로 반환합니다. <strong>agentName에 해당 정책이 적용되어 있어야만 접근 가능합니다.</strong></div>
+
+      <div class="t5-grid2">
+        <div>
+          <div style="font-weight:700;font-size:11px;color:#003D7A;margin-bottom:8px;">Request</div>
+          <table class="t5-tbl" style="margin-bottom:10px;">
+            <thead><tr><th colspan="2">Request Header</th><th>설명</th></tr></thead>
+            <tbody>
+              <tr><td><span class="mono">Authorization</span></td><td><span style="font-size:9px;color:#B71C1C;font-weight:700;">필수</span></td><td>Bearer 인증. <span class="mono">Authorization: Bearer {JWT토큰}</span></td></tr>
+              <tr><td><span class="mono">Content-Type</span></td><td><span style="font-size:9px;color:#B71C1C;font-weight:700;">필수</span></td><td><span class="mono">application/json</span></td></tr>
+            </tbody>
+          </table>
+          <table class="t5-tbl">
+            <thead><tr><th colspan="2">Path Variable</th><th>설명</th></tr></thead>
+            <tbody>
+              <tr><td><span class="mono">policyName</span></td><td><span style="font-size:9px;color:#B71C1C;font-weight:700;">필수</span></td><td>키를 조회할 정책 이름<br><span style="font-size:9px;color:#546E7A;">agentName 토큰에 이 정책이 적용된 상태여야 함</span></td></tr>
+            </tbody>
+          </table>
+          <div style="margin-top:10px;">
+            <div style="font-weight:700;font-size:11px;color:#003D7A;margin-bottom:6px;">Response Fields</div>
+            <table class="t5-tbl">
+              <thead><tr><th>필드</th><th>타입</th><th>설명</th></tr></thead>
+              <tbody>
+                <tr><td><span class="mono">name</span></td><td style="font-size:9px;">String</td><td>요청한 정책 이름</td></tr>
+                <tr><td><span class="mono" style="color:#1A6E3C;font-weight:700;">value</span></td><td style="font-size:9px;">String</td><td><strong>키 값 (Hex 문자열)</strong> — AES256이면 64자리 Hex</td></tr>
+                <tr><td><span class="mono">agentName</span></td><td style="font-size:9px;">String</td><td>Agent 이름</td></tr>
+                <tr><td><span class="mono">errorCode</span></td><td style="font-size:9px;">Number</td><td>에러 코드 (성공 시 0)</td></tr>
+                <tr><td><span class="mono">errorId</span></td><td style="font-size:9px;">String</td><td>에러 ID</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight:700;font-size:11px;color:#003D7A;margin-bottom:8px;">요청/응답 예문 (매뉴얼 §3.2.4.1 기준)</div>
+          <div class="t5-code"><span class="c"># curl 요청 예문</span>
+curl --insecure -X GET \
+  -H <span class="s">"Content-Type: application/json"</span> \
+  -H <span class="s">"Authorization: Bearer eyJhbGci..."</span> \
+  https://<span class="h">{SG-KMS IP}</span>:9444/api/exportKey/by/name/<span class="v">PAY_KEY_POL_01</span>
+
+<span class="c"># 성공 응답 (매뉴얼 응답 예문 기준)</span>
+{
+  <span class="s">"name"</span>: <span class="s">"PAY_KEY_POL_01"</span>,
+  <span class="h">"value"</span>: <span class="s">"0123456789ABCDEF0123456789ABCDEF</span>
+<span class="s">            0123456789ABCDEF0123456789ABCDEF"</span>,
+  <span class="c">             ↑ AES-256: 64자리 Hex (32바이트)</span>
+  <span class="s">"agentName"</span>: <span class="s">"PAYMENT_AGENT"</span>,
+  <span class="s">"errorCode"</span>: <span class="v">0</span>
+}
+
+<span class="c"># 접근 불가 정책 요청 시 오류</span>
+{
+  <span class="r">"errorCode"</span>: <span class="r">-1</span>,  <span class="c"># 0이 아닌 값 = 오류</span>
+  <span class="r">"errorId"</span>: <span class="r">"..."</span>,
+  <span class="r">"errorEvent"</span>: <span class="r">"..."</span>,  <span class="c"># 오류 시에만 포함</span>
+  <span class="r">"message"</span>: <span class="r">"..."</span>       <span class="c"># 오류 시에만 포함</span>
+}
+<span class="c"># ※ errorId·errorEvent·message 실제 값은 매뉴얼 미공개</span></div>
+
+          <div class="t5-note green" style="margin-top:8px;">✅ <strong>카카오뱅크 현행 사용 방식:</strong> 이 API가 현재 카카오뱅크 시스템에서 암호화 키를 꺼내는 핵심 호출입니다. 애플리케이션이 이 Hex 키 값을 받아 직접 암복호화에 사용합니다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ⑤ Crypto API 상세 -->
+<div class="t5-sec">
+  <div class="t5-sec-title">⑤ Crypto API — 암호화·복호화 직접 처리 (매뉴얼 §3.2.5)</div>
+
+  <div class="t5-note blue" style="margin-bottom:14px;">💡 ExportKey가 "키 값을 꺼내서 애플리케이션이 직접 암복호화"하는 방식이라면, Crypto API는 "데이터를 KMS에 보내서 KMS가 직접 암복호화를 수행"하는 방식입니다. 두 방식 모두 동일한 인증 토큰을 사용합니다.</div>
+
+  <!-- 암호화 -->
+  <div class="t5-api-card">
+    <div class="t5-api-head" style="background:#C75B00;">
+      <div class="t5-api-num">③</div>
+      <span class="t5-mbadge t5-POST">POST</span>
+      <span class="t5-api-path" style="color:#FFD9A0;">/api/crypto/enc/symmkey</span>
+      <div class="t5-api-title">대칭키 암호화</div>
+    </div>
+    <div class="t5-api-body">
+      <div class="t5-grid2">
+        <div>
+          <div style="font-weight:700;font-size:11px;color:#003D7A;margin-bottom:8px;">Request Body (매뉴얼 §3.2.5.1)</div>
+          <table class="t5-tbl" style="margin-bottom:10px;">
+            <thead><tr><th>필드</th><th>필수</th><th>설명</th></tr></thead>
+            <tbody>
+              <tr><td><span class="mono">policyName</span></td><td><span style="font-size:9px;color:#B71C1C;font-weight:700;">필수</span></td><td>암호화에 사용할 정책 이름</td></tr>
+              <tr><td><span class="mono">outputEncoding</span></td><td><span style="font-size:9px;color:#B71C1C;font-weight:700;">필수</span></td><td>결과 인코딩: <span class="mono">base64</span> 또는 <span class="mono">hex</span></td></tr>
+              <tr><td><span class="mono">plainTexts</span></td><td><span style="font-size:9px;color:#B71C1C;font-weight:700;">필수</span></td><td>Base64 인코딩된 암호화 대상 데이터 배열</td></tr>
+            </tbody>
+          </table>
+          <div style="font-weight:700;font-size:11px;color:#003D7A;margin-bottom:6px;">Response Fields</div>
+          <table class="t5-tbl">
+            <thead><tr><th>필드</th><th>설명</th></tr></thead>
+            <tbody>
+              <tr><td><span class="mono">name</span></td><td>정책 이름</td></tr>
+              <tr><td><span class="mono">agentName</span></td><td>Agent 이름</td></tr>
+              <tr><td><span class="mono">cipherTexts[].code</span></td><td>개별 항목 결과 코드 (성공 0)</td></tr>
+              <tr><td><span class="mono">cipherTexts[].value</span></td><td>Base64 인코딩된 암호화 결과값</td></tr>
+              <tr><td><span class="mono">errorCode</span></td><td>전체 에러 코드 (성공 0)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <div style="font-weight:700;font-size:11px;color:#003D7A;margin-bottom:8px;">요청/응답 예문 (매뉴얼 §3.2.5.1 기준)</div>
+          <div class="t5-code"><span class="c"># 요청: plainTexts는 Base64 인코딩된 원문</span>
+curl --insecure -X POST \
+  -H <span class="s">"Authorization: Bearer eyJhbGci..."</span> \
+  -H <span class="s">"Content-Type: application/json"</span> \
+  -d '{
+    <span class="s">"policyName"</span>: <span class="s">"PAY_KEY_POL_01"</span>,
+    <span class="s">"outputEncoding"</span>: <span class="s">"base64"</span>,
+    <span class="s">"plainTexts"</span>: [
+      <span class="s">"YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXo="</span>,
+      <span class="s">"dGVzdA=="</span>
+    ]
+  }' \
+  https://<span class="h">{SG-KMS IP}</span>:9444/api/crypto/enc/symmkey
+
+<span class="c"># 성공 응답 (매뉴얼 예문 기준)</span>
+{
+  <span class="s">"name"</span>: <span class="s">"PAY_KEY_POL_01"</span>,
+  <span class="s">"agentName"</span>: <span class="s">"PAYMENT_AGENT"</span>,
+  <span class="s">"cipherTexts"</span>: [
+    { <span class="s">"code"</span>: <span class="v">0</span>, <span class="s">"value"</span>: <span class="s">"ImUqXCN5aFdoWy5aX15kUztobDx6ZDZrbE8="</span> },
+    { <span class="s">"code"</span>: <span class="v">0</span>, <span class="s">"value"</span>: <span class="s">"bWJsIQ=="</span> }
+  ],
+  <span class="s">"errorCode"</span>: <span class="v">0</span>,
+  <span class="s">"errorId"</span>: <span class="s">""</span>
+}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 복호화 -->
+  <div class="t5-api-card">
+    <div class="t5-api-head" style="background:#4527A0;">
+      <div class="t5-api-num">④</div>
+      <span class="t5-mbadge t5-POST">POST</span>
+      <span class="t5-api-path" style="color:#CE93D8;">/api/crypto/dec/symmkey</span>
+      <div class="t5-api-title">대칭키 복호화</div>
+    </div>
+    <div class="t5-api-body">
+      <div class="t5-grid2">
+        <div>
+          <div style="font-weight:700;font-size:11px;color:#003D7A;margin-bottom:8px;">Request Body (매뉴얼 §3.2.5.2)</div>
+          <table class="t5-tbl" style="margin-bottom:10px;">
+            <thead><tr><th>필드</th><th>필수</th><th>설명</th></tr></thead>
+            <tbody>
+              <tr><td><span class="mono">policyName</span></td><td><span style="font-size:9px;color:#B71C1C;font-weight:700;">필수</span></td><td>복호화에 사용할 정책 이름</td></tr>
+              <tr><td><span class="mono">outputEncoding</span></td><td><span style="font-size:9px;color:#B71C1C;font-weight:700;">필수</span></td><td>결과 인코딩: <span class="mono">base64</span> 또는 <span class="mono">hex</span></td></tr>
+              <tr><td><span class="mono">cipherTexts</span></td><td><span style="font-size:9px;color:#B71C1C;font-weight:700;">필수</span></td><td>Base64 인코딩된 복호화 대상 암호문 배열</td></tr>
+            </tbody>
+          </table>
+          <div style="font-weight:700;font-size:11px;color:#003D7A;margin-bottom:6px;">Response Fields</div>
+          <table class="t5-tbl">
+            <thead><tr><th>필드</th><th>설명</th></tr></thead>
+            <tbody>
+              <tr><td><span class="mono">name</span></td><td>정책 이름</td></tr>
+              <tr><td><span class="mono">agentName</span></td><td>Agent 이름</td></tr>
+              <tr><td><span class="mono">plainTexts[].code</span></td><td>개별 항목 결과 코드 (성공 0)</td></tr>
+              <tr><td><span class="mono">plainTexts[].value</span></td><td>Base64 인코딩된 복호화 결과값</td></tr>
+              <tr><td><span class="mono">errorCode</span></td><td>전체 에러 코드 (성공 0)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <div style="font-weight:700;font-size:11px;color:#003D7A;margin-bottom:8px;">요청/응답 예문 (매뉴얼 §3.2.5.2 기준)</div>
+          <div class="t5-code"><span class="c"># 요청: cipherTexts는 Base64 인코딩된 암호문</span>
+curl --insecure -X POST \
+  -H <span class="s">"Authorization: Bearer eyJhbGci..."</span> \
+  -H <span class="s">"Content-Type: application/json"</span> \
+  -d '{
+    <span class="s">"policyName"</span>: <span class="s">"PAY_KEY_POL_01"</span>,
+    <span class="s">"outputEncoding"</span>: <span class="s">"base64"</span>,
+    <span class="s">"cipherTexts"</span>: [
+      <span class="s">"ImUqXCN5aFdoWy5aX15kUztobDx6ZDZrbE8="</span>,
+      <span class="s">"bWJsIQ=="</span>
+    ]
+  }' \
+  https://<span class="h">{SG-KMS IP}</span>:9444/api/crypto/dec/symmkey
+
+<span class="c"># 성공 응답 (매뉴얼 예문 기준)</span>
+{
+  <span class="s">"name"</span>: <span class="s">"PAY_KEY_POL_01"</span>,
+  <span class="s">"agentName"</span>: <span class="s">"PAYMENT_AGENT"</span>,
+  <span class="s">"plainTexts"</span>: [
+    { <span class="s">"code"</span>: <span class="v">0</span>, <span class="s">"value"</span>: <span class="s">"YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXo="</span> },
+    { <span class="s">"code"</span>: <span class="v">0</span>, <span class="s">"value"</span>: <span class="s">"dGVzdA=="</span> }
+  ],
+  <span class="s">"errorCode"</span>: <span class="v">0</span>,
+  <span class="s">"errorId"</span>: <span class="s">""</span>
+}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</div><!-- /t5 -->
 
 <script>
 

@@ -152,8 +152,7 @@ select,input[type="date"]{border:1px solid #CFD8DC;border-radius:4px;font-size:1
   </div>
   <div id="s4" class="card">
     <div class="section-header"><div class="section-title">📦 암호 키 반출입 &amp; 관리</div></div>
-   
-
+  
 
     <div class="cat-header"><span class="cat-title">① 전체 암호 키 관리 (관리자 전용)</span></div>
     <div class="ops-header"><span>#</span><span>Method</span><span>기능명</span><span>기능 요약</span><span>우선순위</span><span>개발 일정</span></div>
@@ -2855,13 +2854,295 @@ window.onload = () => {
   render(DATA.keyAdmin,'key-admin');
   render(DATA.keyComponent,'key-component');
 
-  // Enable print button immediately (no interaction needed)
   const btn = document.getElementById('final-btn');
   if(btn){ btn.disabled = false; }
+
+  // ── 모바일 전용 렌더링 ──────────────────────────────────────────────
+  if (window.innerWidth <= 768) { initMobileView(); }
 };
 
+/* ═══════════════════════════════════════════════════════════════
+   모바일 전용 뷰 — PC 기존 HTML은 완전 그대로 유지
+   모바일에서만 PC DOM을 숨기고 별도 모바일 UI를 렌더링
+═══════════════════════════════════════════════════════════════ */
+function initMobileView() {
+  // PC 전체 감추기
+  document.querySelector('.wrap').style.display = 'none';
 
+  // 모바일 전용 스타일 주입
+  const style = document.createElement('style');
+  style.textContent = `
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #EEF2F7; font-family: "Apple SD Gothic Neo","Malgun Gothic",sans-serif; min-width: 0; padding: 0; }
+    #mv { max-width: 480px; margin: 0 auto; padding: 0 0 60px 0; }
 
+    /* 헤더 */
+    .mv-header { background: linear-gradient(135deg,#003D7A,#0D2E5A); padding: 18px 16px 14px; }
+    .mv-title { color: #F9E000; font-weight: 900; font-size: 15px; line-height: 1.3; }
+    .mv-sub { color: #8AAAC8; font-size: 11px; margin-top: 4px; }
+    .mv-badges { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+    .mv-badge { background: rgba(255,255,255,0.12); border-radius: 8px; padding: 6px 12px; text-align: center; flex: 1; min-width: 60px; }
+    .mv-badge-val { font-size: 18px; font-weight: 900; line-height: 1; }
+    .mv-badge-lbl { color: #8AAAC8; font-size: 9px; margin-top: 2px; }
+
+    /* 탭 바 */
+    .mv-tabs { display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch; background: #1E3A5F; gap: 0; border-bottom: 2px solid #F9E000; }
+    .mv-tabs::-webkit-scrollbar { display: none; }
+    .mv-tab { flex-shrink: 0; padding: 11px 14px; font-size: 11px; font-weight: 700; color: #8AAAC8; background: none; border: none; cursor: pointer; white-space: nowrap; border-bottom: 3px solid transparent; margin-bottom: -2px; }
+    .mv-tab.on { color: #F9E000; border-bottom-color: #F9E000; background: rgba(255,255,255,0.06); }
+
+    /* 탭 패널 */
+    .mv-pane { display: none; padding: 14px 12px; }
+    .mv-pane.on { display: block; }
+
+    /* 섹션 카드 */
+    .mv-card { background: #fff; border-radius: 12px; padding: 14px; margin-bottom: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+    .mv-card-title { font-weight: 800; font-size: 13px; color: #003D7A; padding-bottom: 8px; border-bottom: 3px solid #F9E000; margin-bottom: 12px; }
+    .mv-cat { font-weight: 800; font-size: 11px; color: #003D7A; margin: 14px 0 8px; padding-left: 4px; border-left: 3px solid #F9E000; padding-left: 8px; }
+
+    /* API 아이템 카드 */
+    .mv-item { border: 1px solid #E8EEF4; border-radius: 9px; padding: 10px 12px; margin-bottom: 8px; }
+    .mv-item-top { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+    .mv-item-num { font-size: 10px; color: #90A4AE; font-weight: 700; min-width: 18px; }
+    .mv-item-name { font-weight: 800; font-size: 12px; color: #1A2533; flex: 1; }
+    .mv-item-desc { font-size: 11px; color: #546E7A; line-height: 1.5; margin-bottom: 8px; }
+    .mv-item-bottom { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .mv-mbadge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 9px; font-weight: 700; }
+    .mv-POST { background:#E4F5EC; color:#1A6E3C; }
+    .mv-GET  { background:#EBF4FF; color:#1565C0; }
+    .mv-PUT  { background:#FFF0E0; color:#C75B00; }
+    .mv-DELETE { background:#FFEBEE; color:#B71C1C; }
+    .mv-pbadge { display: inline-block; padding: 2px 9px; border-radius: 4px; font-size: 9px; font-weight: 800; color: #F9E000; }
+    .mv-date { font-size: 10px; color: #546E7A; }
+
+    /* RFP 카드 */
+    .mv-rfp-item { border-radius: 9px; padding: 12px; margin-bottom: 10px; border: 1px solid #E8EEF4; }
+    .mv-rfp-clause { font-size: 9px; color: #90A4AE; font-weight: 700; margin-bottom: 3px; }
+    .mv-rfp-req { font-weight: 700; font-size: 12px; color: #1A2533; margin-bottom: 6px; line-height: 1.4; }
+    .mv-rfp-status { display: inline-block; padding: 2px 10px; border-radius: 10px; font-size: 10px; font-weight: 700; margin-bottom: 8px; }
+    .mv-rfp-point { font-size: 11px; color: #374151; line-height: 1.6; background: #F8FAFC; border-radius: 6px; padding: 8px 10px; margin-top: 6px; }
+
+    /* 코드 블록 */
+    .mv-code { background: #1A2533; border-radius: 8px; padding: 11px 13px; font-family: "Fira Code","Courier New",monospace; font-size: 9.5px; color: #B0C4DE; line-height: 1.75; overflow-x: auto; -webkit-overflow-scrolling: touch; white-space: pre; margin: 8px 0; }
+    .mv-code .k { color: #F9E000; font-weight: 700; }
+    .mv-code .s { color: #FFD9A0; }
+    .mv-code .v { color: #90EE90; }
+    .mv-code .c { color: #4A6A6A; font-style: italic; }
+    .mv-code .h { color: #7EC8E3; }
+    .mv-code .r { color: #FF8A80; }
+
+    /* 섹션 타이틀 (t3/t4/t5) */
+    .mv-sec-title { font-weight: 800; font-size: 13px; color: #003D7A; padding-bottom: 7px; border-bottom: 3px solid #F9E000; margin-bottom: 12px; }
+    .mv-note { border-radius: 8px; padding: 10px 12px; font-size: 11px; line-height: 1.7; margin: 8px 0; }
+    .mv-note.blue { background:#EBF4FF; border:1px solid #90CAF9; color:#1565C0; }
+    .mv-note.yellow { background:#FFFDE7; border:1px solid #F9E000; color:#5D4037; }
+    .mv-note.green { background:#E4F5EC; border:1px solid #A5D6A7; color:#1A6E3C; }
+    .mv-note.orange { background:#FFF0E0; border:1px solid #FFCC80; color:#C75B00; }
+    .mv-note.red { background:#FFEBEE; border:1px solid #EF9A9A; color:#B71C1C; }
+    .mv-tbl { width:100%; border-collapse:collapse; font-size:10px; margin:8px 0; }
+    .mv-tbl th { background:#003D7A; color:#F9E000; padding:7px 9px; text-align:left; font-size:10px; }
+    .mv-tbl td { padding:7px 9px; border-bottom:1px solid #ECEFF1; vertical-align:top; line-height:1.6; }
+    .mv-tbl tr:last-child td { border-bottom:none; }
+    .mv-tbl tr:nth-child(even) td { background:#F8FAFB; }
+    .mv-api-head { border-radius:9px 9px 0 0; padding:10px 13px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+    .mv-api-body { background:#fff; border:1px solid #E8EEF4; border-top:none; border-radius:0 0 9px 9px; padding:12px 13px; margin-bottom:14px; }
+    .mv-api-num { width:24px; height:24px; border-radius:50%; background:rgba(255,255,255,0.25); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800; color:#fff; flex-shrink:0; }
+    .mv-api-title { font-weight:800; font-size:12px; color:#fff; }
+    .mv-api-path { font-family:monospace; font-size:9px; opacity:0.85; color:#fff; }
+    .mv-kmip { background:rgba(255,255,255,0.2); color:#fff; font-size:8px; font-weight:700; padding:1px 6px; border-radius:3px; }
+    .mv-flow { display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin:10px 0; }
+    .mv-fbox { border-radius:8px; padding:8px 12px; font-size:10px; font-weight:700; text-align:center; }
+    .mv-farrow { font-size:18px; color:#90A4AE; }
+    .mv-field-row { display:flex; gap:6px; padding:5px 0; border-bottom:1px solid #F0F4F8; font-size:10px; align-items:flex-start; }
+    .mv-field-row:last-child { border-bottom:none; }
+    .mv-fname { font-family:monospace; font-weight:700; color:#003D7A; min-width:100px; flex-shrink:0; }
+    .mv-freq { font-size:8px; padding:1px 4px; border-radius:3px; flex-shrink:0; }
+    .mv-req { background:#FFEBEE; color:#B71C1C; font-weight:700; }
+    .mv-opt { background:#E8F5E9; color:#1A6E3C; }
+    .mv-fdesc { color:#546E7A; line-height:1.5; }
+    .mono { font-family:"Fira Code","Courier New",monospace; font-size:10px; background:#EEF2F7; padding:1px 5px; border-radius:3px; color:#1A2533; }
+    .mv-intro { background:linear-gradient(135deg,#003D7A,#0D2E5A); border-radius:10px; padding:14px; margin-bottom:12px; color:#fff; }
+    .mv-intro-title { color:#F9E000; font-weight:900; font-size:14px; margin-bottom:5px; }
+    .mv-intro-sub { color:#8AAAC8; font-size:10px; line-height:1.8; }
+    .mv-intro-meta { display:flex; gap:6px; margin-top:10px; flex-wrap:wrap; }
+    .mv-imb { background:rgba(255,255,255,0.1); border-radius:6px; padding:4px 10px; font-size:9px; color:#B0C4DE; }
+    .mv-imb strong { color:#F9E000; }
+    .mv-state { display:inline-block; padding:2px 7px; border-radius:3px; font-size:9px; font-weight:700; }
+    .mv-preactive { background:#EBF4FF; color:#1565C0; border:1px solid #90CAF9; }
+    .mv-active { background:#E4F5EC; color:#1A6E3C; border:1px solid #A5D6A7; }
+    .mv-deact { background:#FFEBEE; color:#B71C1C; border:1px solid #EF9A9A; }
+    .mv-destroy { background:#ECEFF1; color:#546E7A; border:1px solid #CFD8DC; }
+  `;
+  document.head.appendChild(style);
+
+  // 모바일 루트 컨테이너 생성
+  const mv = document.createElement('div');
+  mv.id = 'mv';
+  document.body.appendChild(mv);
+
+  // ── 헤더 ────────────────────────────────────────────────────
+  mv.innerHTML = `
+    <div class="mv-header">
+      <div class="mv-title">kakaobank × D.AMO SG-KMS<br>REST API 설계서</div>
+      <div class="mv-sub">RFP 전체 요건 반영</div>
+      <div class="mv-badges">
+        <div class="mv-badge"><div class="mv-badge-val" style="color:#F9E000">14</div><div class="mv-badge-lbl">키 오퍼레이션</div></div>
+        <div class="mv-badge"><div class="mv-badge-val" style="color:#7EC8E3">11</div><div class="mv-badge-lbl">키 그룹 관리</div></div>
+        <div class="mv-badge"><div class="mv-badge-val" style="color:#90EE90">8</div><div class="mv-badge-lbl">클라이언트·ACL</div></div>
+        <div class="mv-badge"><div class="mv-badge-val" style="color:#FFB3C1">5</div><div class="mv-badge-lbl">반출입·관리</div></div>
+        <div class="mv-badge"><div class="mv-badge-val" style="color:#FFD700">38</div><div class="mv-badge-lbl">총 API</div></div>
+      </div>
+    </div>
+
+    <div class="mv-tabs" id="mv-tabs">
+      <button class="mv-tab on" onclick="mvTab('m1',this)">📋 일정 관리</button>
+      <button class="mv-tab" onclick="mvTab('m2',this)">🎯 RFP 요건</button>
+      <button class="mv-tab" onclick="mvTab('m4',this)">🔐 API 설계</button>
+      <button class="mv-tab" onclick="mvTab('m3',this)">🏗️ 구조 설계</button>
+      <button class="mv-tab" onclick="mvTab('m5',this)">📡 현행 API</button>
+    </div>
+
+    <div id="m1" class="mv-pane on"></div>
+    <div id="m2" class="mv-pane"></div>
+    <div id="m4" class="mv-pane"></div>
+    <div id="m3" class="mv-pane"></div>
+    <div id="m5" class="mv-pane"></div>
+  `;
+
+  // ── 탭 전환 함수 ─────────────────────────────────────────────
+  window.mvTab = (id, btn) => {
+    document.querySelectorAll('.mv-pane').forEach(p => p.classList.remove('on'));
+    document.querySelectorAll('.mv-tab').forEach(b => b.classList.remove('on'));
+    document.getElementById(id).classList.add('on');
+    btn.classList.add('on');
+  };
+
+  // ── 배지 헬퍼 ───────────────────────────────────────────────
+  const mBadge = m => `<span class="mv-mbadge mv-${m}">${m}</span>`;
+  const pBadge = id => {
+    const p = getPriority(id);
+    const bg = p==='P1'?'#003D7A':p==='P2'?'#1A6E3C':'#546E7A';
+    return `<span class="mv-pbadge" style="background:${bg}">${p}</span>`;
+  };
+  const dateSpan = id => `<span class="mv-date">${getDateLabel(id)}</span>`;
+
+  // ── TAB 1: API 개발 일정 관리 ────────────────────────────────
+  const m1 = document.getElementById('m1');
+
+  const sections1 = [
+    { title:'🔐 암호 키 오퍼레이션', list: DATA.keyOps },
+    { title:'📁 암호 키 그룹 관리', cats:[
+      { cat:'① 키 그룹 CRUD', list: DATA.groupCrud },
+      { cat:'② 그룹-키 관계 관리', list: DATA.groupKey },
+      { cat:'③ 클라이언트-그룹 권한 매핑', list: DATA.clientGroup },
+    ]},
+    { title:'👤 클라이언트 및 ACL', cats:[
+      { cat:'① 클라이언트 관리', list: DATA.clientManage },
+      { cat:'② IP ACL 접근제어', list: DATA.aclManage },
+    ]},
+    { title:'📦 암호 키 반출입 & 관리', cats:[
+      { cat:'① 전체 암호 키 관리 (관리자 전용)', list: DATA.keyAdmin },
+      { cat:'② 컴포넌트 분할 반출입', list: DATA.keyComponent },
+    ]},
+  ];
+
+  const renderItems = (list) => list.map((k,i) => `
+    <div class="mv-item">
+      <div class="mv-item-top">
+        <span class="mv-item-num">${i+1}</span>
+        ${mBadge(k.m)}
+        <span class="mv-item-name">${k.k}</span>
+      </div>
+      <div class="mv-item-desc">${k.d}</div>
+      <div class="mv-item-bottom">${pBadge(k.id)}${dateSpan(k.id)}</div>
+    </div>
+  `).join('');
+
+  m1.innerHTML = sections1.map(s => `
+    <div class="mv-card">
+      <div class="mv-card-title">${s.title}</div>
+      ${s.list ? renderItems(s.list) : s.cats.map(c => `
+        <div class="mv-cat">${c.cat}</div>
+        ${renderItems(c.list)}
+      `).join('')}
+    </div>
+  `).join('');
+
+  // ── TAB 2: RFP 요건 — PC 탭2 내용 직접 복사 ──────────────────
+  const m2 = document.getElementById('m2');
+  const t2src = document.getElementById('t2');
+  if (t2src) {
+    m2.innerHTML = `<div style="font-size:11px;line-height:1.7;">${t2src.innerHTML}</div>`;
+    // RFP 탭은 PC 스타일을 모바일에서도 쓸 수 있게 폰트·패딩 조정
+    m2.querySelectorAll('.rfp-table').forEach(tbl => {
+      tbl.style.fontSize = '10px';
+      tbl.querySelectorAll('th,td').forEach(cell => { cell.style.padding = '7px 8px'; });
+    });
+    m2.querySelectorAll('.sg').forEach(el => { el.style.gridTemplateColumns = '1fr'; });
+    m2.querySelectorAll('.card').forEach(el => { el.style.padding = '12px'; });
+    m2.querySelectorAll('.wrap').forEach(el => { el.style.maxWidth = '100%'; el.style.padding = '0'; });
+  }
+
+  // ── TAB 4: 키 오퍼레이션 API 설계 ────────────────────────────
+  const m4 = document.getElementById('m4');
+  const t4src = document.getElementById('t4');
+  if (t4src) {
+    m4.innerHTML = t4src.innerHTML;
+    // 2열 그리드 → 1열
+    m4.querySelectorAll('.t4-grid2,.t4-grid3').forEach(el => {
+      el.style.gridTemplateColumns = '1fr';
+    });
+    m4.querySelectorAll('.t4-code').forEach(el => {
+      el.style.fontSize = '9px';
+      el.style.overflowX = 'auto';
+    });
+    m4.querySelectorAll('.t4-tbl').forEach(tbl => {
+      tbl.style.fontSize = '10px';
+      tbl.querySelectorAll('th,td').forEach(c => { c.style.padding = '6px 8px'; });
+    });
+  }
+
+  // ── TAB 3: SG-KMS 구조 기반 설계 ─────────────────────────────
+  const m3 = document.getElementById('m3');
+  const t3src = document.getElementById('t3');
+  if (t3src) {
+    m3.innerHTML = t3src.innerHTML;
+    // 다열 그리드 → 1열
+    m3.querySelectorAll('.t3-diagram,.t3-compare,.t3-mapping-grid').forEach(el => {
+      el.style.gridTemplateColumns = '1fr';
+    });
+    m3.querySelectorAll('[style*="grid-template-columns"]').forEach(el => {
+      el.style.gridTemplateColumns = '1fr';
+      el.style.minWidth = '0';
+    });
+    m3.querySelectorAll('.t3-code').forEach(el => {
+      el.style.fontSize = '9px';
+      el.style.overflowX = 'auto';
+    });
+    m3.querySelectorAll('.t3-arrow-col').forEach(el => {
+      el.style.display = 'none';
+    });
+  }
+
+  // ── TAB 5: SG-KMS 현행 REST API ──────────────────────────────
+  const m5 = document.getElementById('m5');
+  const t5src = document.getElementById('t5');
+  if (t5src) {
+    m5.innerHTML = t5src.innerHTML;
+    m5.querySelectorAll('.t5-grid2,.t5-grid3').forEach(el => {
+      el.style.gridTemplateColumns = '1fr';
+    });
+    m5.querySelectorAll('.t5-code').forEach(el => {
+      el.style.fontSize = '9px';
+      el.style.overflowX = 'auto';
+    });
+    m5.querySelectorAll('.t5-tbl').forEach(tbl => {
+      tbl.style.fontSize = '10px';
+      tbl.querySelectorAll('th,td').forEach(c => { c.style.padding = '6px 8px'; });
+    });
+  }
+}
 </script>
 </body>
 </html>
+

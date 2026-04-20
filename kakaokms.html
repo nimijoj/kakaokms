@@ -628,11 +628,11 @@ select,input[type="date"]{border:1px solid #CFD8DC;border-radius:4px;font-size:1
   <button class="main-tab active" onclick="switchTab('t2',this)">🎯 RFP 요건</button>
   <button class="main-tab" onclick="switchTab('t5',this)">📡 SG-KMS 현행 REST API 사용방법</button>
   <button class="main-tab" onclick="switchTab('t6',this)">📐 KMIP 2.1 기준 분석</button>
+  <button class="main-tab" onclick="switchTab('t1',this)">📋 API 개발 일정 관리</button>
   <button class="main-tab" onclick="switchTab('t3',this)">🏗️ SG-KMS 구조 기반 설계</button>
+  <button class="main-tab" onclick="switchTab('t7',this)">🖥️ SG-KMS REST API UI 디자인</button>
   <button class="main-tab" onclick="switchTab('t4',this)">🔐 키 오퍼레이션 REST API 설계</button>
   <button class="main-tab" onclick="switchTab('t10',this)">🛡️ KMS 관리 REST API 설계</button>
-  <button class="main-tab" onclick="switchTab('t7',this)">🖥️ SG-KMS REST API UI 디자인</button>
-  <button class="main-tab" onclick="switchTab('t1',this)">📋 API 개발 일정 관리</button>
   <button class="main-tab" onclick="switchTab('t11',this)">⚠️ 프로젝트 진행 시 유의점</button>
 </div>
 
@@ -6371,7 +6371,7 @@ String key = agent.getKey(token, <span class="s">"PAY_KEY_POLICY_01"</span>);   
   <!-- 3단 매핑 다이어그램 (정확한 구조) -->
   <div style="font-weight:800;font-size:12px;color:#003D7A;margin-bottom:10px;">🗂️ 카카오뱅크 서비스 환경 매핑 예시 — KMS API 계정 · Agent · 정책·키</div>
   <div style="overflow-x:auto;">
-  <div style="display:grid;grid-template-columns:220px 220px 1fr;gap:12px;min-width:750px;">
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;min-width:750px;">
 
     <!-- 클라이언트 컬럼 -->
     <div>
@@ -7054,31 +7054,120 @@ Authorization: Bearer {ADMIN_JWT}
   </div>
 
   <!-- 키 접근 경로 이중 지원 추가 설명 -->
-  <div style="background:#FFF8E1;border:2px solid #FFC107;border-radius:8px;padding:14px;margin-top:14px;">
-    <div style="font-weight:800;font-size:12px;color:#C75B00;margin-bottom:8px;">🔑 핵심 최적화: 키 접근 경로 이중 지원</div>
-    <div style="font-size:11px;color:#1A2533;line-height:1.8;">
-      KMIP 표준은 <strong>uuid 기반 2단계 호출</strong>(Locate → Get)을 요구하지만, 기존 SG-KMS는 <strong>정책명 기반 1단계 호출</strong>(<span class="mono">/api/exportKey/by/name/{policyName}</span>)을 사용합니다. 본 설계는 두 방식을 모두 지원하여 운영 효율성과 표준 준수를 동시에 달성합니다.
+  <div style="background:linear-gradient(135deg,#FFF8E1,#FFECB3);border:2px solid #FFC107;border-radius:12px;padding:18px;margin-top:14px;box-shadow:0 2px 8px rgba(255,193,7,0.15);">
+
+    <!-- 헤더 -->
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+      <div style="background:#C75B00;color:#fff;padding:6px 12px;border-radius:6px;font-size:12px;font-weight:900;">🔑 핵심 최적화</div>
+      <div style="font-weight:800;font-size:14px;color:#5D4037;">키 접근 경로 이중 지원 (Dual-Path Strategy)</div>
     </div>
-    <table class="t3-tbl" style="margin-top:10px;">
-      <thead><tr><th style="width:120px;">접근 방식</th><th style="width:140px;">사용 API</th><th style="width:100px;">호출 횟수</th><th>권장 용도</th></tr></thead>
-      <tbody>
-        <tr>
-          <td style="background:#E8F5E9;"><strong>정책명 기반 (권장)</strong></td>
-          <td><span class="mono">o14 Using Re-key</span></td>
-          <td style="text-align:center;color:#1A6E3C;font-weight:700;">1회</td>
-          <td><strong>운영 호출 (암복호화)</strong> — 기존 ExportKey API와 동일 구조. 만료 시 자동 Re-key + Hex 키값 반환. 애플리케이션 투명 처리.</td>
-        </tr>
-        <tr>
-          <td>uuid 기반</td>
-          <td><span class="mono">o5 Locate + o6 Get</span></td>
-          <td style="text-align:center;">2회</td>
-          <td>관리 목적 — KMIP 표준 준수. 특정 키 상세 조회, 감사, 마이그레이션 검증 용도</td>
-        </tr>
-      </tbody>
-    </table>
-    <div style="margin-top:8px;font-size:10px;color:#C75B00;">
-      💡 <strong>효과:</strong> 대부분의 운영 호출은 기존 ExportKey 로직(§3.2.4)을 재사용하여 처리되므로 <strong>핵심 경로 재개발 불필요</strong>. uuid 기반 API는 관리자용으로만 신규 구축.
+
+    <!-- 설명 -->
+    <div style="background:#fff;border-radius:8px;padding:11px 14px;font-size:11px;color:#1A2533;line-height:1.8;margin-bottom:14px;border-left:4px solid #FFC107;">
+      KMIP 표준은 <strong style="color:#1565C0;">uuid 기반 2단계 호출(Locate → Get)</strong>을 요구하지만, 기존 SG-KMS는 <strong style="color:#1A6E3C;">정책명 기반 1단계 호출(<span class="mono">/api/exportKey/by/name/{policyName}</span>)</strong>을 사용합니다. 본 설계는 <strong style="color:#C75B00;">두 방식을 동시에 지원</strong>하여 <strong>운영 효율성 + 표준 준수</strong>를 모두 달성합니다.
     </div>
+
+    <!-- 2개 경로 비교 카드 -->
+    <div style="display:grid;grid-template-columns:1fr 60px 1fr;gap:0;align-items:stretch;margin-bottom:14px;">
+
+      <!-- 경로 A: 정책명 기반 (권장) -->
+      <div style="background:#fff;border:2px solid #1A6E3C;border-radius:10px;overflow:hidden;">
+        <div style="background:linear-gradient(135deg,#1A6E3C,#2E8B57);color:#fff;padding:10px 14px;position:relative;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="font-size:20px;">⚡</span>
+            <div>
+              <div style="font-size:13px;font-weight:900;">정책명 기반 접근</div>
+              <div style="font-size:10px;opacity:0.9;">운영 호출용 (RECOMMENDED)</div>
+            </div>
+          </div>
+          <div style="position:absolute;top:10px;right:10px;background:#F9E000;color:#1A6E3C;padding:3px 8px;border-radius:10px;font-size:9px;font-weight:900;">⭐ 권장</div>
+        </div>
+        <div style="padding:14px;">
+          <!-- 호출 시각화 -->
+          <div style="background:#F5FBF7;border-radius:6px;padding:10px;margin-bottom:10px;">
+            <div style="display:flex;align-items:center;gap:6px;justify-content:center;">
+              <div style="background:#1A6E3C;color:#fff;padding:5px 10px;border-radius:4px;font-size:10px;font-weight:700;font-family:monospace;">APP</div>
+              <span style="color:#1A6E3C;font-weight:900;">→</span>
+              <div style="background:#fff;border:2px solid #1A6E3C;color:#1A6E3C;padding:5px 10px;border-radius:4px;font-size:10px;font-weight:700;font-family:monospace;">o14 Using Re-key</div>
+              <span style="color:#1A6E3C;font-weight:900;">→</span>
+              <div style="background:#F9E000;color:#1A6E3C;padding:5px 10px;border-radius:4px;font-size:10px;font-weight:900;font-family:monospace;">🔑 Hex</div>
+            </div>
+            <div style="text-align:center;margin-top:8px;background:#1A6E3C;color:#F9E000;padding:4px 10px;border-radius:12px;font-size:10px;font-weight:800;display:inline-block;width:100%;box-sizing:border-box;">✓ 단 1회 호출</div>
+          </div>
+          <!-- 특성 -->
+          <div style="font-size:10px;line-height:1.8;color:#1A2533;">
+            <div style="margin-bottom:4px;"><span style="color:#1A6E3C;font-weight:700;">✓</span> 정책명으로 <strong>즉시 키값 반환</strong></div>
+            <div style="margin-bottom:4px;"><span style="color:#1A6E3C;font-weight:700;">✓</span> 만료 시 <strong>자동 Re-key 처리</strong> (투명)</div>
+            <div style="margin-bottom:4px;"><span style="color:#1A6E3C;font-weight:700;">✓</span> 기존 ExportKey 로직 <strong>100% 재사용</strong></div>
+            <div><span style="color:#1A6E3C;font-weight:700;">✓</span> 애플리케이션 코드 <strong>최소화</strong></div>
+          </div>
+          <!-- 용도 -->
+          <div style="margin-top:10px;padding:8px 10px;background:#E8F5E9;border-radius:5px;font-size:10px;color:#1B5E20;">
+            <strong>💼 권장 용도:</strong> 암호화·복호화 운영 호출 (대부분의 서비스 호출)
+          </div>
+        </div>
+      </div>
+
+      <!-- 중앙 VS -->
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;">
+        <div style="background:#5D4037;color:#F9E000;width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;box-shadow:0 2px 6px rgba(0,0,0,0.2);">VS</div>
+        <div style="font-size:9px;color:#5D4037;font-weight:700;text-align:center;line-height:1.4;">두 방식<br>병행 지원</div>
+      </div>
+
+      <!-- 경로 B: uuid 기반 (표준) -->
+      <div style="background:#fff;border:2px solid #1565C0;border-radius:10px;overflow:hidden;">
+        <div style="background:linear-gradient(135deg,#1565C0,#0D47A1);color:#fff;padding:10px 14px;position:relative;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="font-size:20px;">📐</span>
+            <div>
+              <div style="font-size:13px;font-weight:900;">uuid 기반 접근</div>
+              <div style="font-size:10px;opacity:0.9;">관리·감사용 (KMIP STANDARD)</div>
+            </div>
+          </div>
+          <div style="position:absolute;top:10px;right:10px;background:#F9E000;color:#1565C0;padding:3px 8px;border-radius:10px;font-size:9px;font-weight:900;">📐 표준</div>
+        </div>
+        <div style="padding:14px;">
+          <!-- 호출 시각화 -->
+          <div style="background:#F0F7FF;border-radius:6px;padding:10px;margin-bottom:10px;">
+            <div style="display:flex;align-items:center;gap:4px;justify-content:center;flex-wrap:wrap;">
+              <div style="background:#1565C0;color:#fff;padding:5px 8px;border-radius:4px;font-size:10px;font-weight:700;font-family:monospace;">APP</div>
+              <span style="color:#1565C0;font-weight:900;">→</span>
+              <div style="background:#fff;border:2px solid #1565C0;color:#1565C0;padding:5px 8px;border-radius:4px;font-size:10px;font-weight:700;font-family:monospace;">o5 Locate</div>
+              <span style="color:#1565C0;font-weight:900;">→</span>
+              <div style="background:#fff;border:2px solid #1565C0;color:#1565C0;padding:5px 8px;border-radius:4px;font-size:10px;font-weight:700;font-family:monospace;">o6 Get</div>
+              <span style="color:#1565C0;font-weight:900;">→</span>
+              <div style="background:#F9E000;color:#1565C0;padding:5px 8px;border-radius:4px;font-size:10px;font-weight:900;font-family:monospace;">🔑 Hex</div>
+            </div>
+            <div style="text-align:center;margin-top:8px;background:#1565C0;color:#F9E000;padding:4px 10px;border-radius:12px;font-size:10px;font-weight:800;display:inline-block;width:100%;box-sizing:border-box;">✓ 2단계 호출 (표준)</div>
+          </div>
+          <!-- 특성 -->
+          <div style="font-size:10px;line-height:1.8;color:#1A2533;">
+            <div style="margin-bottom:4px;"><span style="color:#1565C0;font-weight:700;">✓</span> uuid로 <strong>특정 키 정확 식별</strong></div>
+            <div style="margin-bottom:4px;"><span style="color:#1565C0;font-weight:700;">✓</span> <strong>KMIP 2.1 표준 준수</strong> (감사 대응)</div>
+            <div style="margin-bottom:4px;"><span style="color:#1565C0;font-weight:700;">✓</span> Re-key 계보 추적 가능 (origin_uuid)</div>
+            <div><span style="color:#1565C0;font-weight:700;">✓</span> 관리자 조회·검증 용도에 적합</div>
+          </div>
+          <!-- 용도 -->
+          <div style="margin-top:10px;padding:8px 10px;background:#E3F2FD;border-radius:5px;font-size:10px;color:#0D47A1;">
+            <strong>💼 권장 용도:</strong> 관리자 조회 · 감사 대응 · 마이그레이션 검증
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 효과 박스 (강조) -->
+    <div style="background:linear-gradient(135deg,#FFF3E0,#FFE0B2);border:2px solid #FF9800;border-radius:10px;padding:14px 16px;display:flex;align-items:flex-start;gap:12px;">
+      <div style="background:#C75B00;color:#fff;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">💡</div>
+      <div style="flex:1;">
+        <div style="font-weight:800;font-size:12px;color:#C75B00;margin-bottom:5px;">효과 — 개발 공수 최소화 + 표준 준수 동시 달성</div>
+        <div style="font-size:11px;color:#5D4037;line-height:1.8;">
+          <strong>운영 호출의 95% 이상</strong>이 <strong style="color:#1A6E3C;">정책명 기반 경로</strong>(o14)를 사용 → 기존 ExportKey 로직(§3.2.4)을 <strong>그대로 재활용</strong>하여 <strong>핵심 경로 재개발 불필요</strong>.
+          <strong style="color:#1565C0;">uuid 기반 API</strong>(o5, o6)는 관리자용으로만 신규 구축하여 <strong>KMIP 2.1 표준 준수 요건</strong>을 충족.
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- 종합 결론 -->
@@ -14046,19 +14135,19 @@ function initMobileView() {
       <button class="mv-tab on" onclick="mvTab('m2',this)">🎯 RFP 요건</button>
       <button class="mv-tab" onclick="mvTab('m5',this)">📡 현행 API</button>
       <button class="mv-tab" onclick="mvTab('m6',this)">📐 KMIP 2.1</button>
-      <button class="mv-tab" onclick="mvTab('m3',this)">🏗️ 구조 설계</button>
-      <button class="mv-tab" onclick="mvTab('m4',this)">🔐 API 설계</button>
-      <button class="mv-tab" onclick="mvTab('m7',this)">🖥️ UI 디자인</button>
       <button class="mv-tab" onclick="mvTab('m1',this)">📋 일정 관리</button>
+      <button class="mv-tab" onclick="mvTab('m3',this)">🏗️ 구조 설계</button>
+      <button class="mv-tab" onclick="mvTab('m7',this)">🖥️ UI 디자인</button>
+      <button class="mv-tab" onclick="mvTab('m4',this)">🔐 API 설계</button>
     </div>
 
     <div id="m2" class="mv-pane on"></div>
     <div id="m5" class="mv-pane"></div>
     <div id="m6" class="mv-pane"></div>
-    <div id="m3" class="mv-pane"></div>
-    <div id="m4" class="mv-pane"></div>
-    <div id="m7" class="mv-pane"></div>
     <div id="m1" class="mv-pane"></div>
+    <div id="m3" class="mv-pane"></div>
+    <div id="m7" class="mv-pane"></div>
+    <div id="m4" class="mv-pane"></div>
   `;
 
   // ── 탭 전환 함수 ─────────────────────────────────────────────

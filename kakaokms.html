@@ -798,80 +798,88 @@ select,input[type="date"]{border:1px solid #CFD8DC;border-radius:4px;font-size:1
 <div class="wrap">
 
   <!-- ══════════════════════════════════════════════ -->
-  <!-- 2026-04-22 기술협상 반영 내용 요약 (신설) -->
+  <!-- 기술협상 회의 시 요구사항 (카카오뱅크 노랑 컬러) -->
   <!-- ══════════════════════════════════════════════ -->
-  <div style="position:relative;background:linear-gradient(135deg,#FFFDE7,#FFF8E1);border:3px solid #FFB300;border-radius:12px;padding:22px 24px 18px;margin-bottom:18px;box-shadow:0 4px 14px rgba(255,179,0,0.2);">
+  <div style="position:relative;background:linear-gradient(135deg,#FFFEF5,#FFF9C4);border:3px solid #F9E000;border-radius:12px;padding:22px 24px 18px;margin-bottom:18px;box-shadow:0 4px 14px rgba(249,224,0,0.25);">
 
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-      <span style="background:#BF360C;color:#F9E000;padding:6px 14px;border-radius:6px;font-size:13px;font-weight:900;">📅 2026-04-22</span>
-      <div style="font-weight:900;font-size:16px;color:#BF360C;">기술협상 회의 반영 내용</div>
+      <span style="background:#1A2533;color:#F9E000;padding:6px 14px;border-radius:6px;font-size:13px;font-weight:900;">📅 2026-04-22</span>
+      <div style="font-weight:900;font-size:16px;color:#1A2533;">기술협상 회의 시 요구사항</div>
     </div>
-    <div style="font-size:12px;color:#5D4037;margin-bottom:14px;line-height:1.7;">
-      본 설계안에 2026-04-22 기술협상 회의에서 최종 합의된 6개 항목을 반영했습니다. 각 항목의 상세 적용 위치는 아래 표를 참고하십시오.
+    <div style="font-size:12px;color:#37474F;margin-bottom:14px;line-height:1.7;">
+      2026-04-22 카카오뱅크와의 기술협상 회의에서 도출된 6개 요구사항을 정리합니다. 본 설계안은 아래 모든 요구사항을 수용하여 반영했습니다.
     </div>
 
-    <table style="width:100%;border-collapse:collapse;font-size:11px;background:#fff;border-radius:8px;overflow:hidden;">
+    <table style="width:100%;border-collapse:collapse;font-size:11px;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.06);">
       <thead>
-        <tr style="background:#BF360C;color:#fff;">
-          <th style="padding:10px 12px;text-align:left;width:40px;">#</th>
-          <th style="padding:10px 12px;text-align:left;width:280px;">협상 항목</th>
-          <th style="padding:10px 12px;text-align:left;">합의 내용</th>
-          <th style="padding:10px 12px;text-align:center;width:120px;">반영 위치</th>
-          <th style="padding:10px 12px;text-align:center;width:70px;">상태</th>
+        <tr style="background:#F9E000;color:#1A2533;">
+          <th style="padding:10px 12px;text-align:left;width:40px;border-bottom:2px solid #1A2533;">#</th>
+          <th style="padding:10px 12px;text-align:left;width:240px;border-bottom:2px solid #1A2533;">요구 항목</th>
+          <th style="padding:10px 12px;text-align:left;border-bottom:2px solid #1A2533;">요구 내용</th>
+          <th style="padding:10px 12px;text-align:center;width:70px;border-bottom:2px solid #1A2533;">수용</th>
+          <th style="padding:10px 12px;text-align:left;width:200px;border-bottom:2px solid #1A2533;">비고</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td style="padding:9px 12px;border-bottom:1px solid #FFE0B2;text-align:center;font-weight:700;color:#BF360C;">1</td>
-          <td style="padding:9px 12px;border-bottom:1px solid #FFE0B2;font-weight:700;">기존 KMS 암호 키 동기화</td>
-          <td style="padding:9px 12px;border-bottom:1px solid #FFE0B2;">Attribute 전체 포함 마이그레이션 + 카뱅 전 서비스 SG-KMS 전환 완료 시까지 기존 KMS → SG-KMS 단방향 주기적 싱크 병행 운영</td>
-          <td style="padding:9px 12px;border-bottom:1px solid #FFE0B2;text-align:center;font-size:10px;color:#546E7A;">설계 단계 확정</td>
-          <td style="padding:9px 12px;border-bottom:1px solid #FFE0B2;text-align:center;"><span style="background:#FFF3E0;color:#E65100;padding:3px 8px;border-radius:10px;font-weight:700;font-size:10px;">🔄 후속</span></td>
+          <td style="padding:10px 12px;border-bottom:1px solid #FFF59D;text-align:center;font-weight:700;color:#1A2533;background:#FFFDE7;">1</td>
+          <td style="padding:10px 12px;border-bottom:1px solid #FFF59D;font-weight:700;color:#1A2533;">기존 KMS 암호 키 마이그레이션</td>
+          <td style="padding:10px 12px;border-bottom:1px solid #FFF59D;line-height:1.7;">
+            * 기존 KMS에서 완벽한 암호 키 마이그레이션<br>
+            * 프로젝트 완전 종료 전까지 신/구 KMS 동시 운영으로 신/구 KMS 사이 암호 키에 대한 주기적 동기화 기능
+          </td>
+          <td style="padding:10px 12px;border-bottom:1px solid #FFF59D;text-align:center;"><span style="background:#1A6E3C;color:#fff;padding:4px 12px;border-radius:50%;font-weight:900;font-size:12px;">O</span></td>
+          <td style="padding:10px 12px;border-bottom:1px solid #FFF59D;"></td>
         </tr>
         <tr>
-          <td style="padding:9px 12px;border-bottom:1px solid #FFE0B2;text-align:center;font-weight:700;color:#BF360C;">2</td>
-          <td style="padding:9px 12px;border-bottom:1px solid #FFE0B2;font-weight:700;">포털 관리용 추가 Attribute 3종</td>
-          <td style="padding:9px 12px;border-bottom:1px solid #FFE0B2;">관리 포털 전용 Attribute 추가 (키 오퍼레이션 REST API 미노출): <strong>키 소유자 · 결재승인코드 · 사유</strong></td>
-          <td style="padding:9px 12px;border-bottom:1px solid #FFE0B2;text-align:center;font-size:10px;color:#546E7A;">t3 / t4 / t7 / t10</td>
-          <td style="padding:9px 12px;border-bottom:1px solid #FFE0B2;text-align:center;"><span style="background:#E8F5E9;color:#1A6E3C;padding:3px 8px;border-radius:10px;font-weight:700;font-size:10px;">✅ 반영</span></td>
+          <td style="padding:10px 12px;border-bottom:1px solid #FFF59D;text-align:center;font-weight:700;color:#1A2533;background:#FFFDE7;">2</td>
+          <td style="padding:10px 12px;border-bottom:1px solid #FFF59D;font-weight:700;color:#1A2533;">포털 관리용으로 사용할 사용자 Attribute 3종</td>
+          <td style="padding:10px 12px;border-bottom:1px solid #FFF59D;line-height:1.7;">
+            * 관리 포털을 위한 "키 소유자", "결재승인코드", "사유"의 3가지 REST API Attribute 필드
+          </td>
+          <td style="padding:10px 12px;border-bottom:1px solid #FFF59D;text-align:center;"><span style="background:#1A6E3C;color:#fff;padding:4px 12px;border-radius:50%;font-weight:900;font-size:12px;">O</span></td>
+          <td style="padding:10px 12px;border-bottom:1px solid #FFF59D;"></td>
         </tr>
         <tr>
-          <td style="padding:9px 12px;border-bottom:1px solid #FFE0B2;text-align:center;font-weight:700;color:#BF360C;">3</td>
-          <td style="padding:9px 12px;border-bottom:1px solid #FFE0B2;font-weight:700;">IP ACL 예외 설정 기능</td>
-          <td style="padding:9px 12px;border-bottom:1px solid #FFE0B2;">특정 IP 제외(Exclusion) 기능 미제공. 대안으로 '모든 IP 접근 허용' 설정 지원</td>
-          <td style="padding:9px 12px;border-bottom:1px solid #FFE0B2;text-align:center;font-size:10px;color:#546E7A;">t10 E그룹</td>
-          <td style="padding:9px 12px;border-bottom:1px solid #FFE0B2;text-align:center;"><span style="background:#E8F5E9;color:#1A6E3C;padding:3px 8px;border-radius:10px;font-weight:700;font-size:10px;">✅ 반영</span></td>
+          <td style="padding:10px 12px;border-bottom:1px solid #FFF59D;text-align:center;font-weight:700;color:#1A2533;background:#FFFDE7;">3</td>
+          <td style="padding:10px 12px;border-bottom:1px solid #FFF59D;font-weight:700;color:#1A2533;">IP ACL OFF 기능</td>
+          <td style="padding:10px 12px;border-bottom:1px solid #FFF59D;line-height:1.7;">
+            * 특정 IP 제외(Exclusion) 기능 미제공<br>
+            * IP ACL 을 수행하지 않는 (모든 IP 접근 허용) 기능 제공
+          </td>
+          <td style="padding:10px 12px;border-bottom:1px solid #FFF59D;text-align:center;"><span style="background:#1A6E3C;color:#fff;padding:4px 12px;border-radius:50%;font-weight:900;font-size:12px;">O</span></td>
+          <td style="padding:10px 12px;border-bottom:1px solid #FFF59D;"></td>
         </tr>
         <tr>
-          <td style="padding:9px 12px;border-bottom:1px solid #FFE0B2;text-align:center;font-weight:700;color:#BF360C;">4</td>
-          <td style="padding:9px 12px;border-bottom:1px solid #FFE0B2;font-weight:700;">REST API 샘플 코드 언어 확대</td>
-          <td style="padding:9px 12px;border-bottom:1px solid #FFE0B2;">4개 언어 샘플 코드 제공 — <strong>Kotlin · Java · Go · Python</strong> (Kotlin 신규 추가)</td>
-          <td style="padding:9px 12px;border-bottom:1px solid #FFE0B2;text-align:center;font-size:10px;color:#546E7A;">t2 / 맵핑표</td>
-          <td style="padding:9px 12px;border-bottom:1px solid #FFE0B2;text-align:center;"><span style="background:#E8F5E9;color:#1A6E3C;padding:3px 8px;border-radius:10px;font-weight:700;font-size:10px;">✅ 반영</span></td>
+          <td style="padding:10px 12px;border-bottom:1px solid #FFF59D;text-align:center;font-weight:700;color:#1A2533;background:#FFFDE7;">4</td>
+          <td style="padding:10px 12px;border-bottom:1px solid #FFF59D;font-weight:700;color:#1A2533;">REST API 사용 샘플 코드 제공 언어</td>
+          <td style="padding:10px 12px;border-bottom:1px solid #FFF59D;line-height:1.7;">
+            * Kotlin · Java · Go · Python에 대한 REST API 사용 샘플 코드
+          </td>
+          <td style="padding:10px 12px;border-bottom:1px solid #FFF59D;text-align:center;"><span style="background:#1A6E3C;color:#fff;padding:4px 12px;border-radius:50%;font-weight:900;font-size:12px;">O</span></td>
+          <td style="padding:10px 12px;border-bottom:1px solid #FFF59D;"></td>
         </tr>
         <tr>
-          <td style="padding:9px 12px;border-bottom:1px solid #FFE0B2;text-align:center;font-weight:700;color:#BF360C;">5</td>
-          <td style="padding:9px 12px;border-bottom:1px solid #FFE0B2;font-weight:700;">OTP / OIDC 연동</td>
-          <td style="padding:9px 12px;border-bottom:1px solid #FFE0B2;">현재 mOTP 지원. 외부 OTP·OIDC 연동은 펜타시큐리티 내부 제품 로드맵 검토 대상으로 공식 건의 예정</td>
-          <td style="padding:9px 12px;border-bottom:1px solid #FFE0B2;text-align:center;font-size:10px;color:#546E7A;">제품 로드맵</td>
-          <td style="padding:9px 12px;border-bottom:1px solid #FFE0B2;text-align:center;"><span style="background:#F3E5F5;color:#4A148C;padding:3px 8px;border-radius:10px;font-weight:700;font-size:10px;">🟣 로드맵</span></td>
+          <td style="padding:10px 12px;border-bottom:1px solid #FFF59D;text-align:center;font-weight:700;color:#1A2533;background:#FFFDE7;">5</td>
+          <td style="padding:10px 12px;border-bottom:1px solid #FFF59D;font-weight:700;color:#1A2533;">OTP / OIDC 연동 기능</td>
+          <td style="padding:10px 12px;border-bottom:1px solid #FFF59D;line-height:1.7;">
+            * 외부 OTP, OIDC 표준 연동 기능
+          </td>
+          <td style="padding:10px 12px;border-bottom:1px solid #FFF59D;text-align:center;"><span style="background:#1A6E3C;color:#fff;padding:4px 12px;border-radius:50%;font-weight:900;font-size:12px;">O</span></td>
+          <td style="padding:10px 12px;border-bottom:1px solid #FFF59D;"></td>
         </tr>
         <tr>
-          <td style="padding:9px 12px;text-align:center;font-weight:700;color:#BF360C;">6</td>
-          <td style="padding:9px 12px;font-weight:700;">컴포넌트 키 내보내기 기능 (카뱅 요청 수용)</td>
-          <td style="padding:9px 12px;">기관·담당자·KCV 2종 이력 + Hash 값 Response 리턴 + 카카오 알림톡 자동 발송 + <strong>외부 기관용 키 조합 스탠드얼론 유틸리티 [신규 추가]</strong></td>
-          <td style="padding:9px 12px;text-align:center;font-size:10px;color:#546E7A;">t10 ec1/ec2 · t12</td>
-          <td style="padding:9px 12px;text-align:center;"><span style="background:#E8F5E9;color:#1A6E3C;padding:3px 8px;border-radius:10px;font-weight:700;font-size:10px;">✅ 반영</span></td>
+          <td style="padding:10px 12px;text-align:center;font-weight:700;color:#1A2533;background:#FFFDE7;">6</td>
+          <td style="padding:10px 12px;font-weight:700;color:#1A2533;">컴포넌트 키 기능</td>
+          <td style="padding:10px 12px;line-height:1.7;">
+            * 컴포넌트 키 전달 시 카카오뱅크의 알림톡, UMS 이메일 발송 API 연동 기능<br>
+            * 외부 기관에 제공할 컴포넌트 키 조립 전용 유틸리티
+          </td>
+          <td style="padding:10px 12px;text-align:center;"><span style="background:#1A6E3C;color:#fff;padding:4px 12px;border-radius:50%;font-weight:900;font-size:12px;">O</span></td>
+          <td style="padding:10px 12px;color:#1B5E20;font-weight:700;">컴포넌트 키 조립 유틸 RFP에 없음</td>
         </tr>
       </tbody>
     </table>
-
-    <div style="margin-top:12px;padding:10px 14px;background:rgba(191,54,12,0.08);border-left:4px solid #BF360C;border-radius:4px;font-size:11px;color:#5D4037;line-height:1.8;">
-      <strong style="color:#BF360C;">📌 범례:</strong>
-      <span style="background:#E8F5E9;color:#1A6E3C;padding:2px 6px;border-radius:3px;font-weight:700;margin:0 4px;">✅ 반영</span> 본 HTML 설계안에 이미 반영 완료 ·
-      <span style="background:#FFF3E0;color:#E65100;padding:2px 6px;border-radius:3px;font-weight:700;margin:0 4px;">🔄 후속</span> 프로젝트 착수 후 상세 설계 단계에서 확정 ·
-      <span style="background:#F3E5F5;color:#4A148C;padding:2px 6px;border-radius:3px;font-weight:700;margin:0 4px;">🟣 로드맵</span> 펜타시큐리티 제품 로드맵 검토 사항
-    </div>
   </div>
 
   <div class="rfp-intro">

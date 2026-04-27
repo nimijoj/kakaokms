@@ -635,6 +635,7 @@ select,input[type="date"]{border:1px solid #CFD8DC;border-radius:4px;font-size:1
   <button class="main-tab" onclick="switchTab('t10',this)">🛡️ KMS 관리 REST API 설계</button>
   <button class="main-tab" onclick="switchTab('t12',this)">📦 컴포넌트 키 내보내기 상세 설계</button>
   <button class="main-tab" onclick="switchTab('t11',this)">⚠️ 프로젝트 진행 시 유의점</button>
+  <button class="main-tab" onclick="switchTab('t13',this)">🚀 착수 보고서</button>
 </div>
 
 <!-- ══ TAB 1 ══════════════════════════════════ -->
@@ -21501,6 +21502,1561 @@ output: <span class="t12-api-n">"a3f5e89b21c7d4082f1b9e6a8c3d7052"</span>
 </div>
 
 </div><!-- /t11 -->
+
+
+<!-- ══ TAB 13: 착수 보고서 ══════════════════════════════ -->
+<div id="t13" class="tab-pane">
+<style>
+.t13-intro{background:linear-gradient(135deg,#1A2533,#003D7A);border-radius:12px;padding:22px 28px;margin-bottom:16px;color:#fff;}
+.t13-intro-title{color:#F9E000;font-weight:900;font-size:18px;margin-bottom:8px;letter-spacing:-0.3px;}
+.t13-intro-sub{color:#E3F2FD;font-size:12px;line-height:1.85;}
+.t13-intro-meta{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+.t13-meta-pill{background:rgba(249,224,0,0.15);color:#F9E000;font-size:11px;padding:5px 12px;border-radius:14px;font-weight:700;border:1px solid rgba(249,224,0,0.3);}
+.t13-sec{background:#fff;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.06);margin-bottom:16px;}
+.t13-sec-title{font-weight:900;font-size:15px;padding-bottom:10px;border-bottom:3px solid #F9E000;margin-bottom:16px;color:#1A2533;display:flex;align-items:center;gap:10px;}
+.t13-sec-title-num{background:#1A2533;color:#F9E000;width:30px;height:30px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;}
+.t13-sec-title-sub{font-size:11px;color:#90A4AE;font-weight:600;margin-left:auto;}
+.t13-grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.t13-grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.t13-grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.t13-card{background:#FAFBFC;border:1px solid #E0E7ED;border-left:4px solid #F9E000;border-radius:8px;padding:14px;}
+.t13-card-title{font-weight:800;font-size:12px;color:#1A2533;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.t13-card-title-icon{font-size:16px;}
+.t13-card-body{font-size:11px;color:#37474F;line-height:1.85;}
+.t13-tip{background:#FFFDE7;border-left:4px solid #FBC02D;border-radius:4px;padding:10px 14px;font-size:11px;color:#5D4037;line-height:1.8;margin-top:10px;}
+.t13-warn{background:#FFEBEE;border-left:4px solid #C62828;border-radius:4px;padding:10px 14px;font-size:11px;color:#B71C1C;line-height:1.8;margin-top:10px;}
+.t13-good{background:#E8F5E9;border-left:4px solid #2E7D32;border-radius:4px;padding:10px 14px;font-size:11px;color:#1B5E20;line-height:1.8;margin-top:10px;}
+.t13-tbl{width:100%;border-collapse:collapse;font-size:11px;background:#fff;border-radius:6px;overflow:hidden;}
+.t13-tbl th{background:#1A2533;color:#F9E000;padding:9px 12px;text-align:left;font-weight:800;}
+.t13-tbl td{padding:9px 12px;border-bottom:1px solid #E0E7ED;vertical-align:top;line-height:1.7;}
+.t13-tbl tr:last-child td{border-bottom:none;}
+.t13-tbl tr:hover td{background:#FFFDE7;}
+
+/* 실제 착수 보고서 표지 */
+.t13-cover{background:linear-gradient(135deg,#FFFEF5 0%,#FFF9C4 60%,#FFD600 100%);border:4px solid #1A2533;border-radius:14px;padding:36px 40px;text-align:center;position:relative;margin-bottom:14px;}
+.t13-cover-vendor{display:inline-block;background:#1A2533;color:#F9E000;padding:6px 16px;border-radius:6px;font-size:11px;font-weight:800;margin-bottom:14px;letter-spacing:1px;}
+.t13-cover-title{font-size:28px;font-weight:900;color:#1A2533;line-height:1.3;margin-bottom:10px;letter-spacing:-1px;}
+.t13-cover-sub{font-size:14px;color:#5D4037;font-weight:700;margin-bottom:20px;}
+.t13-cover-divider{width:80px;height:4px;background:#1A2533;margin:0 auto 18px;border-radius:2px;}
+.t13-cover-meta{display:flex;justify-content:center;gap:30px;margin-top:14px;flex-wrap:wrap;}
+.t13-cover-meta-item{text-align:left;}
+.t13-cover-meta-lbl{font-size:10px;color:#5D4037;font-weight:700;margin-bottom:3px;}
+.t13-cover-meta-val{font-size:13px;color:#1A2533;font-weight:800;}
+
+/* 보고서 섹션 (실제 보고서 부분) */
+.t13-rep-sec{background:#fff;border:1px solid #E0E7ED;border-radius:8px;padding:18px 22px;margin-bottom:12px;}
+.t13-rep-num{display:inline-block;background:#1A2533;color:#F9E000;font-weight:900;font-size:13px;padding:4px 12px;border-radius:4px;margin-right:10px;}
+.t13-rep-title{font-weight:800;font-size:14px;color:#1A2533;display:flex;align-items:center;gap:8px;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #F9E000;}
+.t13-rep-body{font-size:11px;color:#37474F;line-height:1.85;}
+
+/* 인포그래픽 박스 */
+.t13-stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0;}
+.t13-stat{background:linear-gradient(135deg,#FFFDE7,#FFF9C4);border:2px solid #FFB300;border-radius:8px;padding:14px;text-align:center;}
+.t13-stat-num{font-size:24px;font-weight:900;color:#1A2533;}
+.t13-stat-lbl{font-size:10px;color:#5D4037;font-weight:700;margin-top:4px;}
+</style>
+
+<div style="display:flex; justify-content:flex-end; margin-bottom:10px;" class="no-print">
+  <button onclick="printTab('t13')" class="submit-btn">📄 PDF 출력</button>
+</div>
+
+<!-- 인트로 -->
+<div class="t13-intro">
+  <div class="t13-intro-title">🚀 카카오뱅크 신규 KMS 도입 사업 착수 보고서</div>
+  <div class="t13-intro-sub">
+    <strong style="color:#F9E000;">계약 체결 직후 ~ 프로젝트 킥오프 회의용 착수 보고서</strong> 작성을 위한 가이드 + 실제 보고서 초안입니다.
+    카카오뱅크 RFP 요건과 본 설계서 전체(t1~t12)를 기반으로 금융권 KMS 도입 사업의 표준 착수 보고서를 구성했으며,
+    <strong style="color:#F9E000;">고객 눈높이</strong>(카카오뱅크 IT보안팀·KMS 운영팀·내부감사팀)에 맞춰 작성되었습니다.
+  </div>
+  <div class="t13-intro-meta">
+    <div class="t13-meta-pill">📋 ① 작성법 가이드</div>
+    <div class="t13-meta-pill">⚠️ ② 작성 시 주의점</div>
+    <div class="t13-meta-pill">✅ ③ 필수 포함 내용</div>
+    <div class="t13-meta-pill">📑 ④ 실제 착수 보고서 v1.0</div>
+    <div class="t13-meta-pill">📊 PPT 다운로드 가능</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- ① 카카오뱅크 프로젝트 착수 보고서 작성법 -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<div class="t13-sec">
+  <div class="t13-sec-title">
+    <span class="t13-sec-title-num">①</span>
+    카카오뱅크 프로젝트 착수 보고서 작성법
+    <span class="t13-sec-title-sub">금융권 SI 프로젝트 표준 절차</span>
+  </div>
+
+  <!-- 착수 보고서란? -->
+  <div style="background:#FFFDE7;border:2px solid #FBC02D;border-radius:8px;padding:14px 18px;margin-bottom:14px;">
+    <div style="font-weight:800;font-size:13px;color:#5D4037;margin-bottom:6px;">📖 착수 보고서(Project Initiation Report)란?</div>
+    <div style="font-size:11px;color:#37474F;line-height:1.85;">
+      <strong>계약 체결 직후 ~ 프로젝트 킥오프 회의 시점</strong>에 발주처(카카오뱅크)에 제출하는 공식 문서입니다.
+      "이 프로젝트를 어떻게 진행할 것인지"에 대한 <strong style="color:#1A2533;">수행사의 종합 계획서</strong>이며,
+      이후 모든 단계별 산출물(요구사항 분석서·설계서·테스트 결과서·검수확인서)의 <strong style="color:#1A2533;">기준점</strong>이 됩니다.
+    </div>
+  </div>
+
+  <!-- 작성 5단계 -->
+  <div style="font-weight:700;font-size:12px;color:#1A2533;margin-bottom:10px;">📝 카카오뱅크 착수 보고서 작성 5단계</div>
+  <div class="t13-grid2" style="margin-bottom:14px;">
+    <div class="t13-card">
+      <div class="t13-card-title"><span class="t13-card-title-icon">1️⃣</span> RFP 정독 & 핵심 요건 추출</div>
+      <div class="t13-card-body">
+        카카오뱅크 RFP 원문을 정독하고 §2-나-4/5/7/8/9/10 등 <strong>모든 요건 항목을 표로 추출</strong>합니다.
+        본 설계서 t2 탭(RFP 요건)이 이미 이 작업을 완료한 결과물 — <strong>완전 충족 26건 / 협의 11건</strong>으로 정리됨.
+      </div>
+    </div>
+
+    <div class="t13-card">
+      <div class="t13-card-title"><span class="t13-card-title-icon">2️⃣</span> 기술협상 결과 반영</div>
+      <div class="t13-card-body">
+        2026-04-22 기술협상 회의에서 도출된 <strong>6개 신규 요구사항</strong>(키 마이그레이션 / 포털 Attribute 3종 / IP ACL OFF / 4개 언어 샘플 / OTP·OIDC / 컴포넌트 키)을
+        반영. 본 설계서 t2 탭 상단의 카카오뱅크 노랑 표 기준으로 반영 여부 명시.
+      </div>
+    </div>
+
+    <div class="t13-card">
+      <div class="t13-card-title"><span class="t13-card-title-icon">3️⃣</span> 추진 체계 · 일정 · 산출물 정의</div>
+      <div class="t13-card-body">
+        ① <strong>추진 조직도</strong>(PM/PL/개발팀/QA팀/카뱅 PMO 인터페이스) ② <strong>WBS 일정</strong>(분석→설계→개발→테스트→이행) ③ <strong>산출물 매트릭스</strong>(단계별 22종). 본 설계서가 이미 <strong>"분석·설계 단계 산출물 v0.9"</strong>에 해당.
+      </div>
+    </div>
+
+    <div class="t13-card">
+      <div class="t13-card-title"><span class="t13-card-title-icon">4️⃣</span> 위험 · 보안 · 품질 관리 계획</div>
+      <div class="t13-card-body">
+        금융권 KMS의 핵심 — <strong>보안 관리 계획</strong>(개발 환경 격리·소스코드 보안·키 운반 절차) + <strong>위험 관리 매트릭스</strong>(t11 탭 기반)
+        + <strong>품질 게이트</strong>(코드 리뷰·정적 분석·취약점 점검). 카뱅 정보보호팀 사전 검토 필수.
+      </div>
+    </div>
+
+    <div class="t13-card">
+      <div class="t13-card-title"><span class="t13-card-title-icon">5️⃣</span> 검수 · 종료 기준 합의</div>
+      <div class="t13-card-body">
+        <strong>"무엇이 완료되면 프로젝트가 끝나는가"</strong>를 사전에 확정. 단계별 검수 기준(예: 단위 테스트 95% / 통합 테스트 100% 통과 / 부하 테스트 TPS 1000 충족 / 침투 테스트 Critical 0건 등)을 합의하여 <strong>분쟁 사전 차단</strong>.
+      </div>
+    </div>
+
+    <div class="t13-card">
+      <div class="t13-card-title"><span class="t13-card-title-icon">📑</span> 추가: 부록 · 용어집</div>
+      <div class="t13-card-body">
+        <strong>약어 정의</strong>(KMS·HSM·KCV·JWT·KMIP 등) + <strong>참고 문서 목록</strong>(RFP·기술협상 의사록·SG-KMS 매뉴얼·KMIP 2.1 표준).
+        고객사 신규 인력이 본 보고서만 보고도 프로젝트 전체를 파악할 수 있도록 작성.
+      </div>
+    </div>
+  </div>
+
+  <div class="t13-good">
+    💡 <strong>카카오뱅크 특화 포인트:</strong> 카뱅은 인터넷전문은행 1세대로 <strong>금융보안원·금감원 정기 감사</strong> 대응이 매우 엄격합니다.
+    착수 보고서에 <strong>전자금융감독규정 §8(접근통제)·§9(암호기술)·§14(전자금융보안)</strong>의 충족 방안을 별도 섹션으로 명시하면 후속 감사 대응이 수월해집니다.
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- ② 작성 시 주의점 -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<div class="t13-sec">
+  <div class="t13-sec-title">
+    <span class="t13-sec-title-num">②</span>
+    착수 보고서 작성 시 주의점
+    <span class="t13-sec-title-sub">실수하기 쉬운 10가지 항목</span>
+  </div>
+
+  <div style="font-weight:700;font-size:12px;color:#B71C1C;margin-bottom:10px;">⚠️ 흔한 실수 TOP 10 — 각 실수에 대한 ❌ 나쁜 예 vs ✅ 올바른 예 대비</div>
+
+  <style>
+  .t13-mistake{display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:6px;overflow:hidden;border:1px solid #CFD8DC;margin-bottom:8px;}
+  .t13-m-bad{background:#FFEBEE;border-right:2px dashed #FFCDD2;padding:10px 12px;}
+  .t13-m-good{background:#E8F5E9;padding:10px 12px;}
+  .t13-m-num{display:inline-block;background:#1A2533;color:#F9E000;font-size:10px;font-weight:900;padding:2px 7px;border-radius:3px;margin-right:6px;}
+  .t13-m-title{font-weight:800;font-size:11px;color:#1A2533;margin-bottom:6px;display:flex;align-items:center;}
+  .t13-m-bad-lbl{color:#B71C1C;font-weight:800;font-size:10px;}
+  .t13-m-good-lbl{color:#1B5E20;font-weight:800;font-size:10px;}
+  .t13-m-text{font-size:10px;color:#37474F;line-height:1.7;}
+  .t13-m-quote{display:block;background:rgba(255,255,255,0.7);font-family:'Courier New',monospace;font-size:9.5px;padding:4px 7px;border-radius:3px;margin:4px 0;color:#37474F;border-left:2px solid;}
+  .t13-m-bad .t13-m-quote{border-left-color:#C62828;}
+  .t13-m-good .t13-m-quote{border-left-color:#2E7D32;}
+  </style>
+
+  <!-- 실수 1 -->
+  <div class="t13-mistake">
+    <div class="t13-m-bad">
+      <div class="t13-m-title"><span class="t13-m-num">01</span><span class="t13-m-bad-lbl">❌ 나쁜 예</span> &nbsp;RFP 요건 누락</div>
+      <span class="t13-m-quote">"RFP 요건은 충실히 반영하겠습니다"</span>
+      <div class="t13-m-text">RFP 1줄이라도 빠지면 변경 요청 시 "원래 요건이었다"는 분쟁 발생.</div>
+    </div>
+    <div class="t13-m-good">
+      <div class="t13-m-title"><span class="t13-m-num">01</span><span class="t13-m-good-lbl">✅ 올바른 예</span></div>
+      <span class="t13-m-quote">"RFP §2-나-4(KMIP 14 오퍼레이션 100%) · §2-나-5(클라이언트 요구사항) … 항목별 추적표 첨부 — t2 탭 참조"</span>
+      <div class="t13-m-text"><strong>RFP × 산출물 추적표</strong> 첨부, 본 설계서 t2 탭의 RFP 매핑 결과(완전 충족 19건) 활용.</div>
+    </div>
+  </div>
+
+  <!-- 실수 2 -->
+  <div class="t13-mistake">
+    <div class="t13-m-bad">
+      <div class="t13-m-title"><span class="t13-m-num">02</span><span class="t13-m-bad-lbl">❌ 나쁜 예</span> &nbsp;일정 비현실적 약속</div>
+      <span class="t13-m-quote">"6개월 안에 모두 완료하겠습니다"</span>
+      <div class="t13-m-text">무리한 일정은 후반 품질 저하·야근 사태로 이어짐.</div>
+    </div>
+    <div class="t13-m-good">
+      <div class="t13-m-title"><span class="t13-m-num">02</span><span class="t13-m-good-lbl">✅ 올바른 예</span></div>
+      <span class="t13-m-quote">"분석 1m → 설계 1.5m → 개발 3.5m → 테스트 1m → 이행 1m (총 8m, 단계별 버퍼 15% 포함)"</span>
+      <div class="t13-m-text"><strong>버퍼 15~20% 포함된 WBS</strong>, 마일스톤별 위험도 명시. 본 설계서 t1 탭 일정과 정합성 유지.</div>
+    </div>
+  </div>
+
+  <!-- 실수 3 -->
+  <div class="t13-mistake">
+    <div class="t13-m-bad">
+      <div class="t13-m-title"><span class="t13-m-num">03</span><span class="t13-m-bad-lbl">❌ 나쁜 예</span> &nbsp;추상적 산출물 정의</div>
+      <span class="t13-m-quote">"REST API 설계서를 작성하겠습니다"</span>
+      <div class="t13-m-text">분량·형식·검수 기준이 모호하여 검수 시점 분쟁 발생.</div>
+    </div>
+    <div class="t13-m-good">
+      <div class="t13-m-title"><span class="t13-m-num">03</span><span class="t13-m-good-lbl">✅ 올바른 예</span></div>
+      <span class="t13-m-quote">"REST API 명세서 — 38개 API(키 16+관리 22) · HTML/PDF · 300+ 페이지 · IT보안팀 합격"</span>
+      <div class="t13-m-text">엔드포인트 수·형식·페이지 수·검수 부서까지 구체화. 본 설계서가 이미 참조 모델 제공.</div>
+    </div>
+  </div>
+
+  <!-- 실수 4 -->
+  <div class="t13-mistake">
+    <div class="t13-m-bad">
+      <div class="t13-m-title"><span class="t13-m-num">04</span><span class="t13-m-bad-lbl">❌ 나쁜 예</span> &nbsp;변경 통제 절차 누락</div>
+      <span class="t13-m-quote">"요청 사항이 발생하면 협의하여 처리"</span>
+      <div class="t13-m-text">절차가 없어 무분별한 추가 요청에 노출됨.</div>
+    </div>
+    <div class="t13-m-good">
+      <div class="t13-m-title"><span class="t13-m-num">04</span><span class="t13-m-good-lbl">✅ 올바른 예</span></div>
+      <span class="t13-m-quote">"CR 양식 → 24h 영향 분석 → CCB(주간 목 14:00) → 양사 합의서 → 작업 착수"</span>
+      <div class="t13-m-text"><strong>CR 양식 + 영향 분석 + CCB 승인 + 합의서 서명</strong>까지 명문화.</div>
+    </div>
+  </div>
+
+  <!-- 실수 5 -->
+  <div class="t13-mistake">
+    <div class="t13-m-bad">
+      <div class="t13-m-title"><span class="t13-m-num">05</span><span class="t13-m-bad-lbl">❌ 나쁜 예</span> &nbsp;보안 요건 추상화</div>
+      <span class="t13-m-quote">"보안 사항을 충실히 준수하겠습니다"</span>
+      <div class="t13-m-text">금융감독원 감사 시 구체적 증빙 없어 지적 사항 발생.</div>
+    </div>
+    <div class="t13-m-good">
+      <div class="t13-m-title"><span class="t13-m-num">05</span><span class="t13-m-good-lbl">✅ 올바른 예</span></div>
+      <span class="t13-m-quote">"개발 PC 망분리 + USB 차단 + Git 접근 제어 + 소스 반출 절차 + SAST/DAST + 침투 테스트"</span>
+      <div class="t13-m-text">본 설계서 t11 §⑦ 컴플라이언스 + 전자금융감독규정 §8/§9/§14 충족 방안 명시.</div>
+    </div>
+  </div>
+
+  <!-- 실수 6 -->
+  <div class="t13-mistake">
+    <div class="t13-m-bad">
+      <div class="t13-m-title"><span class="t13-m-num">06</span><span class="t13-m-bad-lbl">❌ 나쁜 예</span> &nbsp;핵심 인력 변경 가능성 미언급</div>
+      <span class="t13-m-quote">"PM ㅇㅇㅇ, PL ㅇㅇㅇ 투입"</span>
+      <div class="t13-m-text">PM/PL 갑작스런 이탈 시 통제 불가, 카뱅 측 신뢰 훼손.</div>
+    </div>
+    <div class="t13-m-good">
+      <div class="t13-m-title"><span class="t13-m-num">06</span><span class="t13-m-good-lbl">✅ 올바른 예</span></div>
+      <span class="t13-m-quote">"PM/PL 변경 시 30일 전 카뱅 PMO 사전 통보 + 대체 인력 후보 사전 합의"</span>
+      <div class="t13-m-text"><strong>핵심 인력 교체 통제</strong> 절차 + 백업 인력 사전 지정 + 지식 공유 주간 회의.</div>
+    </div>
+  </div>
+
+  <!-- 실수 7 -->
+  <div class="t13-mistake">
+    <div class="t13-m-bad">
+      <div class="t13-m-title"><span class="t13-m-num">07</span><span class="t13-m-bad-lbl">❌ 나쁜 예</span> &nbsp;검수 기준 사후 합의</div>
+      <span class="t13-m-quote">"검수 기준은 종료 시점 협의 후 결정"</span>
+      <div class="t13-m-text">검수 시점 양사 인식 차이로 무한 보완 요청 → 일정 지연.</div>
+    </div>
+    <div class="t13-m-good">
+      <div class="t13-m-title"><span class="t13-m-num">07</span><span class="t13-m-good-lbl">✅ 올바른 예</span></div>
+      <span class="t13-m-quote">"단위 테스트 95% / 통합 100% / 부하 1000 TPS / 응답 200ms / 침투 Critical 0건"</span>
+      <div class="t13-m-text"><strong>5개 KPI 명확한 합격 기준</strong> 사전 명시. 본 §02 KPI와 정합성 유지.</div>
+    </div>
+  </div>
+
+  <!-- 실수 8 -->
+  <div class="t13-mistake">
+    <div class="t13-m-bad">
+      <div class="t13-m-title"><span class="t13-m-num">08</span><span class="t13-m-bad-lbl">❌ 나쁜 예</span> &nbsp;의사소통 채널 단일화 실패</div>
+      <span class="t13-m-quote">"각 부서별로 직접 소통하면 됩니다"</span>
+      <div class="t13-m-text">카뱅 IT보안팀이 개발자에게 직접 요청 → 통제 불가, 일정 와해.</div>
+    </div>
+    <div class="t13-m-good">
+      <div class="t13-m-title"><span class="t13-m-num">08</span><span class="t13-m-good-lbl">✅ 올바른 예</span></div>
+      <span class="t13-m-quote">"모든 요청은 카뱅 PMO → 수행사 PM 단일 창구 경유. 기술 질의는 PL 경유."</span>
+      <div class="t13-m-text"><strong>단일 창구 원칙</strong> 명문화 + 비상 연락망 24×365 + 주간 정례.</div>
+    </div>
+  </div>
+
+  <!-- 실수 9 -->
+  <div class="t13-mistake">
+    <div class="t13-m-bad">
+      <div class="t13-m-title"><span class="t13-m-num">09</span><span class="t13-m-bad-lbl">❌ 나쁜 예</span> &nbsp;위험 관리 형식적 작성</div>
+      <span class="t13-m-quote">"정기 회의를 통해 위험을 관리하겠습니다"</span>
+      <div class="t13-m-text">실제 위험 미식별 → 발생 시 대응 불가, 프로젝트 전체 지연.</div>
+    </div>
+    <div class="t13-m-good">
+      <div class="t13-m-title"><span class="t13-m-num">09</span><span class="t13-m-good-lbl">✅ 올바른 예</span></div>
+      <span class="t13-m-quote">"7대 위험 사전 식별 — 마이그레이션 실패·TPS 미달·침투 Critical … 가능성×영향도 매트릭스"</span>
+      <div class="t13-m-text">본 설계서 t11 §⑧ <strong>위험 매트릭스 5×5</strong>를 그대로 활용. 7개 위험 + 대응 방안 명시.</div>
+    </div>
+  </div>
+
+  <!-- 실수 10 -->
+  <div class="t13-mistake">
+    <div class="t13-m-bad">
+      <div class="t13-m-title"><span class="t13-m-num">10</span><span class="t13-m-bad-lbl">❌ 나쁜 예</span> &nbsp;운영 이관 계획 누락</div>
+      <span class="t13-m-quote">"개발 완료 후 운영 단계 진입"</span>
+      <div class="t13-m-text">개발팀 철수 후 카뱅 KMS 운영팀이 시스템 이해 못해 장애 폭증.</div>
+    </div>
+    <div class="t13-m-good">
+      <div class="t13-m-title"><span class="t13-m-num">10</span><span class="t13-m-good-lbl">✅ 올바른 예</span></div>
+      <span class="t13-m-quote">"운영 매뉴얼 + 장애 대응서 + 4주 교육(20h) + 모의 훈련 3회 + 하자보수 12개월"</span>
+      <div class="t13-m-text"><strong>운영 인수인계 계획</strong> 구체화 + 안정화 12개월 24×365 비상 지원 체계.</div>
+    </div>
+  </div>
+
+  <div class="t13-warn">
+    🚨 <strong>가장 심각한 실수:</strong> 착수 보고서를 <strong>"형식적 문서"</strong>로 취급하는 것. 카카오뱅크는 인터넷전문은행 특성상
+    감사 추적성 요구가 엄격하며, 착수 보고서의 합의 사항이 <strong>분쟁 발생 시 1차 판단 기준</strong>이 됩니다. 시간을 충분히 들여 정확하게 작성하십시오.
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- ③ 반드시 포함되어야 하는 내용 -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<div class="t13-sec">
+  <div class="t13-sec-title">
+    <span class="t13-sec-title-num">③</span>
+    착수 보고서 필수 포함 내용 — 체크리스트
+    <span class="t13-sec-title-sub">금융권 KMS 사업 표준 17개 항목</span>
+  </div>
+
+  <table class="t13-tbl">
+    <thead>
+      <tr>
+        <th style="width:40px;">#</th>
+        <th style="width:180px;">필수 항목</th>
+        <th>포함 내용</th>
+        <th style="width:130px;">본 설계서 참조</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="text-align:center;font-weight:800;">1</td>
+        <td><strong>프로젝트 개요</strong></td>
+        <td>사업명 · 발주처 · 수행사 · 계약 금액 · 사업 기간 · 사업 목적 · 사업 범위 (포함/제외)</td>
+        <td>본 t13 §④ 보고서</td>
+      </tr>
+      <tr>
+        <td style="text-align:center;font-weight:800;">2</td>
+        <td><strong>추진 배경 및 필요성</strong></td>
+        <td>현행 KMS의 한계 · 신규 KMS 도입 당위성 · 기대 효과 (정성·정량)</td>
+        <td>t2 RFP 요건 §1</td>
+      </tr>
+      <tr>
+        <td style="text-align:center;font-weight:800;">3</td>
+        <td><strong>사업 목표</strong></td>
+        <td>핵심 KPI 3~5개 (예: KMIP 2.1 14개 오퍼레이션 100% 충족 · REST API 38개 정상 동작 · 일 100만건 처리)</td>
+        <td>t2 + t4 + t10</td>
+      </tr>
+      <tr>
+        <td style="text-align:center;font-weight:800;">4</td>
+        <td><strong>사업 범위</strong></td>
+        <td>포함 범위 (구축 시스템·연동 대상·인력·기간) + 제외 범위 (운영 이관 후·하드웨어 구매 등)</td>
+        <td>t2 + t11 §④</td>
+      </tr>
+      <tr>
+        <td style="text-align:center;font-weight:800;">5</td>
+        <td><strong>추진 조직도</strong></td>
+        <td>PM·PL·개발팀·QA팀·보안 담당자 + 카뱅 측 PMO·IT보안팀·KMS 운영팀 인터페이스 명시</td>
+        <td>본 t13 §④ 보고서</td>
+      </tr>
+      <tr>
+        <td style="text-align:center;font-weight:800;">6</td>
+        <td><strong>역할 및 책임 (R&R)</strong></td>
+        <td>RACI 매트릭스 (Responsible/Accountable/Consulted/Informed) - 주요 의사결정 항목 20여 개</td>
+        <td>본 t13 §④ 보고서</td>
+      </tr>
+      <tr>
+        <td style="text-align:center;font-weight:800;">7</td>
+        <td><strong>전체 추진 일정</strong></td>
+        <td>마일스톤 차트 (분석 / 설계 / 개발 / 단위 테스트 / 통합 테스트 / 부하 테스트 / 침투 테스트 / 이행 / 안정화)</td>
+        <td>t1 API 개발 일정</td>
+      </tr>
+      <tr>
+        <td style="text-align:center;font-weight:800;">8</td>
+        <td><strong>단계별 추진 계획</strong></td>
+        <td>각 단계별 입력물 · 활동 · 산출물 · 검수 기준 · 담당자</td>
+        <td>본 t13 §④ 보고서</td>
+      </tr>
+      <tr>
+        <td style="text-align:center;font-weight:800;">9</td>
+        <td><strong>산출물 정의서</strong></td>
+        <td>22~30종 산출물의 양식·페이지·검수 기준 (요구사항 정의서·설계서 22종 등)</td>
+        <td>본 t13 §④ 보고서</td>
+      </tr>
+      <tr>
+        <td style="text-align:center;font-weight:800;">10</td>
+        <td><strong>위험 관리 계획</strong></td>
+        <td>리스크 매트릭스 (발생 가능성 × 영향도) + 대응 방안 + 컨틴전시 플랜</td>
+        <td>t11 §⑧ 리스크 매트릭스</td>
+      </tr>
+      <tr>
+        <td style="text-align:center;font-weight:800;">11</td>
+        <td><strong>의사소통 계획</strong></td>
+        <td>주간/월간 회의 일정 + 보고 양식 + 단일 창구 (PM ↔ PMO) + 비상 연락망</td>
+        <td>본 t13 §④ 보고서</td>
+      </tr>
+      <tr>
+        <td style="text-align:center;font-weight:800;">12</td>
+        <td><strong>품질 관리 계획</strong></td>
+        <td>코드 리뷰 정책 · 정적 분석 도구 · 단위 테스트 커버리지 95%+ · 외부 모의 침투 테스트</td>
+        <td>본 t13 §④ 보고서</td>
+      </tr>
+      <tr>
+        <td style="text-align:center;font-weight:800;">13</td>
+        <td><strong>형상 관리 계획</strong></td>
+        <td>Git 저장소 정책 · 브랜치 전략 (Git Flow) · 빌드 자동화 · 버전 표기 규칙</td>
+        <td>본 t13 §④ 보고서</td>
+      </tr>
+      <tr>
+        <td style="text-align:center;font-weight:800;">14</td>
+        <td style="background:#FFEBEE;color:#B71C1C;"><strong>🔐 보안 관리 계획</strong></td>
+        <td><strong>금융권 핵심 항목</strong> — 개발 환경 격리·USB 차단·접근 통제 · 코드 보안·소스 반출 절차 · 키 운반 절차 · 침해사고 대응 · 전자금융감독규정 §8/§9/§14 충족 방안</td>
+        <td>t11 §⑦ 컴플라이언스</td>
+      </tr>
+      <tr>
+        <td style="text-align:center;font-weight:800;">15</td>
+        <td><strong>변경 관리 계획</strong></td>
+        <td>변경 요청서(CR) 양식 · 영향 분석 절차 · CCB(Change Control Board) 구성 · 승인 권한</td>
+        <td>본 t13 §④ 보고서</td>
+      </tr>
+      <tr>
+        <td style="text-align:center;font-weight:800;">16</td>
+        <td><strong>검수 및 종료 기준</strong></td>
+        <td>단계별 검수 기준 (요구사항·설계·코드·테스트·이행) + 최종 종료 조건 (하자보수 1년 포함)</td>
+        <td>본 t13 §④ 보고서</td>
+      </tr>
+      <tr>
+        <td style="text-align:center;font-weight:800;">17</td>
+        <td><strong>부록</strong></td>
+        <td>약어집 (KMS/HSM/KCV/JWT/KMIP 등 약 30개) · 참고 문서 (RFP·기술협상 의사록·SG-KMS 매뉴얼·KMIP 2.1 표준)</td>
+        <td>본 t13 §④ 보고서</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="t13-good">
+    ✅ <strong>17개 항목 = 총 50~80페이지 분량</strong>의 표준 구성. 카카오뱅크 PMO에 사전 양식 확인 필수
+    (카뱅 자체 표준 양식이 있을 수 있음). 이 17개 항목이 모두 포함되면 향후 발생 가능한 분쟁의 90%를 사전 차단할 수 있습니다.
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- ④ 실제 착수 보고서 v1.0 -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<div class="t13-sec">
+  <div class="t13-sec-title">
+    <span class="t13-sec-title-num">④</span>
+    실제 착수 보고서 v1.0
+    <span class="t13-sec-title-sub">카카오뱅크 신규 KMS 도입 사업</span>
+  </div>
+
+  <!-- 표지 -->
+  <div class="t13-cover">
+    <div class="t13-cover-vendor">PROJECT INITIATION REPORT</div>
+    <div class="t13-cover-title">카카오뱅크 신규 KMS 도입 사업<br>착수 보고서</div>
+    <div class="t13-cover-sub">D.AMO SG-KMS 기반 차세대 키 관리 시스템 구축</div>
+    <div class="t13-cover-divider"></div>
+    <div class="t13-cover-meta">
+      <div class="t13-cover-meta-item">
+        <div class="t13-cover-meta-lbl">발주처</div>
+        <div class="t13-cover-meta-val">㈜카카오뱅크</div>
+      </div>
+      <div class="t13-cover-meta-item">
+        <div class="t13-cover-meta-lbl">수행사</div>
+        <div class="t13-cover-meta-val">㈜펜타시큐리티시스템</div>
+      </div>
+      <div class="t13-cover-meta-item">
+        <div class="t13-cover-meta-lbl">버전</div>
+        <div class="t13-cover-meta-val">v1.0</div>
+      </div>
+      <div class="t13-cover-meta-item">
+        <div class="t13-cover-meta-lbl">작성일</div>
+        <div class="t13-cover-meta-val">2026-04-24</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 0. 추진 배경 및 필요성 (신설) -->
+  <div class="t13-rep-sec">
+    <div class="t13-rep-title"><span class="t13-rep-num">00</span> 추진 배경 및 필요성  |  Why 신규 KMS?</div>
+    <div class="t13-rep-body">
+
+      <!-- Before / After 비교 -->
+      <div style="display:grid;grid-template-columns:1fr 60px 1fr;gap:0;align-items:stretch;margin-bottom:14px;">
+
+        <!-- Before -->
+        <div style="background:#FFEBEE;border:2px solid #C62828;border-radius:8px 0 0 8px;padding:14px;">
+          <div style="font-weight:800;font-size:13px;color:#B71C1C;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+            🚨 AS-IS &nbsp;<span style="font-size:10px;color:#5D4037;font-weight:600;">현행 KMS의 한계</span>
+          </div>
+          <div style="font-size:10.5px;color:#37474F;line-height:1.85;">
+            ① <strong>레거시 Agent 의존</strong> — 모든 클라이언트에 SG-Agent SDK 설치 필요, 마이크로서비스 환경 부적합<br>
+            ② <strong>KMIP 표준 부분 지원</strong> — 14 오퍼레이션 중 일부 미구현, 외부 시스템 연동 시 별도 어댑터 필요<br>
+            ③ <strong>감사 추적성 미흡</strong> — 권한 변경 이력 추적 불가, 금감원 감사 시 수기 증빙<br>
+            ④ <strong>키 마이그레이션 도구 부재</strong> — 시스템 교체 시 키 재발급 → 서비스 중단 리스크<br>
+            ⑤ <strong>운영 가시성 부족</strong> — 통합 대시보드 없음, 키 사용 현황 파악 어려움<br>
+            ⑥ <strong>OTP/OIDC 연동 불가</strong> — 폐쇄형 인증, 외부 SSO 통합 불가
+          </div>
+        </div>
+
+        <!-- 화살표 -->
+        <div style="display:flex;align-items:center;justify-content:center;background:#1A2533;color:#F9E000;font-size:30px;font-weight:900;">→</div>
+
+        <!-- After -->
+        <div style="background:#E8F5E9;border:2px solid #2E7D32;border-radius:0 8px 8px 0;padding:14px;">
+          <div style="font-weight:800;font-size:13px;color:#1B5E20;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+            ✅ TO-BE &nbsp;<span style="font-size:10px;color:#2E4D32;font-weight:600;">SG-KMS v6.0 기반 신규 KMS</span>
+          </div>
+          <div style="font-size:10.5px;color:#1B5E20;line-height:1.85;">
+            ① <strong>Agentless REST API</strong> — Bearer JWT 인증, MSA·컨테이너 환경 즉시 적용<br>
+            ② <strong>KMIP 2.1 14 오퍼레이션 100% 지원</strong> — Create·Locate·Get·Activate·Revoke·Hash·Re-key 등<br>
+            ③ <strong>완전 감사 추적성</strong> — 13 API에 reason+ticket 필수, 무결성 체인 전자서명, 금감원 즉시 대응<br>
+            ④ <strong>마이그레이션 도구 + 신/구 동시 운영 6개월</strong> — Dry-run 3회 + 주기 동기화 + 롤백 절차<br>
+            ⑤ <strong>관리 포털 18화면 + 71모달</strong> — 통합 대시보드, 키 사용 현황 실시간 가시성<br>
+            ⑥ <strong>OTP·OIDC 연동 검토</strong> — 외부 SSO·MFA 통합 (제품 로드맵)
+          </div>
+        </div>
+      </div>
+
+      <!-- 4가지 추진 동인 -->
+      <div style="font-weight:700;font-size:12px;color:#1A2533;margin-bottom:8px;">📌 4가지 추진 동인 (Driving Force)</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
+        <div style="background:#FFFDE7;border-left:4px solid #F9A825;border-radius:6px;padding:10px 12px;">
+          <div style="font-weight:800;font-size:11px;color:#1A2533;margin-bottom:4px;">⚖️ 규제 대응</div>
+          <div style="font-size:10px;color:#5D4037;line-height:1.7;">전자금융감독규정 §8/§9/§14 강화 · ISMS-P 인증 갱신 · 금감원 정기 감사</div>
+        </div>
+        <div style="background:#FFFDE7;border-left:4px solid #F9A825;border-radius:6px;padding:10px 12px;">
+          <div style="font-weight:800;font-size:11px;color:#1A2533;margin-bottom:4px;">🚀 디지털 전환</div>
+          <div style="font-size:10px;color:#5D4037;line-height:1.7;">MSA·클라우드 네이티브 환경 확대 · Agentless REST API 표준화 · DevSecOps</div>
+        </div>
+        <div style="background:#FFFDE7;border-left:4px solid #F9A825;border-radius:6px;padding:10px 12px;">
+          <div style="font-weight:800;font-size:11px;color:#1A2533;margin-bottom:4px;">🌐 글로벌 표준</div>
+          <div style="font-size:10px;color:#5D4037;line-height:1.7;">KMIP 2.1 OASIS 국제 표준 채택 · 외부 시스템 연동 표준화 · 벤더 종속성 해소</div>
+        </div>
+        <div style="background:#FFFDE7;border-left:4px solid #F9A825;border-radius:6px;padding:10px 12px;">
+          <div style="font-weight:800;font-size:11px;color:#1A2533;margin-bottom:4px;">📈 운영 효율</div>
+          <div style="font-size:10px;color:#5D4037;line-height:1.7;">통합 관리 포털 도입 · 운영자 작업 시간 60% 단축 · 감사 자동화</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1. 프로젝트 개요 -->
+  <div class="t13-rep-sec">
+    <div class="t13-rep-title"><span class="t13-rep-num">01</span> 프로젝트 개요</div>
+    <div class="t13-rep-body">
+      <table class="t13-tbl">
+        <tr><td style="width:140px;background:#FFFDE7;font-weight:700;">사업명</td><td>카카오뱅크 신규 KMS 도입 사업 (D.AMO SG-KMS 기반)</td></tr>
+        <tr><td style="background:#FFFDE7;font-weight:700;">발주처</td><td>㈜카카오뱅크 IT보안팀 (발주 부서) · KMS 운영팀 (수요 부서)</td></tr>
+        <tr><td style="background:#FFFDE7;font-weight:700;">수행사</td><td>㈜펜타시큐리티시스템 (D.AMO SG-KMS 제조사 직접 수행)</td></tr>
+        <tr><td style="background:#FFFDE7;font-weight:700;">사업 기간</td><td>2026-05-01 ~ 2026-12-31 (8개월) + 안정화/하자보수 12개월</td></tr>
+        <tr><td style="background:#FFFDE7;font-weight:700;">사업 목적</td><td>카카오뱅크의 모든 암호 키 자산을 <strong>KMIP 2.1 국제 표준</strong> 기반의 통합 KMS로 일원화하여 ① 기존 KMS 한계 해소 ② REST API Agentless 환경 구축 ③ 감사 추적성 강화 ④ 금융감독규정 §8/§9/§14 충족</td></tr>
+        <tr>
+          <td style="background:#E8F5E9;font-weight:700;color:#1B5E20;">✅ 사업 범위 (포함)</td>
+          <td style="line-height:2;">
+            <strong>① SG-KMS REST API 38개</strong> 구현 (키 오퍼레이션 16 + KMS 관리 22)<br>
+            <strong>② 관리 포털 18 화면 + 71 모달</strong> 신규 구축 (기존 SG-KMS UI 85% 재활용)<br>
+            <strong>③ 기존 KMS → SG-KMS 데이터 마이그레이션</strong> + 동시 운영 기간 주기적 동기화<br>
+            <strong>④ 컴포넌트 키 분할 반출입</strong> 시스템 (Shamir k-of-N) + 외부 조립 유틸리티<br>
+            <strong>⑤ 4개 언어 샘플 코드</strong> (Kotlin · Java · Go · Python) + 마이그레이션 스크립트
+          </td>
+        </tr>
+        <tr>
+          <td style="background:#FFEBEE;font-weight:700;color:#B71C1C;">❌ 사업 범위 (제외)</td>
+          <td style="line-height:2;">
+            <strong>· 하드웨어 구매</strong> (HSM 등 — 카뱅 직접 조달)<br>
+            <strong>· 운영 이관 후 일상 운영</strong> (안정화/하자보수 12개월 이후 — 별도 운영 위탁 사업)<br>
+            <strong>· 신규 카뱅 서비스 연동 작업</strong> (기존 서비스 마이그레이션만 포함, 신규 연동은 별도 사업)<br>
+            <strong>· KMIP 2.0 이전 버전 호환</strong> (KMIP 2.1 단일 표준만 지원)
+          </td>
+        </tr>
+        <tr><td style="background:#FFFDE7;font-weight:700;">계약 금액</td><td>[기술협상 결과 별첨 · 비공개]</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 2. 사업 목표 (KPI) -->
+  <div class="t13-rep-sec">
+    <div class="t13-rep-title"><span class="t13-rep-num">02</span> 사업 목표 — 핵심 KPI 5종 + RFP/기술협상 충족 현황</div>
+    <div class="t13-stat-grid" style="grid-template-columns:repeat(5,1fr);">
+      <div class="t13-stat">
+        <div class="t13-stat-num">100%</div>
+        <div class="t13-stat-lbl">KMIP 2.1<br>14개 오퍼레이션</div>
+      </div>
+      <div class="t13-stat">
+        <div class="t13-stat-num">38</div>
+        <div class="t13-stat-lbl">REST API<br>(키 16 + 관리 22)</div>
+      </div>
+      <div class="t13-stat">
+        <div class="t13-stat-num">1,000+</div>
+        <div class="t13-stat-lbl">초당 처리량<br>(Locate/Get TPS)</div>
+      </div>
+      <div class="t13-stat">
+        <div class="t13-stat-num">200ms</div>
+        <div class="t13-stat-lbl">API 응답시간<br>(95th percentile)</div>
+      </div>
+      <div class="t13-stat" style="background:linear-gradient(135deg,#FFEBEE,#FFCDD2);border-color:#C62828;">
+        <div class="t13-stat-num" style="color:#B71C1C;">ZERO</div>
+        <div class="t13-stat-lbl" style="color:#5D4037;">Critical 취약점<br>(외부 침투 테스트)</div>
+      </div>
+    </div>
+
+    <!-- RFP 충족 + 기술협상 인포그래픽 -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;">
+
+      <!-- RFP 충족 현황 -->
+      <div style="background:#FAFBFC;border:1px solid #E0E7ED;border-radius:8px;padding:14px;">
+        <div style="font-weight:800;font-size:12px;color:#1A2533;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;">
+          <span>📊 RFP §2-나 요건 충족 현황</span>
+          <span style="font-size:10px;color:#1A6E3C;font-weight:600;">총 33건 분석 (t2 탭)</span>
+        </div>
+        <!-- 도넛형 막대 -->
+        <div style="display:flex;height:24px;border-radius:4px;overflow:hidden;margin-bottom:8px;border:1px solid #CFD8DC;">
+          <div style="width:57.6%;background:#1A6E3C;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:800;">19건</div>
+          <div style="width:3%;background:#1565C0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:9px;font-weight:800;">1</div>
+          <div style="width:15.2%;background:#7B1FA2;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:800;">5건</div>
+          <div style="width:24.2%;background:#C62828;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:800;">8건</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:10px;line-height:1.7;color:#37474F;">
+          <div><span style="display:inline-block;width:10px;height:10px;background:#1A6E3C;border-radius:2px;margin-right:4px;"></span>완전 충족 <strong>19</strong>건</div>
+          <div><span style="display:inline-block;width:10px;height:10px;background:#1565C0;border-radius:2px;margin-right:4px;"></span>대체 충족 <strong>1</strong>건</div>
+          <div><span style="display:inline-block;width:10px;height:10px;background:#7B1FA2;border-radius:2px;margin-right:4px;"></span>협의 가능 <strong>5</strong>건</div>
+          <div><span style="display:inline-block;width:10px;height:10px;background:#C62828;border-radius:2px;margin-right:4px;"></span>선제 설명 <strong>8</strong>건</div>
+        </div>
+        <div style="margin-top:8px;padding:6px 10px;background:#E8F5E9;border-radius:4px;font-size:10px;color:#1B5E20;">
+          ✅ 핵심 RFP §2-나-4(KMIP 14) · §2-나-5(REST/JWT/IP ACL) · §2-나-7(Hex 반출입) · §2-나-9(UMS 연동) <strong>완전 충족</strong>
+        </div>
+      </div>
+
+      <!-- 기술협상 6개 요구사항 -->
+      <div style="background:#FFFDE7;border:1px solid #F9E000;border-radius:8px;padding:14px;">
+        <div style="font-weight:800;font-size:12px;color:#1A2533;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;">
+          <span>🤝 2026-04-22 기술협상 요구사항 반영</span>
+          <span style="font-size:10px;color:#BF360C;font-weight:600;">6/6 100% 수용</span>
+        </div>
+        <div style="font-size:10px;color:#37474F;line-height:1.85;">
+          <div>① 기존 KMS 키 마이그레이션 + 신/구 동시 운영 동기화 <span style="color:#1A6E3C;font-weight:700;float:right;">✅ §00 / 12개월</span></div>
+          <div>② 포털 관리용 Attribute 3종 <span style="color:#1A6E3C;font-weight:700;float:right;">✅ key_owner · approval_code · reason</span></div>
+          <div>③ IP ACL OFF 기능 (모든 IP 허용) <span style="color:#1A6E3C;font-weight:700;float:right;">✅ t10 #17~#20</span></div>
+          <div>④ 4개 언어 샘플 코드 (Kotlin·Java·Go·Python) <span style="color:#1A6E3C;font-weight:700;float:right;">✅ §08 산출물</span></div>
+          <div>⑤ OTP/OIDC 표준 연동 <span style="color:#1A6E3C;font-weight:700;float:right;">✅ 제품 로드맵</span></div>
+          <div>⑥ 컴포넌트 키 기능 + 외부 조립 유틸리티 <span style="color:#1A6E3C;font-weight:700;float:right;">✅ t12 / Shamir 5-of-3</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="t13-tip" style="margin-top:12px;">
+      📌 위 5개 KPI는 단계별 검수 시점 측정 — 단위 테스트(개발 중) · 통합 테스트(11월) · 부하 테스트(11월) · 침투 테스트(11월). 모두 통과 시 사업 종료.
+    </div>
+  </div>
+
+  <!-- 3. 추진 체계 -->
+  <div class="t13-rep-sec">
+    <div class="t13-rep-title"><span class="t13-rep-num">03</span> 추진 체계 · R&R</div>
+    <div class="t13-rep-body">
+
+      <!-- 단일 창구 조직도 (시각적 다이어그램) -->
+      <div style="background:linear-gradient(135deg,#FAFBFC,#ECEFF1);border:1px solid #CFD8DC;border-radius:10px;padding:18px;margin-bottom:14px;">
+        <div style="font-weight:800;font-size:12px;color:#1A2533;margin-bottom:14px;text-align:center;">🔄 단일 창구 의사소통 구조 — 카뱅 PMO ↔ 수행사 PM</div>
+
+        <div style="display:grid;grid-template-columns:1fr 80px 1fr;gap:10px;align-items:stretch;">
+
+          <!-- 좌측: 발주처 (카뱅) 4팀 -->
+          <div style="background:#FFFDE7;border:2px solid #F9E000;border-radius:10px;padding:14px;">
+            <div style="font-weight:900;font-size:13px;color:#1A2533;margin-bottom:10px;text-align:center;border-bottom:2px solid #F9E000;padding-bottom:6px;">🏦 발주처 ㈜카카오뱅크</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+              <div style="background:#fff;border:1px solid #FFE082;border-radius:5px;padding:6px 8px;font-size:10px;text-align:center;font-weight:700;color:#5D4037;">IT보안팀<br><span style="font-size:9px;font-weight:400;color:#90A4AE;">기술 검토</span></div>
+              <div style="background:#fff;border:1px solid #FFE082;border-radius:5px;padding:6px 8px;font-size:10px;text-align:center;font-weight:700;color:#5D4037;">KMS 운영팀<br><span style="font-size:9px;font-weight:400;color:#90A4AE;">운영 인수</span></div>
+              <div style="background:#fff;border:1px solid #FFE082;border-radius:5px;padding:6px 8px;font-size:10px;text-align:center;font-weight:700;color:#5D4037;">내부감사팀<br><span style="font-size:9px;font-weight:400;color:#90A4AE;">감사 통제</span></div>
+              <div style="background:#fff;border:1px solid #FFE082;border-radius:5px;padding:6px 8px;font-size:10px;text-align:center;font-weight:700;color:#5D4037;">정보보호팀<br><span style="font-size:9px;font-weight:400;color:#90A4AE;">외부 인증</span></div>
+            </div>
+            <!-- 화살표 ↓ -->
+            <div style="text-align:center;color:#BF360C;font-weight:900;font-size:18px;margin:8px 0 4px;">⇩</div>
+            <div style="background:#1A2533;color:#F9E000;border-radius:6px;padding:8px;text-align:center;font-weight:800;font-size:11px;">📍 카뱅 PMO<br><span style="font-size:9px;font-weight:600;color:#FFF59D;">유일한 발주처 창구</span></div>
+          </div>
+
+          <!-- 중앙: 양방향 화살표 + 의사소통 채널 -->
+          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+            <div style="background:#1A6E3C;color:#fff;font-size:9px;font-weight:700;padding:3px 6px;border-radius:3px;margin-bottom:4px;">주간 정례</div>
+            <div style="font-size:32px;color:#1A2533;font-weight:900;line-height:1;">↔</div>
+            <div style="background:#0D47A1;color:#fff;font-size:9px;font-weight:700;padding:3px 6px;border-radius:3px;margin-top:4px;">변경요청 24h</div>
+            <div style="background:#7B1FA2;color:#fff;font-size:9px;font-weight:700;padding:3px 6px;border-radius:3px;margin-top:4px;">CCB 주간</div>
+          </div>
+
+          <!-- 우측: 수행사 (펜타시큐리티) 5역할 -->
+          <div style="background:#E3F2FD;border:2px solid #1565C0;border-radius:10px;padding:14px;">
+            <div style="font-weight:900;font-size:13px;color:#0D47A1;margin-bottom:10px;text-align:center;border-bottom:2px solid #1565C0;padding-bottom:6px;">🛠️ 수행사 ㈜펜타시큐리티시스템</div>
+            <!-- PM/PL을 상단에 -->
+            <div style="background:#0D47A1;color:#fff;border-radius:6px;padding:8px;text-align:center;font-weight:800;font-size:11px;margin-bottom:8px;">📍 PM (단일 창구) · PL (기술 총괄)</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
+              <div style="background:#fff;border:1px solid #90CAF9;border-radius:5px;padding:6px 4px;font-size:10px;text-align:center;font-weight:700;color:#0D47A1;">개발팀<br><span style="font-size:9px;font-weight:400;color:#90A4AE;">5~7명</span></div>
+              <div style="background:#fff;border:1px solid #90CAF9;border-radius:5px;padding:6px 4px;font-size:10px;text-align:center;font-weight:700;color:#0D47A1;">QA팀<br><span style="font-size:9px;font-weight:400;color:#90A4AE;">2명</span></div>
+              <div style="background:#fff;border:1px solid #90CAF9;border-radius:5px;padding:6px 4px;font-size:10px;text-align:center;font-weight:700;color:#0D47A1;">보안 담당<br><span style="font-size:9px;font-weight:400;color:#90A4AE;">1명</span></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 하단 강조 박스 -->
+        <div style="margin-top:12px;background:#FFEBEE;border-left:3px solid #C62828;padding:8px 12px;font-size:10px;color:#5D4037;line-height:1.7;border-radius:4px;">
+          🚫 <strong>금지 사항</strong>: 카뱅 측 직원이 수행사 개발자에게 <strong>직접 요청 금지</strong>. 모든 요청은 카뱅 PMO → PM 경유.
+          기술 질의는 <strong>PL 경유</strong>. 위반 시 변경 통제 절차 누락으로 분쟁 발생 가능.
+        </div>
+      </div>
+
+      <table class="t13-tbl">
+        <thead>
+          <tr><th>구분</th><th>역할</th><th>담당 영역</th></tr>
+        </thead>
+        <tbody>
+          <tr><td style="font-weight:700;color:#1A2533;">PM (수행사)</td><td>프로젝트 관리</td><td>전체 일정·산출물·인력 관리 · 카뱅 PMO 단일 창구 · 주간 보고</td></tr>
+          <tr><td style="font-weight:700;color:#1A2533;">PL (수행사)</td><td>기술 리드</td><td>아키텍처 설계 · 기술 의사결정 · 코드 리뷰 · 기술협상 인터페이스</td></tr>
+          <tr><td style="font-weight:700;color:#1A2533;">개발팀 (수행사)</td><td>개발 (5~7명)</td><td>REST API 38개 구현 · 관리 포털 UI 구현 · 단위 테스트 작성</td></tr>
+          <tr><td style="font-weight:700;color:#1A2533;">QA팀 (수행사)</td><td>품질 보증 (2명)</td><td>통합 테스트 · 부하 테스트 · 회귀 테스트 자동화</td></tr>
+          <tr><td style="font-weight:700;color:#1A2533;">보안 담당 (수행사)</td><td>보안 (1명)</td><td>코드 보안 점검 · 침투 테스트 대응 · 보안 산출물 검수</td></tr>
+          <tr style="background:#FFFDE7;"><td style="font-weight:700;color:#BF360C;">카뱅 PMO</td><td>발주처 단일 창구</td><td>요건 변경 통제 · 산출물 검수 · 의사결정 에스컬레이션</td></tr>
+          <tr style="background:#FFFDE7;"><td style="font-weight:700;color:#BF360C;">카뱅 IT보안팀</td><td>기술 검토</td><td>기술 명세 검수 · 보안 요건 정의 · 정보보호 산출물 검토</td></tr>
+          <tr style="background:#FFFDE7;"><td style="font-weight:700;color:#BF360C;">카뱅 KMS 운영팀</td><td>운영 인수자</td><td>UI/UX 검토 · 운영 매뉴얼 검수 · 인수인계 수령</td></tr>
+          <tr style="background:#FFFDE7;"><td style="font-weight:700;color:#BF360C;">카뱅 내부감사팀</td><td>감사 통제</td><td>감사 추적성 검수 · 변경 이력 검토 · 컴플라이언스 검증</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 4. 추진 일정 -->
+  <div class="t13-rep-sec">
+    <div class="t13-rep-title"><span class="t13-rep-num">04</span> 전체 추진 일정 — 8개월 + 안정화 12개월</div>
+    <div class="t13-rep-body">
+
+      <!-- 시각적 간트 차트 -->
+      <div style="background:#FAFBFC;border:1px solid #CFD8DC;border-radius:10px;padding:18px 20px;margin-bottom:14px;">
+        <div style="font-weight:800;font-size:12px;color:#1A2533;margin-bottom:14px;">📅 시각적 간트 차트 — 2026.05 ~ 2026.12 (본 사업) + 2027 안정화</div>
+
+        <!-- 월별 헤더 (8개월) -->
+        <div style="display:grid;grid-template-columns:90px repeat(8,1fr);gap:0;font-size:10px;color:#546E7A;font-weight:700;text-align:center;border-bottom:1px solid #CFD8DC;padding-bottom:4px;margin-bottom:8px;">
+          <div></div>
+          <div>5월</div><div>6월</div><div>7월</div><div>8월</div>
+          <div>9월</div><div>10월</div><div>11월</div><div>12월</div>
+        </div>
+
+        <!-- ① 분석 (5월) -->
+        <div style="display:grid;grid-template-columns:90px repeat(8,1fr);gap:0;align-items:center;margin-bottom:5px;">
+          <div style="font-size:11px;font-weight:800;color:#0D47A1;">① 분석</div>
+          <div style="grid-column:2/3;background:#1565C0;color:#fff;height:22px;border-radius:3px;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;">1개월</div>
+        </div>
+        <!-- ② 설계 (6~7.5월) -->
+        <div style="display:grid;grid-template-columns:90px repeat(8,1fr);gap:0;align-items:center;margin-bottom:5px;">
+          <div style="font-size:11px;font-weight:800;color:#1B5E20;">② 설계</div>
+          <div style="grid-column:3/5;background:#00897B;color:#fff;height:22px;border-radius:3px;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;">1.5개월 ✓ 본 설계서가 산출물</div>
+        </div>
+        <!-- ③ 개발 (7.5~10월) - 가장 긴 단계 -->
+        <div style="display:grid;grid-template-columns:90px repeat(8,1fr);gap:0;align-items:center;margin-bottom:5px;">
+          <div style="font-size:11px;font-weight:800;color:#BF360C;">③ 개발</div>
+          <div style="grid-column:4/8;background:#F57F17;color:#fff;height:22px;border-radius:3px;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;">3.5개월 — REST API 38 + 포털 18화면</div>
+        </div>
+        <!-- ④ 테스트 (11월) -->
+        <div style="display:grid;grid-template-columns:90px repeat(8,1fr);gap:0;align-items:center;margin-bottom:5px;">
+          <div style="font-size:11px;font-weight:800;color:#B71C1C;">④ 테스트</div>
+          <div style="grid-column:8/9;background:#C62828;color:#fff;height:22px;border-radius:3px;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;">1개월</div>
+        </div>
+        <!-- ⑤ 이행 (12월) -->
+        <div style="display:grid;grid-template-columns:90px repeat(8,1fr);gap:0;align-items:center;margin-bottom:10px;">
+          <div style="font-size:11px;font-weight:800;color:#4A148C;">⑤ 이행</div>
+          <div style="grid-column:9/10;background:#6A1B9A;color:#fff;height:22px;border-radius:3px;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;">1개월</div>
+        </div>
+
+        <!-- 마일스톤 다이아몬드 라인 -->
+        <div style="display:grid;grid-template-columns:90px repeat(8,1fr);gap:0;align-items:center;border-top:1px dashed #CFD8DC;padding-top:8px;margin-top:6px;">
+          <div style="font-size:10px;font-weight:700;color:#90A4AE;">🎯 마일스톤</div>
+          <div style="grid-column:2/3;text-align:right;"><span style="background:#F9E000;border:2px solid #1A2533;color:#1A2533;font-size:9px;font-weight:900;padding:2px 6px;border-radius:50%;">M1</span></div>
+          <div style="grid-column:4/5;text-align:right;"><span style="background:#F9E000;border:2px solid #1A2533;color:#1A2533;font-size:9px;font-weight:900;padding:2px 6px;border-radius:50%;">M2</span></div>
+          <div style="grid-column:7/8;text-align:right;"><span style="background:#F9E000;border:2px solid #1A2533;color:#1A2533;font-size:9px;font-weight:900;padding:2px 6px;border-radius:50%;">M3</span></div>
+          <div style="grid-column:8/9;text-align:right;"><span style="background:#F9E000;border:2px solid #1A2533;color:#1A2533;font-size:9px;font-weight:900;padding:2px 6px;border-radius:50%;">M4</span></div>
+          <div style="grid-column:9/10;text-align:right;"><span style="background:#F9E000;border:2px solid #1A2533;color:#1A2533;font-size:9px;font-weight:900;padding:2px 6px;border-radius:50%;">M5</span></div>
+        </div>
+
+        <!-- 마일스톤 상세 -->
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:10px;font-size:10px;">
+          <div style="background:#FFFDE7;border-left:3px solid #F9E000;padding:5px 8px;"><strong style="color:#1A2533;">M1 · 5/31</strong><br><span style="color:#546E7A;">요구사항 확정</span></div>
+          <div style="background:#FFFDE7;border-left:3px solid #F9E000;padding:5px 8px;"><strong style="color:#1A2533;">M2 · 7/15</strong><br><span style="color:#546E7A;"><strong>✓ 설계 완료</strong> (본 문서)</span></div>
+          <div style="background:#FFFDE7;border-left:3px solid #F9E000;padding:5px 8px;"><strong style="color:#1A2533;">M3 · 10/31</strong><br><span style="color:#546E7A;">개발 완료</span></div>
+          <div style="background:#FFFDE7;border-left:3px solid #F9E000;padding:5px 8px;"><strong style="color:#1A2533;">M4 · 11/30</strong><br><span style="color:#546E7A;">테스트 완료</span></div>
+          <div style="background:#FFFDE7;border-left:3px solid #F9E000;padding:5px 8px;"><strong style="color:#1A2533;">M5 · 12/31</strong><br><span style="color:#546E7A;">이행 완료</span></div>
+        </div>
+
+        <!-- 안정화 박스 -->
+        <div style="margin-top:10px;background:linear-gradient(135deg,#FFFDE7,#FFF9C4);border:2px solid #F9E000;border-radius:6px;padding:10px 14px;font-size:11px;color:#5D4037;">
+          ⑥ <strong style="color:#1A2533;">안정화 / 하자보수 (2027.01.01 ~ 2027.12.31, 12개월)</strong> — 하자 대응 · 운영 지원 · 24×365 비상 지원 · 월간 운영 보고서
+        </div>
+      </div>
+
+      <table class="t13-tbl">
+        <thead>
+          <tr><th style="width:120px;">단계</th><th style="width:140px;">기간</th><th>주요 활동</th><th style="width:160px;">핵심 산출물</th></tr>
+        </thead>
+        <tbody>
+          <tr><td style="font-weight:700;color:#1A2533;">① 분석</td><td>2026-05-01 ~ 05-31<br>(1개월)</td><td>요구사항 상세 정의 · 기술협상 결과 반영 · 리스크 분석</td><td>요구사항 정의서 · WBS</td></tr>
+          <tr><td style="font-weight:700;color:#1A2533;">② 설계</td><td>2026-06-01 ~ 07-15<br>(1.5개월)</td><td>REST API 명세서 · UI/UX 설계 · DB 스키마 · 보안 설계</td><td><strong>본 설계서 v1.0</strong> (현재 진행 중)</td></tr>
+          <tr><td style="font-weight:700;color:#1A2533;">③ 개발</td><td>2026-07-16 ~ 10-31<br>(3.5개월)</td><td>REST API 38개 구현 · 관리 포털 UI · 마이그레이션 도구 · 단위 테스트</td><td>소스코드 · 단위 테스트 결과서</td></tr>
+          <tr><td style="font-weight:700;color:#1A2533;">④ 테스트</td><td>2026-11-01 ~ 11-30<br>(1개월)</td><td>통합 테스트 · 부하 테스트 (1000 TPS) · 침투 테스트</td><td>테스트 결과서 · 침투 테스트 보고서</td></tr>
+          <tr><td style="font-weight:700;color:#1A2533;">⑤ 이행</td><td>2026-12-01 ~ 12-31<br>(1개월)</td><td>운영 이관 · 운영자 교육 · 마이그레이션 실행 · 안정화 모니터링</td><td>이행 결과서 · 운영 매뉴얼</td></tr>
+          <tr style="background:#FFFDE7;"><td style="font-weight:700;color:#BF360C;">⑥ 안정화 / 하자보수</td><td>2027-01-01 ~ 12-31<br>(12개월)</td><td>하자 대응 · 운영 지원 · 24×365 비상 지원</td><td>월간 운영 보고서</td></tr>
+        </tbody>
+      </table>
+      <div class="t13-tip" style="margin-top:10px;">
+        🎯 <strong>핵심 마일스톤 5개</strong>:
+        M1 (5/31, 요구사항 확정) →
+        M2 (7/15, <strong>설계 완료 ✓ 본 문서</strong>) →
+        M3 (10/31, 개발 완료) →
+        M4 (11/30, 테스트 완료) →
+        M5 (12/31, 이행 완료)
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. 위험 관리 -->
+  <div class="t13-rep-sec">
+    <div class="t13-rep-title"><span class="t13-rep-num">05</span> 위험 관리 매트릭스 — 핵심 위험 7건</div>
+    <div class="t13-rep-body">
+
+      <!-- 2x2 시각적 위험 매트릭스 (발생 가능성 × 영향도) -->
+      <div style="background:#FAFBFC;border:1px solid #CFD8DC;border-radius:10px;padding:18px;margin-bottom:14px;">
+        <div style="font-weight:800;font-size:12px;color:#1A2533;margin-bottom:14px;">🎯 위험 우선순위 매트릭스 — 발생 가능성 × 영향도</div>
+
+        <div style="display:grid;grid-template-columns:60px 1fr 1fr 1fr;gap:0;">
+          <!-- 헤더: 영향도 라벨 -->
+          <div></div>
+          <div style="text-align:center;font-size:10px;font-weight:800;color:#1A6E3C;padding:6px;">영향도: 중</div>
+          <div style="text-align:center;font-size:10px;font-weight:800;color:#E65100;padding:6px;">영향도: 상</div>
+          <div style="text-align:center;font-size:10px;font-weight:800;color:#B71C1C;padding:6px;">영향도: 치명</div>
+
+          <!-- Row 1: 발생가능성 상 -->
+          <div style="text-align:center;font-size:10px;font-weight:800;color:#B71C1C;writing-mode:vertical-lr;display:flex;align-items:center;justify-content:center;background:#FFEBEE;border-radius:4px 0 0 4px;padding:6px 4px;">발생: 상</div>
+          <div style="background:#FFF3E0;border:1px solid #FFB74D;border-radius:6px;padding:8px;min-height:80px;">
+            <div style="font-size:9px;color:#BF360C;font-weight:700;margin-bottom:4px;">⚠ 주의</div>
+            <div style="font-size:10px;color:#5D4037;line-height:1.6;"><strong>R4</strong> RFP 추가 요건<br><span style="font-size:8px;color:#90A4AE;">(운영 이관 시점)</span></div>
+          </div>
+          <div style="background:#FFEBEE;border:1px solid #EF5350;border-radius:6px;padding:8px;min-height:80px;">
+            <div style="font-size:9px;color:#B71C1C;font-weight:700;margin-bottom:4px;">🚨 심각</div>
+            <div style="font-size:10px;color:#5D4037;line-height:1.6;font-style:italic;color:#90A4AE;">— 해당 없음</div>
+          </div>
+          <div style="background:#B71C1C;border:2px solid #B71C1C;border-radius:6px;padding:8px;min-height:80px;">
+            <div style="font-size:9px;color:#FFE0B2;font-weight:700;margin-bottom:4px;">🔥 최우선</div>
+            <div style="font-size:10px;color:#fff;line-height:1.6;font-style:italic;">— 해당 없음<br><span style="font-size:8px;color:#FFCDD2;">(조기 차단 성공)</span></div>
+          </div>
+
+          <!-- Row 2: 발생가능성 중 -->
+          <div style="text-align:center;font-size:10px;font-weight:800;color:#E65100;writing-mode:vertical-lr;display:flex;align-items:center;justify-content:center;background:#FFF3E0;padding:6px 4px;">발생: 중</div>
+          <div style="background:#E8F5E9;border:1px solid #81C784;border-radius:6px;padding:8px;min-height:80px;">
+            <div style="font-size:9px;color:#2E7D32;font-weight:700;margin-bottom:4px;">✓ 모니터링</div>
+            <div style="font-size:10px;color:#5D4037;line-height:1.6;"><strong>R6</strong> 금감원 정기 점검<br><span style="font-size:8px;color:#90A4AE;">일정 충돌</span></div>
+          </div>
+          <div style="background:#FFF3E0;border:1px solid #FFB74D;border-radius:6px;padding:8px;min-height:80px;">
+            <div style="font-size:9px;color:#BF360C;font-weight:700;margin-bottom:4px;">⚠ 주의</div>
+            <div style="font-size:10px;color:#5D4037;line-height:1.6;"><strong>R2</strong> 부하테스트 TPS 미달</div>
+          </div>
+          <div style="background:#FFEBEE;border:1px solid #EF5350;border-radius:6px;padding:8px;min-height:80px;">
+            <div style="font-size:9px;color:#B71C1C;font-weight:700;margin-bottom:4px;">🚨 심각</div>
+            <div style="font-size:10px;color:#5D4037;line-height:1.6;"><strong>R1</strong> KMS 마이그레이션 실패<br><span style="font-size:8px;color:#90A4AE;">(데이터 손실)</span></div>
+          </div>
+
+          <!-- Row 3: 발생가능성 하 -->
+          <div style="text-align:center;font-size:10px;font-weight:800;color:#1A6E3C;writing-mode:vertical-lr;display:flex;align-items:center;justify-content:center;background:#E8F5E9;border-radius:0 0 0 4px;padding:6px 4px;">발생: 하</div>
+          <div style="background:#E8F5E9;border:1px solid #81C784;border-radius:6px;padding:8px;min-height:80px;">
+            <div style="font-size:9px;color:#2E7D32;font-weight:700;margin-bottom:4px;">✓ 모니터링</div>
+            <div style="font-size:10px;color:#5D4037;line-height:1.6;"><strong>R7</strong> OSS 라이선스 분쟁</div>
+          </div>
+          <div style="background:#E8F5E9;border:1px solid #81C784;border-radius:6px;padding:8px;min-height:80px;">
+            <div style="font-size:9px;color:#2E7D32;font-weight:700;margin-bottom:4px;">✓ 모니터링</div>
+            <div style="font-size:10px;color:#5D4037;line-height:1.6;font-style:italic;color:#90A4AE;">— 해당 없음</div>
+          </div>
+          <div style="background:#FFF3E0;border:1px solid #FFB74D;border-radius:6px;padding:8px;min-height:80px;">
+            <div style="font-size:9px;color:#BF360C;font-weight:700;margin-bottom:4px;">⚠ 주의</div>
+            <div style="font-size:10px;color:#5D4037;line-height:1.6;"><strong>R3</strong> 침투테스트 Critical<br><strong>R5</strong> 핵심 인력 이탈</div>
+          </div>
+        </div>
+
+        <!-- 범례 -->
+        <div style="display:flex;gap:14px;margin-top:12px;font-size:10px;color:#37474F;flex-wrap:wrap;">
+          <div><span style="display:inline-block;width:14px;height:14px;background:#B71C1C;border-radius:3px;margin-right:4px;vertical-align:middle;"></span><strong>🔥 최우선</strong> — 즉시 컨틴전시 발동</div>
+          <div><span style="display:inline-block;width:14px;height:14px;background:#FFEBEE;border:1px solid #EF5350;border-radius:3px;margin-right:4px;vertical-align:middle;"></span><strong>🚨 심각</strong> — 사전 예방 + 주간 검토</div>
+          <div><span style="display:inline-block;width:14px;height:14px;background:#FFF3E0;border:1px solid #FFB74D;border-radius:3px;margin-right:4px;vertical-align:middle;"></span><strong>⚠ 주의</strong> — 격주 점검</div>
+          <div><span style="display:inline-block;width:14px;height:14px;background:#E8F5E9;border:1px solid #81C784;border-radius:3px;margin-right:4px;vertical-align:middle;"></span><strong>✓ 모니터링</strong> — 월간 점검</div>
+        </div>
+      </div>
+
+      <table class="t13-tbl">
+        <thead>
+          <tr><th style="width:30px;">#</th><th>위험 항목</th><th style="width:80px;">발생 가능성</th><th style="width:80px;">영향도</th><th>대응 방안</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="text-align:center;font-weight:800;">1</td>
+            <td><strong>기존 KMS 마이그레이션 실패</strong> (데이터 손실·키 매핑 오류)</td>
+            <td style="color:#B71C1C;font-weight:700;text-align:center;">중</td>
+            <td style="color:#B71C1C;font-weight:700;text-align:center;">치명</td>
+            <td>① 신/구 동시 운영 6개월 ② 주기적 동기화 ③ Dry-run 3회 ④ 롤백 절차 사전 준비</td>
+          </tr>
+          <tr>
+            <td style="text-align:center;font-weight:800;">2</td>
+            <td><strong>부하 테스트 TPS 미달</strong></td>
+            <td style="color:#E65100;font-weight:700;text-align:center;">중</td>
+            <td style="color:#E65100;font-weight:700;text-align:center;">상</td>
+            <td>① 분석 단계에서 성능 요건 명확화 ② 개발 중간 부하 측정 ③ HSM 클러스터 확장 검토</td>
+          </tr>
+          <tr>
+            <td style="text-align:center;font-weight:800;">3</td>
+            <td><strong>침투 테스트 Critical 발견</strong></td>
+            <td style="color:#E65100;font-weight:700;text-align:center;">하</td>
+            <td style="color:#B71C1C;font-weight:700;text-align:center;">치명</td>
+            <td>① 개발 중 정적 분석(SAST) ② 동적 분석(DAST) ③ 1차 자체 침투 테스트</td>
+          </tr>
+          <tr>
+            <td style="text-align:center;font-weight:800;">4</td>
+            <td><strong>RFP 추가 요건 발생</strong> (운영 이관 시점)</td>
+            <td style="color:#E65100;font-weight:700;text-align:center;">상</td>
+            <td style="color:#E65100;font-weight:700;text-align:center;">중</td>
+            <td>① CR 절차 명확화 ② 영향 분석 24시간 내 ③ CCB 주간 회의</td>
+          </tr>
+          <tr>
+            <td style="text-align:center;font-weight:800;">5</td>
+            <td><strong>핵심 인력 이탈</strong> (PM/PL)</td>
+            <td style="color:#E65100;font-weight:700;text-align:center;">하</td>
+            <td style="color:#B71C1C;font-weight:700;text-align:center;">치명</td>
+            <td>① 백업 인력 사전 지정 ② 지식 공유 주간 회의 ③ 산출물 표준화로 의존도 분산</td>
+          </tr>
+          <tr>
+            <td style="text-align:center;font-weight:800;">6</td>
+            <td><strong>금융감독원 정기 점검</strong> 일정 충돌</td>
+            <td style="color:#E65100;font-weight:700;text-align:center;">중</td>
+            <td style="color:#E65100;font-weight:700;text-align:center;">중</td>
+            <td>① 일정 사전 확인 ② 점검 대상 산출물 우선 작성 ③ 실시간 점검 대응 체계</td>
+          </tr>
+          <tr>
+            <td style="text-align:center;font-weight:800;">7</td>
+            <td><strong>3rd Party 라이선스 분쟁</strong> (오픈소스)</td>
+            <td style="color:#E65100;font-weight:700;text-align:center;">하</td>
+            <td style="color:#E65100;font-weight:700;text-align:center;">중</td>
+            <td>① OSS 라이선스 사전 점검 ② SBOM(Software Bill of Materials) 작성 ③ 카뱅 법무팀 사전 검토</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- 5×5 위험 매트릭스 시각화 -->
+      <div style="margin-top:18px;padding:14px;background:#FAFBFC;border-radius:8px;border:1px solid #E0E7ED;">
+        <div style="font-weight:800;font-size:12px;color:#1A2533;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;">
+          <span>📐 위험 매트릭스 시각화 (발생가능성 × 영향도)</span>
+          <span style="font-size:10px;color:#90A4AE;font-weight:600;">7개 위험을 좌표에 매핑</span>
+        </div>
+
+        <div style="display:grid;grid-template-columns:auto repeat(5,1fr);grid-template-rows:auto repeat(5,60px) auto;gap:2px;font-size:10px;">
+          <!-- 빈 셀 (좌상단) -->
+          <div></div>
+          <!-- X축 라벨 (영향도) -->
+          <div style="text-align:center;font-weight:700;color:#1A2533;padding-bottom:4px;">미미</div>
+          <div style="text-align:center;font-weight:700;color:#1A2533;padding-bottom:4px;">소</div>
+          <div style="text-align:center;font-weight:700;color:#1A2533;padding-bottom:4px;">중</div>
+          <div style="text-align:center;font-weight:700;color:#1A2533;padding-bottom:4px;">상</div>
+          <div style="text-align:center;font-weight:700;color:#B71C1C;padding-bottom:4px;">치명</div>
+
+          <!-- 행 5: 발생가능성 = 매우 높음 (위험) -->
+          <div style="text-align:right;font-weight:700;color:#B71C1C;padding-right:6px;align-self:center;">매우<br>높음</div>
+          <div style="background:#FFEBEE;border:1px solid #FFCDD2;"></div>
+          <div style="background:#FFCDD2;border:1px solid #EF9A9A;"></div>
+          <div style="background:#EF5350;border:1px solid #E53935;"></div>
+          <div style="background:#E53935;border:1px solid #C62828;"></div>
+          <div style="background:#B71C1C;border:1px solid #8B0000;"></div>
+
+          <!-- 행 4: 발생가능성 = 높음 (상) -->
+          <div style="text-align:right;font-weight:700;color:#E65100;padding-right:6px;align-self:center;">높음<br>(상)</div>
+          <div style="background:#FFF3E0;border:1px solid #FFE0B2;"></div>
+          <div style="background:#FFE0B2;border:1px solid #FFCC80;"></div>
+          <div style="background:#FFB74D;border:1px solid #FFA726;position:relative;">
+            <span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#1A2533;color:#F9E000;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11px;border:2px solid #fff;">4</span>
+          </div>
+          <div style="background:#EF5350;border:1px solid #E53935;"></div>
+          <div style="background:#E53935;border:1px solid #C62828;"></div>
+
+          <!-- 행 3: 발생가능성 = 중간 (중) -->
+          <div style="text-align:right;font-weight:700;color:#F57F17;padding-right:6px;align-self:center;">중간<br>(중)</div>
+          <div style="background:#FFFDE7;border:1px solid #FFF59D;"></div>
+          <div style="background:#FFF59D;border:1px solid #FFF176;"></div>
+          <div style="background:#FFEB3B;border:1px solid #FDD835;position:relative;">
+            <span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#1A2533;color:#F9E000;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11px;border:2px solid #fff;">6</span>
+          </div>
+          <div style="background:#FFB74D;border:1px solid #FFA726;position:relative;">
+            <span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#1A2533;color:#F9E000;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11px;border:2px solid #fff;">2</span>
+          </div>
+          <div style="background:#EF5350;border:1px solid #E53935;position:relative;">
+            <span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#1A2533;color:#F9E000;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11px;border:2px solid #fff;">1</span>
+          </div>
+
+          <!-- 행 2: 발생가능성 = 낮음 (하) -->
+          <div style="text-align:right;font-weight:700;color:#1A6E3C;padding-right:6px;align-self:center;">낮음<br>(하)</div>
+          <div style="background:#E8F5E9;border:1px solid #C8E6C9;"></div>
+          <div style="background:#C8E6C9;border:1px solid #A5D6A7;"></div>
+          <div style="background:#FFF59D;border:1px solid #FFF176;position:relative;">
+            <span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#1A2533;color:#F9E000;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11px;border:2px solid #fff;">7</span>
+          </div>
+          <div style="background:#FFEB3B;border:1px solid #FDD835;"></div>
+          <div style="background:#FFB74D;border:1px solid #FFA726;position:relative;">
+            <span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#1A2533;color:#F9E000;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11px;border:2px solid #fff;">3,5</span>
+          </div>
+
+          <!-- 행 1: 발생가능성 = 매우 낮음 -->
+          <div style="text-align:right;font-weight:700;color:#1A6E3C;padding-right:6px;align-self:center;">매우<br>낮음</div>
+          <div style="background:#E8F5E9;border:1px solid #C8E6C9;"></div>
+          <div style="background:#E8F5E9;border:1px solid #C8E6C9;"></div>
+          <div style="background:#C8E6C9;border:1px solid #A5D6A7;"></div>
+          <div style="background:#FFF59D;border:1px solid #FFF176;"></div>
+          <div style="background:#FFEB3B;border:1px solid #FDD835;"></div>
+
+          <!-- 빈 셀 (좌하단) -->
+          <div></div>
+          <!-- X축 제목 -->
+          <div style="grid-column:span 5;text-align:center;font-weight:800;color:#1A2533;padding-top:6px;font-size:11px;">→ 영향도 (Impact)</div>
+        </div>
+
+        <!-- Y축 별도 라벨 + 위험 ID 매핑 -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;font-size:10px;">
+          <div style="background:#fff;border:1px solid #CFD8DC;border-radius:6px;padding:10px;">
+            <div style="font-weight:800;color:#1A2533;margin-bottom:6px;">⚠️ 고위험 영역 (좌상단 → 우하단으로 갈수록 위험 증가)</div>
+            <div style="line-height:1.85;color:#37474F;">
+              <span style="background:#1A2533;color:#F9E000;padding:1px 6px;border-radius:8px;font-weight:800;">1</span> <strong>마이그레이션 실패</strong> (중×치명) <span style="color:#B71C1C;">→ 최우선 대응</span><br>
+              <span style="background:#1A2533;color:#F9E000;padding:1px 6px;border-radius:8px;font-weight:800;">2</span> <strong>TPS 미달</strong> (중×상) → 분석 단계 명확화<br>
+              <span style="background:#1A2533;color:#F9E000;padding:1px 6px;border-radius:8px;font-weight:800;">4</span> <strong>RFP 추가 요건</strong> (상×중) → CR 절차 강화
+            </div>
+          </div>
+          <div style="background:#fff;border:1px solid #CFD8DC;border-radius:6px;padding:10px;">
+            <div style="font-weight:800;color:#1A2533;margin-bottom:6px;">📋 모니터링 영역</div>
+            <div style="line-height:1.85;color:#37474F;">
+              <span style="background:#1A2533;color:#F9E000;padding:1px 6px;border-radius:8px;font-weight:800;">3</span> 침투 Critical (하×치명) — SAST/DAST 사전<br>
+              <span style="background:#1A2533;color:#F9E000;padding:1px 6px;border-radius:8px;font-weight:800;">5</span> PM/PL 이탈 (하×치명) — 백업 인력<br>
+              <span style="background:#1A2533;color:#F9E000;padding:1px 6px;border-radius:8px;font-weight:800;">6</span> 금감원 점검 (중×중) — 일정 사전 확인<br>
+              <span style="background:#1A2533;color:#F9E000;padding:1px 6px;border-radius:8px;font-weight:800;">7</span> OSS 분쟁 (하×중) — SBOM 작성
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. 보안 관리 -->
+  <div class="t13-rep-sec">
+    <div class="t13-rep-title"><span class="t13-rep-num">06</span> 🔐 보안 관리 계획 (금융권 핵심)</div>
+    <div class="t13-rep-body">
+      <div class="t13-grid2">
+        <div class="t13-card">
+          <div class="t13-card-title"><span class="t13-card-title-icon">🛡️</span> 개발 환경 보안</div>
+          <div class="t13-card-body">
+            ① 개발자 PC 망분리 (인터넷 차단 + 카뱅 폐쇄망 접속) ·
+            ② USB 차단 + 외부 저장 매체 통제 ·
+            ③ 화면 캡처 통제 + 모니터 보안 필름 ·
+            ④ 출입 통제 (지문 + ID 카드 이중)
+          </div>
+        </div>
+        <div class="t13-card">
+          <div class="t13-card-title"><span class="t13-card-title-icon">📦</span> 소스코드 보안</div>
+          <div class="t13-card-body">
+            ① Git 저장소 카뱅 내부 + 외부 격리 ·
+            ② 모든 커밋 코드 리뷰 (PR 필수) ·
+            ③ 정적 분석 (SonarQube + Snyk) ·
+            ④ 비밀 정보 검출 (TruffleHog) 자동화
+          </div>
+        </div>
+        <div class="t13-card">
+          <div class="t13-card-title"><span class="t13-card-title-icon">🔑</span> 키 운반 절차</div>
+          <div class="t13-card-body">
+            ① 마이그레이션 키는 <strong>3분할 컴포넌트</strong>로 운반 (3-of-5 Shamir) ·
+            ② 운반자 별도 지정 (이중 인가) ·
+            ③ KCV 2단계 검증 ·
+            ④ 모든 운반 행위 영구 감사 로그
+          </div>
+        </div>
+        <div class="t13-card">
+          <div class="t13-card-title"><span class="t13-card-title-icon">📋</span> 컴플라이언스</div>
+          <div class="t13-card-body">
+            ① 전자금융감독규정 §8 (접근통제) ·
+            ② §9 (암호기술 — KMIP 2.1 국제 표준) ·
+            ③ §14 (전자금융보안 — 침투 테스트) ·
+            ④ ISMS-P 인증 갱신 대응
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. 마이그레이션 전략 (신규 - 카뱅 핵심 우려사항) -->
+  <div class="t13-rep-sec" style="border:2px solid #FFB300;background:linear-gradient(135deg,#FFFEF5,#FFFDE7);">
+    <div class="t13-rep-title"><span class="t13-rep-num">07</span> 🔄 마이그레이션 전략 — 카카오뱅크 RFP 1순위 우려사항 대응</div>
+    <div class="t13-rep-body">
+
+      <!-- 핵심 원칙 -->
+      <div style="background:#FFEBEE;border-left:4px solid #C62828;border-radius:4px;padding:10px 14px;margin-bottom:12px;font-size:11px;color:#5D4037;line-height:1.85;">
+        🎯 <strong style="color:#B71C1C;">최상위 원칙</strong> — "단 한 건의 키도 손실되지 않는다 (Zero Key Loss)" + "고객 거래에 단 1초의 다운타임도 없다 (Zero Downtime)"
+      </div>
+
+      <!-- 4단계 전략 -->
+      <div style="font-weight:700;font-size:12px;color:#1A2533;margin-bottom:8px;">📋 4단계 안전 마이그레이션 전략</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px;">
+
+        <!-- Step 1: 사전 검증 -->
+        <div style="background:#fff;border:2px solid #1565C0;border-radius:8px;padding:12px;">
+          <div style="background:#0D47A1;color:#fff;border-radius:4px;padding:4px 8px;font-size:10px;font-weight:800;display:inline-block;margin-bottom:8px;">STEP 1</div>
+          <div style="font-weight:800;font-size:12px;color:#0D47A1;margin-bottom:8px;">🔍 사전 분석·검증</div>
+          <div style="font-size:10px;color:#37474F;line-height:1.85;">
+            ① 기존 KMS 키 자산 전수 조사<br>
+            ② 키 메타데이터 매핑표 작성<br>
+            ③ <strong>Dry-run 테스트 3회</strong> (개발/스테이징/실전 시뮬레이션)<br>
+            ④ 무결성 검증 도구 개발 (KCV 비교)
+          </div>
+          <div style="margin-top:8px;padding:6px;background:#E3F2FD;border-radius:3px;font-size:9px;color:#0D47A1;">
+            🎯 <strong>일정</strong> 분석~설계 단계 (2개월)
+          </div>
+        </div>
+
+        <!-- Step 2: 동시 운영 -->
+        <div style="background:#fff;border:2px solid #00897B;border-radius:8px;padding:12px;">
+          <div style="background:#1B5E20;color:#fff;border-radius:4px;padding:4px 8px;font-size:10px;font-weight:800;display:inline-block;margin-bottom:8px;">STEP 2</div>
+          <div style="font-weight:800;font-size:12px;color:#1B5E20;margin-bottom:8px;">🔁 신/구 동시 운영</div>
+          <div style="font-size:10px;color:#37474F;line-height:1.85;">
+            ① 신/구 KMS <strong>병행 운영 6개월</strong><br>
+            ② <strong>주기적 동기화</strong> (시간당 1회)<br>
+            ③ 신규 키는 양쪽 모두 등록<br>
+            ④ 기존 서비스는 구 KMS 유지
+          </div>
+          <div style="margin-top:8px;padding:6px;background:#E8F5E9;border-radius:3px;font-size:9px;color:#1B5E20;">
+            🎯 <strong>일정</strong> 개발~테스트 단계 (4.5개월)
+          </div>
+        </div>
+
+        <!-- Step 3: 단계적 전환 -->
+        <div style="background:#fff;border:2px solid #F57F17;border-radius:8px;padding:12px;">
+          <div style="background:#BF360C;color:#fff;border-radius:4px;padding:4px 8px;font-size:10px;font-weight:800;display:inline-block;margin-bottom:8px;">STEP 3</div>
+          <div style="font-weight:800;font-size:12px;color:#BF360C;margin-bottom:8px;">🔃 단계적 전환</div>
+          <div style="font-size:10px;color:#37474F;line-height:1.85;">
+            ① <strong>저위험 서비스부터 전환</strong> (내부 도구)<br>
+            ② <strong>중위험 서비스</strong> (관리자 포털)<br>
+            ③ <strong>고위험 서비스 마지막</strong> (결제/송금)<br>
+            ④ 각 단계별 1주일 안정화 관찰
+          </div>
+          <div style="margin-top:8px;padding:6px;background:#FFF3E0;border-radius:3px;font-size:9px;color:#BF360C;">
+            🎯 <strong>일정</strong> 이행 단계 (1개월)
+          </div>
+        </div>
+
+        <!-- Step 4: 롤백 대비 -->
+        <div style="background:#fff;border:2px solid #C62828;border-radius:8px;padding:12px;">
+          <div style="background:#B71C1C;color:#fff;border-radius:4px;padding:4px 8px;font-size:10px;font-weight:800;display:inline-block;margin-bottom:8px;">STEP 4</div>
+          <div style="font-weight:800;font-size:12px;color:#B71C1C;margin-bottom:8px;">🔙 롤백 대비</div>
+          <div style="font-size:10px;color:#37474F;line-height:1.85;">
+            ① <strong>구 KMS 6개월간 hot-standby</strong> 유지<br>
+            ② 5분 내 롤백 가능 절차 사전 준비<br>
+            ③ 24×365 비상 대응팀 운영<br>
+            ④ 카뱅 보안팀 실시간 모니터링
+          </div>
+          <div style="margin-top:8px;padding:6px;background:#FFEBEE;border-radius:3px;font-size:9px;color:#B71C1C;">
+            🎯 <strong>일정</strong> 안정화 6개월
+          </div>
+        </div>
+      </div>
+
+      <!-- 안전장치 매트릭스 -->
+      <div style="font-weight:700;font-size:12px;color:#1A2533;margin-bottom:8px;">🛡️ 5중 안전장치 (Defense in Depth)</div>
+      <table class="t13-tbl">
+        <thead>
+          <tr><th style="width:30px;">#</th><th style="width:160px;">안전장치</th><th>구현 방식</th><th style="width:120px;">검증 시점</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="text-align:center;font-weight:800;color:#1A6E3C;">1</td>
+            <td><strong>KCV 무결성 검증</strong></td>
+            <td>각 키별 KCV(Key Check Value) 6자리를 신/구 KMS 양쪽에서 비교 — 단 1자라도 다르면 마이그레이션 중단</td>
+            <td style="font-size:10px;color:#546E7A;">매 키 이전 시</td>
+          </tr>
+          <tr>
+            <td style="text-align:center;font-weight:800;color:#1A6E3C;">2</td>
+            <td><strong>전수 검사 (100%)</strong></td>
+            <td>샘플링 아닌 <strong>모든 키 100% 검증</strong> — 자동화 스크립트로 키 개수 + KCV + 메타데이터 일치 확인</td>
+            <td style="font-size:10px;color:#546E7A;">마이그레이션 후</td>
+          </tr>
+          <tr>
+            <td style="text-align:center;font-weight:800;color:#1A6E3C;">3</td>
+            <td><strong>실시간 동기화 모니터링</strong></td>
+            <td>신/구 KMS 키 개수·상태 실시간 모니터링 대시보드 — 1건이라도 차이 발생 시 즉시 알람</td>
+            <td style="font-size:10px;color:#546E7A;">병행 운영 6개월</td>
+          </tr>
+          <tr>
+            <td style="text-align:center;font-weight:800;color:#1A6E3C;">4</td>
+            <td><strong>롤백 자동화</strong></td>
+            <td>이상 징후 발견 시 <strong>5분 내 구 KMS 전환</strong> 자동화 (DNS 전환 + JWT 재발급 + 클라이언트 재연결)</td>
+            <td style="font-size:10px;color:#546E7A;">상시 (자동)</td>
+          </tr>
+          <tr>
+            <td style="text-align:center;font-weight:800;color:#1A6E3C;">5</td>
+            <td><strong>감사 로그 영구 보존</strong></td>
+            <td>마이그레이션 모든 행위 (키 이전·검증·전환·롤백) 영구 감사 로그 + 무결성 체인 전자서명 (금감원 대응)</td>
+            <td style="font-size:10px;color:#546E7A;">영구</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- 카뱅 우려 → 펜타 답변 -->
+      <div style="margin-top:12px;background:#1A2533;color:#fff;border-radius:8px;padding:14px 18px;">
+        <div style="font-weight:800;font-size:12px;color:#F9E000;margin-bottom:8px;">💬 카뱅 우려사항 → 펜타시큐리티 공식 답변</div>
+        <div style="font-size:11px;color:#E3F2FD;line-height:1.85;">
+          <strong style="color:#F9E000;">Q.</strong> "기존 KMS 마이그레이션 중 단 한 건의 키라도 손실되면 카뱅 전체 서비스 장애 발생. 어떻게 보장하는가?"<br>
+          <strong style="color:#F9E000;">A.</strong> ① <strong>4단계 전략</strong> + <strong>5중 안전장치</strong>로 데이터 손실 가능성을 통계적으로 0에 가깝게 차단<br>
+          ② 제조사 직접 수행으로 SG-KMS 내부 구조를 가장 잘 아는 펜타시큐리티 엔지니어가 마이그레이션 진행<br>
+          ③ <strong>금융권 KMS 마이그레이션 100% 무사고 실적</strong> (D.AMO 사례 5건 별도 제출)<br>
+          ④ 만일의 경우에도 <strong>5분 내 롤백</strong>으로 복구 가능 — 비즈니스 연속성 100% 보장
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. 의사소통 / 변경 관리 (기존 7번에서 시프트) -->
+  <div class="t13-rep-sec">
+    <div class="t13-rep-title"><span class="t13-rep-num">08</span> 의사소통 · 변경 · 검수 계획</div>
+    <div class="t13-rep-body">
+      <table class="t13-tbl">
+        <thead>
+          <tr><th style="width:120px;">구분</th><th>주요 내용</th></tr>
+        </thead>
+        <tbody>
+          <tr><td style="font-weight:700;color:#1A2533;background:#FFFDE7;">의사소통</td><td>주간 정례 회의 (매주 목요일 14:00, 카뱅 본사) · 월간 운영위원회 (매월 마지막 금요일) · 일일 스크럼 (개발팀 내부) · 비상 연락망 (PM 핸드폰 24×365)</td></tr>
+          <tr><td style="font-weight:700;color:#1A2533;background:#FFFDE7;">단일 창구</td><td>모든 카뱅 측 요청 → <strong>카뱅 PMO 경유 PM에게 전달</strong>. 개발자 직접 요청 금지. 기술 질의는 PL 경유.</td></tr>
+          <tr><td style="font-weight:700;color:#1A2533;background:#FFFDE7;">변경 관리</td><td>CR 양식 제출 → 24h 영향 분석 → CCB(주간 목요일) 승인 → 일정/금액 조정 → 양사 합의서 서명 → 작업 착수</td></tr>
+          <tr><td style="font-weight:700;color:#1A2533;background:#FFFDE7;">검수 절차</td><td>각 단계 종료 시점에 카뱅 측 검수 (분석 5일 / 설계 5일 / 개발 10일 / 테스트 10일 / 이행 5일). 검수 결과 ① 합격 ② 조건부 합격(보완 후 재검수) ③ 불합격</td></tr>
+          <tr><td style="font-weight:700;color:#1A2533;background:#FFFDE7;">최종 종료 기준</td><td>① 5개 KPI 100% 충족 + ② 침투 테스트 Critical/High 0건 + ③ 카뱅 IT보안팀·KMS 운영팀·내부감사팀 3개 부서 모두 검수 합격 + ④ 운영 인수인계 완료 + ⑤ 안정화 12개월 무사고 완료</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 8. 핵심 산출물 -->
+  <div class="t13-rep-sec">
+    <div class="t13-rep-title"><span class="t13-rep-num">09</span> 단계별 산출물 매트릭스 — 22종</div>
+    <div class="t13-rep-body">
+      <table class="t13-tbl">
+        <thead>
+          <tr><th style="width:60px;">단계</th><th style="width:140px;">산출물명</th><th>주요 내용</th><th style="width:100px;">검수 기준</th></tr>
+        </thead>
+        <tbody>
+          <tr><td style="text-align:center;background:#E3F2FD;font-weight:700;">분석</td><td>요구사항 정의서</td><td>RFP 요건 + 기술협상 6개 신규 요건의 최종 합의 명세</td><td>카뱅 PMO 합격</td></tr>
+          <tr><td style="text-align:center;background:#E3F2FD;font-weight:700;">분석</td><td>WBS · 일정표</td><td>마일스톤 5개 + 작업 분할 구조</td><td>카뱅 PMO 합격</td></tr>
+          <tr><td style="text-align:center;background:#FFF3E0;font-weight:700;">설계</td><td><strong>본 설계서 (HTML 22000+ 라인)</strong></td><td>RFP/KMIP/REST API/UI/위험 통합 설계서</td><td>카뱅 IT보안팀 합격</td></tr>
+          <tr><td style="text-align:center;background:#FFF3E0;font-weight:700;">설계</td><td>REST API 명세서 (38건)</td><td>키 오퍼레이션 16 + KMS 관리 22</td><td>카뱅 IT보안팀 합격</td></tr>
+          <tr><td style="text-align:center;background:#FFF3E0;font-weight:700;">설계</td><td>관리 포털 UI/UX 설계서</td><td>18 화면 + 71 모달 디자인</td><td>카뱅 KMS 운영팀 합격</td></tr>
+          <tr><td style="text-align:center;background:#FFF3E0;font-weight:700;">설계</td><td>DB 스키마 정의서</td><td>관리 DB · 감사 로그 DB · 형상 관리</td><td>카뱅 IT보안팀 합격</td></tr>
+          <tr><td style="text-align:center;background:#FFF3E0;font-weight:700;">설계</td><td>보안 아키텍처 설계서</td><td>인증·권한·암호화·감사 추적 설계</td><td>카뱅 정보보호팀 합격</td></tr>
+          <tr><td style="text-align:center;background:#FFF3E0;font-weight:700;">설계</td><td>마이그레이션 설계서</td><td>기존 KMS → SG-KMS 데이터 이행 계획</td><td>카뱅 KMS 운영팀 합격</td></tr>
+          <tr><td style="text-align:center;background:#E8F5E9;font-weight:700;">개발</td><td>소스코드 (REST API)</td><td>키 16 + 관리 22 · Java/Spring 기반</td><td>코드 리뷰 100%</td></tr>
+          <tr><td style="text-align:center;background:#E8F5E9;font-weight:700;">개발</td><td>관리 포털 (Web)</td><td>18 화면 React/Vue 기반</td><td>UI/UX 합격</td></tr>
+          <tr><td style="text-align:center;background:#E8F5E9;font-weight:700;">개발</td><td>4개 언어 샘플 코드</td><td>Kotlin · Java · Go · Python</td><td>실행 검증</td></tr>
+          <tr><td style="text-align:center;background:#E8F5E9;font-weight:700;">개발</td><td>마이그레이션 도구</td><td>일괄 마이그레이션 + 주기 동기화 스크립트</td><td>Dry-run 3회 성공</td></tr>
+          <tr><td style="text-align:center;background:#E8F5E9;font-weight:700;">개발</td><td>외부 컴포넌트 키 조립 유틸리티</td><td>외부 기관 제공용 스탠드얼론 도구</td><td>외부 환경 실행 검증</td></tr>
+          <tr><td style="text-align:center;background:#FFEBEE;font-weight:700;">테스트</td><td>단위 테스트 결과서</td><td>커버리지 95%+ · JUnit/Jest</td><td>커버리지 충족</td></tr>
+          <tr><td style="text-align:center;background:#FFEBEE;font-weight:700;">테스트</td><td>통합 테스트 시나리오 + 결과서</td><td>End-to-End 시나리오 50+</td><td>100% 통과</td></tr>
+          <tr><td style="text-align:center;background:#FFEBEE;font-weight:700;">테스트</td><td>부하 테스트 보고서</td><td>1000 TPS · 200ms 응답</td><td>KPI 충족</td></tr>
+          <tr><td style="text-align:center;background:#FFEBEE;font-weight:700;">테스트</td><td>침투 테스트 보고서</td><td>외부 화이트박스 + 카뱅 정보보호팀 인증</td><td>Critical 0건</td></tr>
+          <tr><td style="text-align:center;background:#F3E5F5;font-weight:700;">이행</td><td>이행 계획서 + 결과서</td><td>마이그레이션 실행 계획 + 결과</td><td>무중단 이행</td></tr>
+          <tr><td style="text-align:center;background:#F3E5F5;font-weight:700;">이행</td><td>운영 매뉴얼</td><td>관리자 매뉴얼 + 일상 운영 가이드</td><td>운영팀 합격</td></tr>
+          <tr><td style="text-align:center;background:#F3E5F5;font-weight:700;">이행</td><td>장애 대응 매뉴얼</td><td>장애 시나리오 30+ · 복구 절차</td><td>모의 훈련 합격</td></tr>
+          <tr><td style="text-align:center;background:#F3E5F5;font-weight:700;">이행</td><td>운영자 교육 자료</td><td>관리자/사용자 교육 PPT + 동영상</td><td>교육 완료 확인</td></tr>
+          <tr><td style="text-align:center;background:#F3E5F5;font-weight:700;">이행</td><td>인수인계 확인서</td><td>운영팀 정식 인수 서명</td><td>3개 부서 서명</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 10. 기대 효과 (신설) -->
+  <div class="t13-rep-sec">
+    <div class="t13-rep-title"><span class="t13-rep-num">10</span> 기대 효과  |  정량 + 정성</div>
+    <div class="t13-rep-body">
+
+      <!-- 정량 효과: 4개 큰 KPI 박스 -->
+      <div style="font-weight:700;font-size:12px;color:#1A2533;margin-bottom:8px;">📊 정량 효과 (Quantitative Benefits)</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;">
+        <div style="background:linear-gradient(135deg,#FFFEF5,#FFF9C4);border:2px solid #F9E000;border-radius:8px;padding:14px;text-align:center;position:relative;overflow:hidden;">
+          <div style="position:absolute;top:0;left:0;right:0;height:4px;background:#F9E000;"></div>
+          <div style="font-size:28px;font-weight:900;color:#1A2533;line-height:1;">60<span style="font-size:18px;">%</span></div>
+          <div style="font-size:10px;color:#5D4037;font-weight:700;margin-top:6px;">운영자 작업시간 단축</div>
+          <div style="font-size:9px;color:#90A4AE;margin-top:3px;">통합 포털 18화면 도입</div>
+        </div>
+        <div style="background:linear-gradient(135deg,#FFFEF5,#FFF9C4);border:2px solid #F9E000;border-radius:8px;padding:14px;text-align:center;position:relative;overflow:hidden;">
+          <div style="position:absolute;top:0;left:0;right:0;height:4px;background:#F9E000;"></div>
+          <div style="font-size:28px;font-weight:900;color:#1A2533;line-height:1;">30<span style="font-size:18px;">%</span></div>
+          <div style="font-size:10px;color:#5D4037;font-weight:700;margin-top:6px;">3년 TCO 절감</div>
+          <div style="font-size:9px;color:#90A4AE;margin-top:3px;">Agentless · 라이선스 통합</div>
+        </div>
+        <div style="background:linear-gradient(135deg,#FFFEF5,#FFF9C4);border:2px solid #F9E000;border-radius:8px;padding:14px;text-align:center;position:relative;overflow:hidden;">
+          <div style="position:absolute;top:0;left:0;right:0;height:4px;background:#F9E000;"></div>
+          <div style="font-size:28px;font-weight:900;color:#1A2533;line-height:1;">90<span style="font-size:18px;">%</span></div>
+          <div style="font-size:10px;color:#5D4037;font-weight:700;margin-top:6px;">감사 보고 자동화</div>
+          <div style="font-size:9px;color:#90A4AE;margin-top:3px;">reason+ticket 무결성 체인</div>
+        </div>
+        <div style="background:linear-gradient(135deg,#FFFEF5,#FFF9C4);border:2px solid #F9E000;border-radius:8px;padding:14px;text-align:center;position:relative;overflow:hidden;">
+          <div style="position:absolute;top:0;left:0;right:0;height:4px;background:#F9E000;"></div>
+          <div style="font-size:28px;font-weight:900;color:#1A2533;line-height:1;">5<span style="font-size:18px;">×</span></div>
+          <div style="font-size:10px;color:#5D4037;font-weight:700;margin-top:6px;">처리 성능 향상</div>
+          <div style="font-size:9px;color:#90A4AE;margin-top:3px;">200 → 1,000+ TPS</div>
+        </div>
+      </div>
+
+      <!-- 정성 효과: 4개 박스 -->
+      <div style="font-weight:700;font-size:12px;color:#1A2533;margin-bottom:8px;">💎 정성 효과 (Qualitative Benefits)</div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">
+        <div style="background:#FAFBFC;border:1px solid #E0E7ED;border-left:4px solid #1A6E3C;border-radius:6px;padding:12px 14px;">
+          <div style="font-weight:800;font-size:12px;color:#1A2533;margin-bottom:6px;">⚖️ 규제 대응력 강화</div>
+          <div style="font-size:10.5px;color:#37474F;line-height:1.85;">
+            전자금융감독규정 §8(접근통제)·§9(암호기술)·§14(전자금융보안) 충족 · 금감원 정기 감사 즉시 대응 · ISMS-P 인증 갱신 무리 없이 통과 · <strong>감사관 제기 사항 즉시 답변</strong> 가능한 무결성 로그 체인 구축
+          </div>
+        </div>
+        <div style="background:#FAFBFC;border:1px solid #E0E7ED;border-left:4px solid #1565C0;border-radius:6px;padding:12px 14px;">
+          <div style="font-weight:800;font-size:12px;color:#1A2533;margin-bottom:6px;">🛡️ 보안 수준 향상</div>
+          <div style="font-size:10.5px;color:#37474F;line-height:1.85;">
+            KMIP 2.1 국제 표준 기반 · Bearer JWT 인증 · 이중 IP ACL · Shamir 5-of-3 컴포넌트 분할 · KCV 2단계 무결성 검증 · 침투 테스트 Critical 0건 · <strong>금융권 최고 수준 보안</strong>
+          </div>
+        </div>
+        <div style="background:#FAFBFC;border:1px solid #E0E7ED;border-left:4px solid #BF360C;border-radius:6px;padding:12px 14px;">
+          <div style="font-weight:800;font-size:12px;color:#1A2533;margin-bottom:6px;">🌐 글로벌 표준 적합성</div>
+          <div style="font-size:10.5px;color:#37474F;line-height:1.85;">
+            KMIP 2.1 OASIS 국제 표준 채택으로 <strong>벤더 종속성 해소</strong> · 외부 시스템 연동 표준화 · 향후 글로벌 진출 시 인증 요건 자동 충족 · 카카오 그룹사 공통 KMS 기반 마련
+          </div>
+        </div>
+        <div style="background:#FAFBFC;border:1px solid #E0E7ED;border-left:4px solid #6A1B9A;border-radius:6px;padding:12px 14px;">
+          <div style="font-weight:800;font-size:12px;color:#1A2533;margin-bottom:6px;">🚀 디지털 전환 가속화</div>
+          <div style="font-size:10.5px;color:#37474F;line-height:1.85;">
+            Agentless REST API로 <strong>MSA·컨테이너 환경 즉시 적용</strong> · 카카오뱅크 신규 서비스 출시 시 KMS 연동 시간 단축 · DevSecOps 파이프라인 통합 · 운영자 직접 처리 가능한 셀프서비스 수준 향상
+          </div>
+        </div>
+      </div>
+
+      <div class="t13-good" style="margin-top:14px;">
+        💡 <strong>중장기 효과:</strong> 본 사업이 안정화되면 카카오뱅크의 모든 신규 금융 서비스(인터넷전문은행 1세대 → 2세대 진화)에 표준 KMS 연동 패턴이 마련되어, <strong>매년 수억 원의 KMS 운영 비용 절감</strong> 및 <strong>고객 데이터 보호 신뢰도 향상</strong>이 기대됩니다.
+      </div>
+    </div>
+  </div>
+
+  <!-- 11. 본 설계서 활용 계획 (신설) -->
+  <div class="t13-rep-sec">
+    <div class="t13-rep-title"><span class="t13-rep-num">11</span> 본 설계서 활용 계획  |  분석·설계 단계 산출물 v0.9</div>
+    <div class="t13-rep-body">
+
+      <!-- 핵심 강조 박스 -->
+      <div style="background:linear-gradient(135deg,#1A2533,#003D7A);border-radius:10px;padding:16px 20px;margin-bottom:14px;color:#fff;">
+        <div style="font-weight:900;font-size:14px;color:#F9E000;margin-bottom:6px;">📚 본 통합 설계서 = 분석·설계 단계 산출물 v0.9 (이미 완성)</div>
+        <div style="font-size:11px;color:#E3F2FD;line-height:1.85;">
+          본 HTML 설계서(<strong style="color:#F9E000;">22,000+ 라인 · 1.5 MB</strong>)는 카카오뱅크 RFP 요건과 2026-04-22 기술협상 결과를 모두 반영한 <strong style="color:#F9E000;">분석·설계 단계 산출물 v0.9</strong>입니다. 본 사업 착수 시 별도 설계 작업 없이 <strong style="color:#F9E000;">즉시 v1.0 검수 단계로 진입</strong> 가능하며, 이를 통해 <strong style="color:#F9E000;">설계 기간 1.5개월을 1개월로 단축</strong>할 수 있습니다.
+        </div>
+      </div>
+
+      <!-- 통계 박스 -->
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:14px;">
+        <div style="background:#FFFDE7;border:1px solid #F9E000;border-radius:6px;padding:10px;text-align:center;">
+          <div style="font-size:22px;font-weight:900;color:#1A2533;">18</div>
+          <div style="font-size:9px;color:#5D4037;font-weight:700;margin-top:2px;">관리 포털 화면</div>
+        </div>
+        <div style="background:#FFFDE7;border:1px solid #F9E000;border-radius:6px;padding:10px;text-align:center;">
+          <div style="font-size:22px;font-weight:900;color:#1A2533;">71</div>
+          <div style="font-size:9px;color:#5D4037;font-weight:700;margin-top:2px;">UI 모달</div>
+        </div>
+        <div style="background:#FFFDE7;border:1px solid #F9E000;border-radius:6px;padding:10px;text-align:center;">
+          <div style="font-size:22px;font-weight:900;color:#1A2533;">38</div>
+          <div style="font-size:9px;color:#5D4037;font-weight:700;margin-top:2px;">REST API 명세</div>
+        </div>
+        <div style="background:#FFFDE7;border:1px solid #F9E000;border-radius:6px;padding:10px;text-align:center;">
+          <div style="font-size:22px;font-weight:900;color:#1A2533;">14</div>
+          <div style="font-size:9px;color:#5D4037;font-weight:700;margin-top:2px;">KMIP 2.1 오퍼레이션</div>
+        </div>
+        <div style="background:#FFFDE7;border:1px solid #F9E000;border-radius:6px;padding:10px;text-align:center;">
+          <div style="font-size:22px;font-weight:900;color:#1A2533;">22,758</div>
+          <div style="font-size:9px;color:#5D4037;font-weight:700;margin-top:2px;">라인 (HTML 코드)</div>
+        </div>
+      </div>
+
+      <!-- 탭별 활용 계획 표 -->
+      <div style="font-weight:700;font-size:12px;color:#1A2533;margin-bottom:8px;">📋 탭별 활용 계획 — 설계서가 곧 실 산출물</div>
+      <table class="t13-tbl">
+        <thead>
+          <tr><th style="width:60px;">설계서 탭</th><th style="width:200px;">탭 내용</th><th>본 사업에서의 활용 방안</th><th style="width:130px;">대응 산출물</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="text-align:center;font-weight:700;color:#1A2533;background:#FFFDE7;">t1</td>
+            <td><strong>API 개발 일정 관리</strong></td>
+            <td>분석/설계/개발/테스트/이행 5단계 WBS · 마일스톤 5개 · 단계별 검수 기준 → <strong>프로젝트 WBS 직접 활용</strong></td>
+            <td>WBS · 일정표</td>
+          </tr>
+          <tr>
+            <td style="text-align:center;font-weight:700;color:#1A2533;background:#FFFDE7;">t2</td>
+            <td><strong>RFP 요건</strong></td>
+            <td>RFP §2-나 모든 요건 추출 + 충족 상태 분류 (완전 19/대체 1/협의 5/선제 8) → <strong>요구사항 정의서 기반 자료</strong></td>
+            <td>요구사항 정의서</td>
+          </tr>
+          <tr>
+            <td style="text-align:center;font-weight:700;color:#1A2533;background:#FFFDE7;">t3</td>
+            <td><strong>SG-KMS 구조 기반 설계</strong></td>
+            <td>아키텍처 다이어그램 · 컴포넌트 정의 · 데이터 흐름 → <strong>아키텍처 설계서 직접 채용</strong></td>
+            <td>아키텍처 설계서</td>
+          </tr>
+          <tr>
+            <td style="text-align:center;font-weight:700;color:#1A2533;background:#FFFDE7;">t4·t10</td>
+            <td><strong>REST API 설계 (38건)</strong></td>
+            <td>키 오퍼레이션 16건 + KMS 관리 22건 · Request/Response 스키마 · 에러 코드 → <strong>REST API 명세서 v1.0 직접 채용</strong></td>
+            <td>REST API 명세서</td>
+          </tr>
+          <tr>
+            <td style="text-align:center;font-weight:700;color:#1A2533;background:#FFFDE7;">t5</td>
+            <td><strong>SG-KMS 현행 사용방법</strong></td>
+            <td>v5.0.206 기존 방식 분석 + 신규 v6.0 호환성 매핑 → <strong>마이그레이션 설계서 기초</strong></td>
+            <td>마이그레이션 설계서</td>
+          </tr>
+          <tr>
+            <td style="text-align:center;font-weight:700;color:#1A2533;background:#FFFDE7;">t6</td>
+            <td><strong>KMIP 2.1 기준 분석</strong></td>
+            <td>OASIS 표준 14 오퍼레이션 매핑 + 카뱅 환경 적용 방안 → <strong>표준 준수 증빙 (감사용)</strong></td>
+            <td>KMIP 표준 적합성 보고서</td>
+          </tr>
+          <tr>
+            <td style="text-align:center;font-weight:700;color:#1A2533;background:#FFFDE7;">t7</td>
+            <td><strong>관리 포털 UI 디자인 (18화면+71모달)</strong></td>
+            <td>전체 화면 인터랙티브 시뮬레이션 + 모달별 입출력 정의 → <strong>화면 정의서·UI/UX 설계서 직접 채용</strong></td>
+            <td>UI/UX 설계서</td>
+          </tr>
+          <tr>
+            <td style="text-align:center;font-weight:700;color:#1A2533;background:#FFFDE7;">t11</td>
+            <td><strong>프로젝트 진행 시 유의점</strong></td>
+            <td>위험 매트릭스 5×5 + 컴플라이언스 체크리스트 → <strong>위험 관리 계획서·보안 관리 계획서 기초</strong></td>
+            <td>위험·보안 관리 계획서</td>
+          </tr>
+          <tr>
+            <td style="text-align:center;font-weight:700;color:#1A2533;background:#FFFDE7;">t12</td>
+            <td><strong>컴포넌트 키 상세 설계</strong></td>
+            <td>Shamir 5-of-3 분할/조립 알고리즘 + 외부 유틸리티 사양 → <strong>컴포넌트 키 운영 절차서 직접 채용</strong></td>
+            <td>키 운영 절차서</td>
+          </tr>
+          <tr style="background:#FFFDE7;">
+            <td style="text-align:center;font-weight:700;color:#BF360C;">t13</td>
+            <td><strong>본 착수 보고서</strong></td>
+            <td>① 작성법 가이드 ② 흔한 실수 ③ 필수 항목 17종 ④ 실제 보고서 v1.0 → <strong>금융권 표준 착수 보고서 템플릿</strong></td>
+            <td>착수 보고서</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="t13-tip" style="margin-top:14px;">
+        💡 <strong>의의:</strong> 일반적인 SI 프로젝트는 착수 후 분석·설계 3개월이 소요되지만, 본 사업은 <strong>설계서 v0.9가 이미 완성</strong>된 상태에서 출발합니다. 따라서 ① <strong>설계 기간 단축</strong> ② <strong>요구사항 누락 위험 최소화</strong> ③ <strong>양사 합의 기반 명확</strong> ④ <strong>개발 착수 즉시 가능</strong>의 네 가지 강력한 이점이 있습니다.
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. 부록 -->
+  <div class="t13-rep-sec">
+    <div class="t13-rep-title"><span class="t13-rep-num">12</span> 부록 — 약어 및 참고 문서</div>
+    <div class="t13-grid2">
+      <div class="t13-card">
+        <div class="t13-card-title"><span class="t13-card-title-icon">📚</span> 주요 약어</div>
+        <div class="t13-card-body">
+          <strong>KMS</strong> Key Management System ·
+          <strong>HSM</strong> Hardware Security Module ·
+          <strong>KMIP</strong> Key Management Interoperability Protocol ·
+          <strong>KCV</strong> Key Check Value ·
+          <strong>JWT</strong> JSON Web Token ·
+          <strong>CIDR</strong> Classless Inter-Domain Routing ·
+          <strong>ACL</strong> Access Control List ·
+          <strong>RFP</strong> Request for Proposal ·
+          <strong>WBS</strong> Work Breakdown Structure ·
+          <strong>CCB</strong> Change Control Board ·
+          <strong>SBOM</strong> Software Bill of Materials ·
+          <strong>SAST/DAST</strong> Static/Dynamic App Security Test
+        </div>
+      </div>
+      <div class="t13-card">
+        <div class="t13-card-title"><span class="t13-card-title-icon">📖</span> 참고 문서</div>
+        <div class="t13-card-body">
+          ① 카카오뱅크 신규 KMS 도입 RFP (2026)<br>
+          ② 2026-04-22 기술협상 회의 의사록<br>
+          ③ <strong>본 통합 설계서 v1.0 (HTML 22,000+ 라인)</strong><br>
+          ④ KMIP 2.1 국제 표준 명세 (OASIS)<br>
+          ⑤ D.AMO SG-KMS v5.0.206 매뉴얼<br>
+          ⑥ 전자금융감독규정 §8 / §9 / §14<br>
+          ⑦ 금융감독원 정보보호 운영 가이드라인<br>
+          ⑧ ISMS-P 인증기준 (KISA)
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 서명란 -->
+  <div style="background:#fff;border:3px solid #1A2533;border-radius:10px;padding:24px 28px;margin-top:14px;">
+    <div style="text-align:center;font-weight:900;font-size:14px;color:#1A2533;margin-bottom:18px;letter-spacing:-0.3px;">📝 양사 합의 서명</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:30px;">
+      <div style="text-align:center;padding:16px;background:#FFFDE7;border-radius:6px;">
+        <div style="font-size:11px;color:#5D4037;font-weight:700;margin-bottom:6px;">발주처</div>
+        <div style="font-weight:900;font-size:14px;color:#1A2533;margin-bottom:8px;">㈜카카오뱅크</div>
+        <div style="font-size:10px;color:#546E7A;line-height:1.7;">대표이사 ㅇㅇㅇ<br>IT보안팀장 ㅇㅇㅇ<br>KMS 운영팀장 ㅇㅇㅇ</div>
+        <div style="margin-top:10px;border-top:1px dashed #BCAAA4;padding-top:8px;font-size:10px;color:#546E7A;">서명: ____________ 일자: ____________</div>
+      </div>
+      <div style="text-align:center;padding:16px;background:#FFFDE7;border-radius:6px;">
+        <div style="font-size:11px;color:#5D4037;font-weight:700;margin-bottom:6px;">수행사</div>
+        <div style="font-weight:900;font-size:14px;color:#1A2533;margin-bottom:8px;">㈜펜타시큐리티시스템</div>
+        <div style="font-size:10px;color:#546E7A;line-height:1.7;">대표이사 ㅇㅇㅇ<br>사업총괄 ㅇㅇㅇ (PM)<br>기술총괄 ㅇㅇㅇ (PL)</div>
+        <div style="margin-top:10px;border-top:1px dashed #BCAAA4;padding-top:8px;font-size:10px;color:#546E7A;">서명: ____________ 일자: ____________</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- ⑤ PPT 다운로드 안내 -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<div class="t13-sec">
+  <div class="t13-sec-title">
+    <span class="t13-sec-title-num">⑤</span>
+    PPT 형식 착수 보고서
+    <span class="t13-sec-title-sub">킥오프 회의용 발표 자료</span>
+  </div>
+
+  <div style="background:linear-gradient(135deg,#FFFEF5,#FFF9C4);border:2px solid #F9E000;border-radius:10px;padding:20px 24px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;">
+    <div style="flex:1;min-width:300px;">
+      <div style="font-weight:900;font-size:15px;color:#1A2533;margin-bottom:8px;">📊 카카오뱅크 KMS 도입 사업 착수 보고서.pptx</div>
+      <div style="font-size:11px;color:#37474F;line-height:1.85;">
+        본 HTML의 §④ 실제 착수 보고서 내용을 기반으로 <strong>킥오프 회의용 PPT 슬라이드</strong> 14장을 별도 파일로 제공합니다. <strong>카카오뱅크 노랑 + 진남색</strong> 디자인 코드를 적용했으며, 발주처 임원·실무자에게 즉시 발표 가능한 수준으로 작성되었습니다.
+      </div>
+      <div style="margin-top:10px;font-size:10px;color:#5D4037;">
+        <strong>슬라이드 구성</strong>: 표지 · Executive Summary · 사업 개요 · 사업 목표(KPI) · 추진 체계 · 추진 일정 · 위험 관리 · 보안 관리 · 의사소통/변경 · 산출물 · 검수 기준 · 부록 · 합의 서명
+      </div>
+    </div>
+    <div style="text-align:center;">
+      <div style="background:#1A2533;color:#F9E000;padding:14px 22px;border-radius:8px;font-weight:900;font-size:13px;display:inline-flex;align-items:center;gap:10px;">
+        📊 PPT 파일 별도 제공<br>(다운로드 가능)
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /t13 -->
+
+
 </div><!-- /wrap for t5/t12/t11 -->
 
 <script>
